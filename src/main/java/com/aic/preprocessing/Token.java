@@ -37,4 +37,8 @@ public class Token{
 	public String getToken(){
 		return token;
 	}
+
+	public String getValue(){
+		return value;
+	}
 }
