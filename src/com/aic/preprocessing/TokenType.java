@@ -1,4 +1,4 @@
-package com.aic.preprocessor
+package com.aic.preprocessor;
 
 public enum TokenType {
    TAG, MENTIONING, WORD, PUNCTATION

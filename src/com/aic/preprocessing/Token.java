@@ -1,19 +1,19 @@
-package com.aic.preprocessor
+package com.aic.preprocessor;
 
 public class Token{
 	TokenType type;
 	String token;
 	String value;
 
-	Token(String word){
+	Token(String word) throws WrongTokenFormatException{
 		if(word == null)
-			throw new WrongTokenFormatException('words should not be null');
+			throw new WrongTokenFormatException("words should not be null");
 
 		if(word.length() < 1)
-			throw new WrongTokenFormatException('words should have at least one character');
+			throw new WrongTokenFormatException("words should have at least one character");
 
 		if(word.contains(" "))
-			throw new WrongTokenFormatException('words should not contain space');
+			throw new WrongTokenFormatException("words should not contain space");
 
 		//TODO: Satzzeichen
 		switch(word.charAt(0)){

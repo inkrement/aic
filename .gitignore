@@ -15,6 +15,9 @@
 # *.eps
 # *.pdf
 
+## Java
+*.class
+
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
 *.bcf
