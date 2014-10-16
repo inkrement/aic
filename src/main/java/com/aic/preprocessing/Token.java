@@ -5,7 +5,7 @@ public class Token{
 	String token;
 	String value;
 
-	Token(String word) throws WrongTokenFormatException{
+	public Token(String word) throws WrongTokenFormatException{
 		if(word == null)
 			throw new WrongTokenFormatException("words should not be null");
 
@@ -31,5 +31,10 @@ public class Token{
 		}
 
 		token = word;
+	}
+
+
+	public String getToken(){
+		return token;
 	}
 }
