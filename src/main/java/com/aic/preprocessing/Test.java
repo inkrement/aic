@@ -1,4 +1,4 @@
-package com.aic.preprocessor;
+package com.aic.preprocessing;
 
 /*
 	Testklasse
