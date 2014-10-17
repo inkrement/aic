@@ -1,6 +1,10 @@
 #build
 build/
 
+## IntelliJ project files
+.idea/
+*.iml
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
