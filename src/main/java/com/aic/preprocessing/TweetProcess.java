@@ -83,6 +83,32 @@ public class TweetProcess {
 		return null;
 	}
 
+	/**
+	* Replace special Characters with whitespaces
+	* TODO: List<Token> als Returnwert.
+	* TODO: - wird nicht erkannt
+	* TODO: alle werte Testen
+	*/
+	public static String replaceSpecialChars(List<Token> tokens){
+
+		//search for: . + - , ! $ % ^ & * ( ) ; \ / | < > " '
+		String regex ="[.+-,!$%^&*();\\/|<>\"\']";
+		String testvalue = null;
+
+		Iterator<Token> iterator = tokens.iterator();
+
+		while(iterator.hasNext()){
+			Token tn = iterator.next();
+				
+			testvalue = tn.getValue();
+
+			testvalue = testvalue.replaceAll(regex, " ");
+		}
+
+		return testvalue;		
+
+	}
+
 	
 	/**
 	* Remove URLS
