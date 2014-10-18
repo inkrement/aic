@@ -43,6 +43,13 @@ public class TweetProcess {
 		ArrayList<Token> tl = new ArrayList<Token>();
 
 		for (String t: tokens) {
+
+			//skip punctuation
+			if(t.length() < 2) continue;
+
+			//trim punctuation
+			t = t.replaceAll("[^a-zA-Z0-9]", "");
+
 			try{
 				tl.add(new Token(t));
 			} catch (WrongTokenFormatException e){
