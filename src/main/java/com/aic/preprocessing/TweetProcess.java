@@ -1,6 +1,9 @@
 package com.aic.preprocessing;
 
 import java.util.List;
+import java.util.Iterator;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TweetProcess {
 
@@ -62,28 +65,21 @@ public class TweetProcess {
 	* Remove URLS
 	*/
 	public static List<Token> removeURLs(List<Token> tokens){
+		String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 		
-		//1. Weg regex
-		String pattern = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-		String tokenValue = new String();
+		final Pattern p = Pattern.compile(regex);
+		Matcher m;
 		
 
-		for(Token t : tokens){
+		Iterator<Token> iterator = tokens.iterator();
 
+		while(iterator.hasNext()){
+			m = p.matcher(iterator.next().getToken());
+
+			if(m.matches())
+				iterator.remove();
 		}
 
-		//2. Weg URL-Validator
-		/*
-		String[] schemes = {"http","https"};
-		UrlValidator urlValidator = new UrlValidator(schemes);
-
-		if (urlValidator.isValid("ftp://foo.bar.com/")) {
-			System.out.println("url is valid");
-		} else {
-			System.out.println("url is invalid");
-		}
-		*/
-
-		return null;
+		return tokens;
 	}
 }

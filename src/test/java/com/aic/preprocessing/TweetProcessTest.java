@@ -9,7 +9,7 @@ import com.aic.preprocessing.*;
 public class TweetProcessTest{
 
 	@Test
-	public void removeURL() {
+	public void removeValidURL() {
 
 		List<Token> tl = new ArrayList<Token>();
 
@@ -20,5 +20,19 @@ public class TweetProcessTest{
 		}
 
     	assertTrue(TweetProcess.removeURLs(tl).isEmpty());
+	}
+
+	@Test
+	public void notRemoveInvalidURL() {
+
+		List<Token> tl = new ArrayList<Token>();
+
+		try{
+			tl.add(new Token("someword"));
+		} catch (WrongTokenFormatException e){
+			fail("should not throw WrongTokenFormatException");
+		}
+
+    	assertFalse(TweetProcess.removeURLs(tl).isEmpty());
 	}
 }
