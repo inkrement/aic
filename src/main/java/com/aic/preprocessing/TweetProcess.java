@@ -2,7 +2,7 @@ package com.aic.preprocessing;
 
 import java.util.List;
 
-public class Process {
+public class TweetProcess {
 
 
 	private String input = new String();
@@ -61,7 +61,7 @@ public class Process {
 	/**
 	* Remove URLS
 	*/
-	private static List<Token> removeURLs(List<Token> tokens){
+	public static List<Token> removeURLs(List<Token> tokens){
 		
 		//1. Weg regex
 		String pattern = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
