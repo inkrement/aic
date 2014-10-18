@@ -35,4 +35,12 @@ public class TweetProcessTest{
 
     	assertFalse(TweetProcess.removeURLs(tl).isEmpty());
 	}
+
+	@Test
+	public void tokenizeSentence() {
+
+		List<Token> tl = TweetProcess.tokenizer("some sentance");
+
+    	assertEquals(tl.size(), 2);
+	}
 }

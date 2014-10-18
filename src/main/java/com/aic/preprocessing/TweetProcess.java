@@ -1,6 +1,7 @@
 package com.aic.preprocessing;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -35,6 +36,21 @@ public class TweetProcess {
 	 */
 	public static Token transform(Token input){
 		return null;
+	}
+
+	public static List<Token> tokenizer(String tweet){
+		String[] tokens = tweet.split(" ");
+		ArrayList<Token> tl = new ArrayList<Token>();
+
+		for (String t: tokens) {
+			try{
+				tl.add(new Token(t));
+			} catch (WrongTokenFormatException e){
+				//TODO: log skipped word.
+			}
+		}
+
+		return tl;
 	}
 
 	/**
