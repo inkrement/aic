@@ -78,34 +78,54 @@ public class TweetProcess {
 	* Remove multiple character-occurences
 	* example: heyyyyyy -> hey
 	*/
-	private static List<Token> removeChars(List<Token> tokens){
+	private static List<Token> removeMultipleChars(List<Token> tokens){
 		
 		return null;
 	}
 
+
+	/**
+	* Trimms Token-Values
+	* example: haaa   llo -> haaa llo
+	*/
+	private static List<Token> removeMultipleWhitespaces(List<Token> tokens){
+
+		//TODO implement
+
+		return null;
+	}
+
+	
+	/**
+	* Removes unnknown words
+	* example: asdfbe
+	*/
+	private static List<Token> removeUnnknownWords(List<Token> tokens){
+		return null;
+	}
+
+
 	/**
 	* Replace special Characters with whitespaces
-	* TODO: List<Token> als Returnwert.
-	* TODO: - wird nicht erkannt
-	* TODO: alle werte Testen
+	* TODO Diese Symbole werde noch nicht ausgestauscht/Test failed - \ {
+	* TODO alle werte Testen
+	* TODO trim results
 	*/
-	public static String replaceSpecialChars(List<Token> tokens){
+	public static List<Token> replaceSpecialChars(List<Token> tokens){
 
-		//search for: . + - , ! $ % ^ & * ( ) ; \ / | < > " '
-		String regex ="[.+-,!$%^&*();\\/|<>\"\']";
-		String testvalue = null;
+		//search and replace for _ : . + - , ! $ % ^ & * ( ) ; \ / | < > " '
+		String regex ="[_:.+-,!$%^&*();\\/|<>\"\'§{}]";
+		Token tn = null;
 
 		Iterator<Token> iterator = tokens.iterator();
 
 		while(iterator.hasNext()){
-			Token tn = iterator.next();
-				
-			testvalue = tn.getValue();
+			tn = iterator.next();
 
-			testvalue = testvalue.replaceAll(regex, " ");
+			tn.setValue(tn.getValue().replaceAll(regex, " "));
 		}
 
-		return testvalue;		
+		return tokens;		
 
 	}
 

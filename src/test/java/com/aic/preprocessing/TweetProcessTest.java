@@ -46,23 +46,48 @@ public class TweetProcessTest{
 	}
 
 	@Test
-	public void RemoveSpecialChars() {
+	public void RemoveSingleSpecialChar() {
+
+		//TODO T1est bissl verschoenern
 
 		ArrayList<Token> tl = new ArrayList<Token>();
-		Token t1 = null;
-
+		
 		try{
-			t1 = new Token("sente+nc.e");
-		} catch(Exception e){
+			tl.add(new Token("he_y"));
+			tl.add(new Token("he:y"));
+			tl.add(new Token("he.y"));
+			tl.add(new Token("he+y"));
+			tl.add(new Token("he,y"));
+			tl.add(new Token("he!y"));
+			tl.add(new Token("he$y"));
+			tl.add(new Token("he%y"));
+			tl.add(new Token("he^y"));
+			tl.add(new Token("he&y"));
+			tl.add(new Token("he*y"));
+			tl.add(new Token("he(y"));
+			tl.add(new Token("he)y"));
+			tl.add(new Token("he;y"));
+			tl.add(new Token("he/y"));
+			tl.add(new Token("he|y"));
+			tl.add(new Token("he<y"));
+			tl.add(new Token("he>y"));
+			tl.add(new Token("he\"y"));
+			tl.add(new Token("he\'y"));
+			tl.add(new Token("he$y"));
+			tl.add(new Token("he}y"));
+
+			
+		} catch(WrongTokenFormatException e){
 			//TODO handle
 		}
 
-		tl.add(t1);
+		List<Token> result = TweetProcess.replaceSpecialChars(tl);
 
-		String s1 = TweetProcess.replaceSpecialChars(tl);
+		Iterator<Token> iterator = result.iterator();
 
-
-		assertEquals(s1,"sente nc e");
+		while(iterator.hasNext()){
+			assertEquals("he y", iterator.next().getValue());
+		}
 
 	}
 }
