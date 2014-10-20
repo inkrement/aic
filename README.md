@@ -21,7 +21,7 @@ and expects two POST parameters, namely, `name` and `password`. The sentiment fo
 a company can be retrieved by contacting the endpoint `http://localhost:8080/sentiment`
 and takes the four GET parameters `name`, `password`, `start` and `end`. The latter
 two parameters represent dates and therefore have to conform to the pattern `MMddyyyy`. An
-example query may look like this: `http://localhost:8080/sentiment?company=Microsoft&password=test123&start=01011970&end=01011972`.
+example query may look like this: `http://localhost:8080/sentiment?name=Microsoft&password=test123&start=01011970&end=01011972`.
 
 Misc
 ----
