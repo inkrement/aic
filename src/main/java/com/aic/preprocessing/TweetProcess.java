@@ -105,18 +105,24 @@ public class TweetProcess {
 
 		//search and replace for _ : . + - , ! $ % ^ & * ( ) ; \ / | < > " '
 		String regex ="[_:.+-,!$%^&*();\\/|<>\"\'§{}]";
-		Token tn = null;
-
+		List<Token> nl = new ArrayList<Token>();
+      
+        Token tn;
 		Iterator<Token> iterator = tokens.iterator();
 
 		while(iterator.hasNext()){
 			tn = iterator.next();
-
-			tn.setValue(tn.getValue().replaceAll(regex, " "));
+          
+          	String[] subtoken = tn.getValue().split(regex);
+          	
+          	for(String st : subtoken)
+              nl.add(new Token(st));
+          
+          	//save memory and delete old token
+          	iterator.remove();
 		}
 
-		return tokens;		
-
+		return nl;
 	}
 
 	
