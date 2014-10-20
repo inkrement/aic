@@ -39,7 +39,8 @@ public class TweetProcess {
 	}
 
 	public static List<Token> tokenizer(String tweet){
-		String[] tokens = tweet.split(" ");
+		//plus added to remove multiple spaces
+		String[] tokens = tweet.split(" +");
 		ArrayList<Token> tl = new ArrayList<Token>();
 
 		for (String t: tokens) {
@@ -113,13 +114,13 @@ public class TweetProcess {
 		while(iterator.hasNext()){
 			tn = iterator.next();
           
-          	String[] subtoken = tn.getValue().split(regex);
+			String[] subtoken = tn.getValue().split(regex);
           	
-          	for(String st : subtoken)
-              nl.add(new Token(st));
+			for(String st : subtoken)
+				nl.add(new Token(st));
           
           	//save memory and delete old token
-          	iterator.remove();
+			iterator.remove();
 		}
 
 		return nl;
@@ -135,7 +136,6 @@ public class TweetProcess {
 		final Pattern p = Pattern.compile(regex);
 		Matcher m;
 		
-
 		Iterator<Token> iterator = tokens.iterator();
 
 		while(iterator.hasNext()){
