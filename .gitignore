@@ -5,6 +5,9 @@ build/
 .idea/
 *.iml
 
+# file with twitter credentials
+twitter.properties
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
