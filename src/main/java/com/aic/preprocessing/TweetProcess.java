@@ -95,16 +95,6 @@ public class TweetProcess {
 		return null;
 	}
 
-	
-	/**
-	* Removes unnknown words
-	* example: asdfbe
-	*/
-	private static List<Token> removeUnnknownWords(List<Token> tokens){
-		return null;
-	}
-
-
 	/**
 	* Replace special Characters with whitespaces
 	* TODO Diese Symbole werde noch nicht ausgestauscht/Test failed - \ {
