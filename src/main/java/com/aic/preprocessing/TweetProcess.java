@@ -103,9 +103,7 @@ public class TweetProcess {
 	* TODO trim results
 	*/
 	public static List<Token> replaceSpecialChars(List<Token> tokens){
-
-		//search and replace for _ : . + - , ! $ % ^ & * ( ) ; \ / | < > " '
-		String regex ="[_:.+-,!$%^&*();\\/|<>\"\'§{}]";
+		String regex ="[_:.+-,!$%^&*();\\/|<>\"'§{}]+";
 		List<Token> nl = new ArrayList<Token>();
       
         Token tn;
@@ -113,11 +111,20 @@ public class TweetProcess {
 
 		while(iterator.hasNext()){
 			tn = iterator.next();
+
+			//do not handle smileys
+			if(tn.getType() == TokenType.SMILEY)
+				continue;
           
 			String[] subtoken = tn.getValue().split(regex);
           	
-			for(String st : subtoken)
-				nl.add(new Token(st));
+          	try{
+				for(String st : subtoken)
+					nl.add(new Token(st));
+			} catch(WrongTokenFormatException e){
+				//TODO: log wrong token-format tn
+				continue;
+			}
           
           	//save memory and delete old token
 			iterator.remove();

@@ -54,40 +54,24 @@ public class TweetProcessTest{
 		
 		try{
 			tl.add(new Token("he_y"));
-			tl.add(new Token("he:y"));
-			tl.add(new Token("he.y"));
-			tl.add(new Token("he+y"));
-			tl.add(new Token("he,y"));
-			tl.add(new Token("he!y"));
-			tl.add(new Token("he$y"));
-			tl.add(new Token("he%y"));
-			tl.add(new Token("he^y"));
-			tl.add(new Token("he&y"));
-			tl.add(new Token("he*y"));
-			tl.add(new Token("he(y"));
-			tl.add(new Token("he)y"));
-			tl.add(new Token("he;y"));
-			tl.add(new Token("he/y"));
-			tl.add(new Token("he|y"));
-			tl.add(new Token("he<y"));
-			tl.add(new Token("he>y"));
-			tl.add(new Token("he\"y"));
-			tl.add(new Token("he\'y"));
-			tl.add(new Token("he$y"));
-			tl.add(new Token("he}y"));
-
-			
 		} catch(WrongTokenFormatException e){
-			//TODO handle
+			fail("should not throw WrongTokenFormatException");
 		}
 
 		List<Token> result = TweetProcess.replaceSpecialChars(tl);
 
-		Iterator<Token> iterator = result.iterator();
-
-		while(iterator.hasNext()){
-			assertEquals("he y", iterator.next().getValue());
+		try{
+			assertTrue(result.contains(new Token("he")));
+			assertTrue(result.contains(new Token("y")));
+		} catch (WrongTokenFormatException e){
+			fail("should not throw WrongTokenFormatException");
 		}
+
+		//Iterator<Token> iterator = result.iterator();
+
+		//while(iterator.hasNext()){
+		//	assertEquals("he y", iterator.next().getValue());
+		//}
 
 	}
 }

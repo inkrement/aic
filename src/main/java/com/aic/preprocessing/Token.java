@@ -5,6 +5,7 @@ public class Token{
 	String token;
 	String value;
 
+	//TODO: minimal length?
 	public Token(String word) throws WrongTokenFormatException{
 		if(word == null)
 			throw new WrongTokenFormatException("words should not be null");
@@ -44,5 +45,9 @@ public class Token{
 
 	public void setValue(String value){
 		this.value = value;
+	}
+
+	public TokenType getType(){
+		return type;
 	}
 }
