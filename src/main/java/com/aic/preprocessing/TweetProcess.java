@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import com.aic.components.*;
 
 public class TweetProcess {
 
@@ -16,8 +17,8 @@ public class TweetProcess {
 	 *
 	 * @param String input content of a tweet
 	 */
-	public static String preprocess(String input){
-		return null;
+	public static List<Token> preprocess(String input){
+		return tokenizer(input);
 	}
 
 	/**

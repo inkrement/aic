@@ -1,5 +1,6 @@
 package com.aic.fetch;
 
+import com.aic.components.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,9 +37,9 @@ public class Fetch
 	 *            The end date for the search
 	 * @return A list of tweets matching the criterias (at most 100)
 	 */
-	public List<String> fetch(String name, Date start, Date end)
+	public List<TwitterStatus> fetch(String name, Date start, Date end)
 	{
-		List<String> tweetList = new ArrayList<String>();
+		List<TwitterStatus> tweetList = new ArrayList<TwitterStatus>();
 
 		try
 		{
@@ -54,10 +55,12 @@ public class Fetch
 			result = twitter.search(query);
 
 			List<twitter4j.Status> tweets = result.getTweets();
+
 			for (twitter4j.Status tweet: tweets)
 			{
-				tweetList.add(tweet.getText());
+				tweetList.add(new TwitterStatus(tweet));
 			}
+			
 		}
 		catch (twitter4j.TwitterException e)
 		{

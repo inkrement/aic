@@ -1,6 +1,7 @@
 package com.aic.rest;
 
 import com.aic.fetch.*;
+import com.aic.components.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Handles the REST requests that are sent to the server.
@@ -48,12 +50,19 @@ public class Controller {
     }
     
     @RequestMapping(value = "/tweets", method = RequestMethod.GET)
-    public List<String> sentiment(@RequestParam(value = "name") String name,
+    public List<String> tweets(@RequestParam(value = "name") String name,
                                @RequestParam(value = "start", required = false)
                                     @DateTimeFormat(pattern = "yyyyMMdd") Date start,
                                @RequestParam(value = "end", required = false)
                                     @DateTimeFormat(pattern = "yyyyMMdd") Date end) {
        Fetch f = new Fetch();
-       return f.fetch(name, start, end);
+
+       List<String> tweets = new ArrayList<String>();
+
+       for(TwitterStatus t: f.fetch(name, start, end)){
+            tweets.add(t.toString());
+       }
+
+       return tweets;
     }
 }

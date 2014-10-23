@@ -1,4 +1,6 @@
-package com.aic.preprocessing;
+package com.aic.components;
+
+import com.aic.preprocessing.*;
 
 public class Token{
 	TokenType type;
