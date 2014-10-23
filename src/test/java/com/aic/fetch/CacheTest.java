@@ -1,3 +1,5 @@
+package com.aic.fetch;
+
 import org.junit.* ;
 import static org.junit.Assert.* ;
 

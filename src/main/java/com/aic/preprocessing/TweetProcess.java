@@ -123,7 +123,7 @@ public class TweetProcess {
 				for(String st : subtoken)
 					nl.add(new Token(st));
 			} catch(WrongTokenFormatException e){
-				//TODO: log wrong token-format tn
+				System.err.println("wrong formatted tweet token");
 				continue;
 			}
           

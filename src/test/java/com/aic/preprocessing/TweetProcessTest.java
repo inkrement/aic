@@ -1,3 +1,5 @@
+package com.aic.preprocessing;
+
 import org.junit.* ;
 import static org.junit.Assert.* ;
 
@@ -48,9 +50,6 @@ public class TweetProcessTest{
 
 	@Test
 	public void RemoveSingleSpecialChar() {
-
-		//TODO T1est bissl verschoenern
-
 		ArrayList<Token> tl = new ArrayList<Token>();
 		
 		try{
@@ -61,18 +60,8 @@ public class TweetProcessTest{
 
 		List<Token> result = TweetProcess.replaceSpecialChars(tl);
 
-		try{
-			assertTrue(result.contains(new Token("he")));
-			assertTrue(result.contains(new Token("y")));
-		} catch (WrongTokenFormatException e){
-			fail("should not throw WrongTokenFormatException");
-		}
+		assertEquals(result.size(), 2);
 
-		//Iterator<Token> iterator = result.iterator();
-
-		//while(iterator.hasNext()){
-		//	assertEquals("he y", iterator.next().getValue());
-		//}
-
+		for(Token t: result) assertTrue(t.getToken().equals("he") || t.getToken().equals("y"));
 	}
 }

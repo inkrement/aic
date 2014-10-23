@@ -1,3 +1,5 @@
+package com.aic.components;
+
 import org.junit.* ;
 import static org.junit.Assert.* ;
 
