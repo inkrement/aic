@@ -59,7 +59,7 @@ public class Controller {
 
        List<String> tweets = new ArrayList<String>();
 
-       for(TwitterStatus t: f.fetch(name, start, end)){
+       for(TwitterStatus t: f.get(name, start, end)){
             tweets.add(t.toString());
        }
 

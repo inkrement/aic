@@ -20,6 +20,21 @@ public class Fetch
 	private final static SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 	private final static String CONFIGURATION_FILE = "twitter.properties";
 
+
+
+	public static List<TwitterStatus> get(String name, Date start, Date end){
+
+		List<TwitterStatus> result = new ArrayList<TwitterStatus>();
+
+		List<List<TwitterStatus>> cached_tweets = Cache.load(name, start, end);
+
+		//TODO: calculate missing time ranges
+
+		//TODO: fetch missing timeranges
+
+		return result;
+	}
+
 	/**
 	 * Fetches (at most 100) tweets for the given name, filtered by the
 	 * {@code start} and {@code end} date.
@@ -37,7 +52,7 @@ public class Fetch
 	 *            The end date for the search
 	 * @return A list of tweets matching the criterias (at most 100)
 	 */
-	public List<TwitterStatus> fetch(String name, Date start, Date end)
+	public static List<TwitterStatus> fetch(String name, Date start, Date end)
 	{
 		List<TwitterStatus> tweetList = new ArrayList<TwitterStatus>();
 
@@ -72,6 +87,8 @@ public class Fetch
 			e.printStackTrace();
 			System.err.println("Failed to open configuration: " + e.getMessage());
 		}
+
+		Cache.store(tweetList);
 
 		return tweetList;
 	}
