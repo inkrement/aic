@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Iterator;
 
 import com.aic.preprocessing.*;
+import com.aic.components.*;
 
 public class TweetProcessTest{
 

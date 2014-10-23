@@ -26,7 +26,7 @@ public class Fetch
 
 		List<TwitterStatus> result = new ArrayList<TwitterStatus>();
 
-		List<List<TwitterStatus>> cached_tweets = Cache.load(name, start, end);
+		List<TwitterStatusList> cached_tweets = Cache.load(name, start, end);
 
 		//TODO: calculate missing time ranges
 
@@ -52,9 +52,9 @@ public class Fetch
 	 *            The end date for the search
 	 * @return A list of tweets matching the criterias (at most 100)
 	 */
-	public static List<TwitterStatus> fetch(String name, Date start, Date end)
+	public static TwitterStatusList fetch(String name, Date start, Date end)
 	{
-		List<TwitterStatus> tweetList = new ArrayList<TwitterStatus>();
+		TwitterStatusList tweetList = new TwitterStatusList(name);
 
 		try
 		{
@@ -93,7 +93,7 @@ public class Fetch
 		return tweetList;
 	}
 
-	private twitter4j.conf.Configuration getConfiguration() throws IOException
+	private static twitter4j.conf.Configuration getConfiguration() throws IOException
 	{
 		twitter4j.conf.ConfigurationBuilder cb = new twitter4j.conf.ConfigurationBuilder();
 		cb.setDebugEnabled(true);

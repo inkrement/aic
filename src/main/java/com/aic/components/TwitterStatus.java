@@ -22,9 +22,26 @@ public class TwitterStatus{
 		token = com.aic.preprocessing.TweetProcess.preprocess(twitter4jstatus.getText());
 	}
 
+	/**
+	 * only for testpurposes
+	 */
+	public TwitterStatus(Date timestamp, String username, String text){
+		this.timestamp = timestamp;
+		this.favouriteCount = 0;
+		this.retweetCount = 0;
+		this.location = null;
+		this.username =username;
+
+		token = com.aic.preprocessing.TweetProcess.preprocess(text);
+	}
+
 
 	public String toString(){
 		return username;
+	}
+
+	public Date getTimestamp(){
+		return timestamp;
 	}
 
 }

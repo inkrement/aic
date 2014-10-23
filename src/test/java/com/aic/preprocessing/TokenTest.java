@@ -2,6 +2,7 @@ import org.junit.* ;
 import static org.junit.Assert.* ;
 
 import com.aic.preprocessing.*;
+import com.aic.components.*;
 
 public class TokenTest{
 
