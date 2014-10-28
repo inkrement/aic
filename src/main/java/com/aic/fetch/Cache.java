@@ -2,6 +2,7 @@ package com.aic.fetch;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.io.*;
 import com.aic.components.*;
 
@@ -19,15 +20,29 @@ public class Cache{
 	 * loads a list of already cached datasets
 	 * cuts overlapping parts that are not in the given timerange
 	 */
+	//UNTESTED
 	public static List<TwitterStatusList> load(String name, Date start, Date end){
+		List<TwitterStatusList> result = new ArrayList<TwitterStatusList>();
 
 		//find all files matching name_*
+		File[] files = getFilePaths(name);
 
 
 		//parse timestamps and eventually load files
 
+		for(File f: files){
+			//parse timestamp and check
+			String[] parts = f.getName().split("_");
+			Date f_start = new Date(Long.parseLong(parts[1], 10));
+			Date f_end = new Date(Long.parseLong(parts[2], 10));
 
-		return null;
+			if(overlap(f_start, f_end, start, end)){
+				//load into list
+				result.add(loadFile(f));
+			}
+		}
+
+		return result;
 	}
 
 	/**
@@ -54,6 +69,27 @@ public class Cache{
 
 	}
 
+	//UNTESTED
+	public static TwitterStatusList loadFile(File file){
+		TwitterStatusList result = null;
+
+		try{
+			FileInputStream fileIn = new FileInputStream(file);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+
+			result = (TwitterStatusList) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch(IOException i){
+			i.printStackTrace();
+		} catch(ClassNotFoundException c){
+			System.out.println("Employee class not found");
+			c.printStackTrace();
+		}
+
+		return result;
+	}
+
 
 	public static File[] getFilePaths(final String keyword){
 		File dir = new File(path.getPath());
@@ -74,6 +110,11 @@ public class Cache{
 	public static void clearDirectory(File dir){
 		//Files.deleteIfExists(path);
 		for(File file: dir.listFiles()) file.delete();
+	}
+
+
+	public static boolean overlap(Date start1, Date end1, Date start2, Date end2){
+	    return start1.getTime() <= end2.getTime() && start2.getTime() <= end1.getTime(); 
 	}
 
 /*
