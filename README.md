@@ -45,3 +45,13 @@ Dominik Pichler, Christian Hotz-Behofsits: Preprocessing
 
 Matthias Reisinger, Thomas Schmidtlehner: Classify
 
+
+
+
+TODO
+-----
+
+ - Serializing within the caching class
+ - POS Tagging http://nlp.stanford.edu/software/tagger.shtml http://opennlp.apache.org/
+
+http://www.thinkmind.org/download.php?articleid=immm_2012_1_10_20033
