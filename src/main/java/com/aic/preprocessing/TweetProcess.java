@@ -94,10 +94,13 @@ public class TweetProcess {
 
 	/**
 	* Remove multiple character-occurences
+	* TODO: Filter fuer Woerter mit doppelbuchstaben, z.B. beer
 	* example: heyyyyyy -> hey
 	*/
 	private static List<Token> removeMultipleChars(List<Token> tokens){
+
 		
+
 		return null;
 	}
 
@@ -115,12 +118,13 @@ public class TweetProcess {
 
 	/**
 	* Split Token with special characters (spc) and remove the spc
-	* TODO Diese Symbole werde noch nicht ausgestauscht/Test failed - \ {
 	* TODO alle werte Testen
-	* TODO trim results
 	*/
 	public static List<Token> replaceSpecialChars(List<Token> tokens){
-		String regex ="[_:.+-,!$%^&*();\\/|<>\"'§{}]+";
+		
+		//String regex ="[_:.+-,!$%^&*();\\/|<>\"'§{}]+";
+		String regex = "[^\\dA-Za-z ]+";
+
 		List<Token> nl = new ArrayList<Token>();
       
         Token tn;

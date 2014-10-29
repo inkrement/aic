@@ -53,7 +53,7 @@ public class TweetProcessTest{
 		ArrayList<Token> tl = new ArrayList<Token>();
 		
 		try{
-			tl.add(new Token("he_y"));
+			tl.add(new Token("he-y"));
 		} catch(WrongTokenFormatException e){
 			fail("should not throw WrongTokenFormatException");
 		}
