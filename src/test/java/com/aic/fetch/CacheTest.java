@@ -23,7 +23,9 @@ public class CacheTest{
 
 		Cache.store(tweetlist);
 
-		File file = new File(Cache.path + "/microsoft_" + timestamp.getTime() + "_" + timestamp.getTime());
+		File file = new File(Cache.path + File.separator + "microsoft_" + timestamp.getTime() + "_" + timestamp.getTime());
+
+		System.out.println("fileCreated path: " + file);
 		assertTrue(file.exists());
 
 		Cache.clear();
@@ -47,14 +49,14 @@ public class CacheTest{
 		assertEquals(files.length, 1);
 		//System.out.println("files found: " + files[0].toString());
 		//System.out.println( "should be: " + Cache.path + "/" + keyword + "_" + timestamp.getTime() + "_" + timestamp.getTime() );
-		assertEquals(files[0].toString(), Cache.path + "/" + keyword + "_" + timestamp.getTime() + "_" + timestamp.getTime() );
+		assertEquals(files[0].toString(), Cache.path + File.separator + keyword + "_" + timestamp.getTime() + "_" + timestamp.getTime() );
 
 		Cache.clear();
 	}
 
 	@Test
 	public void clearCache() {
-		String filepath = Cache.path.getPath() + "/somerandomfile";
+		String filepath = Cache.path.getPath() + File.separator + "somerandomfile";
 		System.out.println("filepath: " + filepath);
 
 		File f = new File(filepath);

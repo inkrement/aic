@@ -6,6 +6,7 @@ import java.util.*;
 import java.io.Serializable;
 
 public class TwitterStatus implements Serializable{
+	private static final long serialVersionUID = 7526472295654436147L;
 	private List<Token> token;
 	private Date timestamp;
 	private int favouriteCount;

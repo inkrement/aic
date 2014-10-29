@@ -14,7 +14,7 @@ import java.nio.file.*;
 
 public class Cache{
 	//TODO: will not work on windows
-	public static final File path = new File("/tmp/aic");
+	public static final File path = new File("tmp" + File.separator + "cache");
 
 	/**
 	 * loads a list of already cached datasets
@@ -46,7 +46,7 @@ public class Cache{
 	 * serializes and stores the given tweetlist.
 	 */
 	public static File store(TwitterStatusList tweets){
-		File outputfile = new File(path + "/" + tweets.getKeyword() + "_" + tweets.getStart().getTime() + "_" + tweets.getEnd().getTime());
+		File outputfile = new File(path + File.separator + tweets.getKeyword() + "_" + tweets.getStart().getTime() + "_" + tweets.getEnd().getTime());
 		outputfile.getParentFile().mkdirs();
 
 		try{
@@ -120,13 +120,5 @@ public class Cache{
 	public static boolean overlap(Date start1, Date end1, Date start2, Date end2){
 	    return start1.getTime() <= end2.getTime() && start2.getTime() <= end1.getTime(); 
 	}
-
-/*
-	private void writeToFile(File file, String content){
-		File file = new File("C:\\user\\Desktop\\dir1\\dir2\\filename.txt");
-		file.getParentFile().mkdirs();
-		FileWriter writer = new FileWriter(file);
-	}
-*/
 
 }

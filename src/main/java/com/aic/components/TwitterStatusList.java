@@ -10,7 +10,7 @@ import java.lang.ClassNotFoundException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 
-public class TwitterStatusList extends ArrayList<TwitterStatus> implements Serializable{
+public class TwitterStatusList extends ArrayList<TwitterStatus>{
 	private String keyword;
 
 	private TwitterStatusList(){
@@ -52,17 +52,5 @@ public class TwitterStatusList extends ArrayList<TwitterStatus> implements Seria
 
 		return result;
 	}
-
-
-
-	private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        out.writeObject(this.keyword);
-    }
- 
-    private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
-        in.defaultReadObject();
-        this.keyword = (String)in.readObject();
-    }
 
 }
