@@ -2,6 +2,7 @@ package com.aic.preprocessing;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -71,18 +72,46 @@ public class TweetProcess {
 
 	/**
 	 * remove articles
+	 * TODO add more articles and others (prepositions, etc.). Maybe rename method
 	 */
-	private static List<Token> removeArticles(List<Token> tokens){
-		return null;
+	public static List<Token> removeArticles(List<Token> tokens){
+		
+		//TODO add all articles and preposition, etc. maybe use lib/dict
+		String[] articles = {"the"};
+
+		Iterator<Token> iterator = tokens.iterator();
+		
+		while(iterator.hasNext()){
+
+			Token tn = iterator.next();
+			
+			if(Arrays.asList(articles).contains(tn.getValue()))
+				iterator.remove();
+		}
+
+		return tokens;
 	}
 
 	/**
 	* Remove multiple character-occurences
+	* TODO: Filter fuer Woerter mit doppelbuchstaben, z.B. beer
 	* example: heyyyyyy -> hey
 	*/
-	private static List<Token> removeMultipleChars(List<Token> tokens){
-		
-		return null;
+	public static List<Token> removeRepeatedChars(List<Token> tokens){
+
+		//Find repeated occurrence of a char
+		String regex = "(.)\\1+";
+
+		Iterator<Token> iterator = tokens.iterator();
+		Token tn;
+
+		while(iterator.hasNext()){			
+			tn = iterator.next();
+			//Remove all repeated characters			
+			tn.setValue(tn.getValue().replaceAll(regex,"$1"));			
+		}
+
+		return tokens;
 	}
 
 
@@ -98,13 +127,14 @@ public class TweetProcess {
 	}
 
 	/**
-	* Replace special Characters with whitespaces
-	* TODO Diese Symbole werde noch nicht ausgestauscht/Test failed - \ {
+	* Split Token with special characters (spc) and remove the spc
 	* TODO alle werte Testen
-	* TODO trim results
 	*/
 	public static List<Token> replaceSpecialChars(List<Token> tokens){
-		String regex ="[_:.+-,!$%^&*();\\/|<>\"'§{}]+";
+		
+		//String regex ="[_:.+-,!$%^&*();\\/|<>\"'§{}]+";
+		String regex = "[^\\dA-Za-z ]+";
+
 		List<Token> nl = new ArrayList<Token>();
       
         Token tn;

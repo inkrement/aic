@@ -53,7 +53,7 @@ public class TweetProcessTest{
 		ArrayList<Token> tl = new ArrayList<Token>();
 		
 		try{
-			tl.add(new Token("he_y"));
+			tl.add(new Token("he-y"));
 		} catch(WrongTokenFormatException e){
 			fail("should not throw WrongTokenFormatException");
 		}
@@ -64,4 +64,50 @@ public class TweetProcessTest{
 
 		for(Token t: result) assertTrue(t.getToken().equals("he") || t.getToken().equals("y"));
 	}
+
+	@Test
+	public void RemoveArticles(){
+		ArrayList<Token> tl = new ArrayList<Token>();
+
+		try{
+			tl.add(new Token("this"));
+			tl.add(new Token("is"));
+			tl.add(new Token("the"));
+			tl.add(new Token("sentence"));
+		}catch (WrongTokenFormatException e){
+			fail("remove Article should not throw WrongTokenFormatException");
+		}
+
+		TweetProcess.removeArticles(tl);
+
+		assertEquals(tl.size(), 3);
+		assertEquals(tl.get(0).getValue(), "this");
+		assertEquals(tl.get(1).getValue(), "is");
+		assertEquals(tl.get(2).getValue(), "sentence");
+	}
+
+	@Test
+	public void removeRepeatedChars(){
+
+		ArrayList<Token> tl = new ArrayList<Token>();
+
+		try{
+			tl.add(new Token("this"));
+			tl.add(new Token("is"));
+			tl.add(new Token("faalse"));
+			tl.add(new Token("hahhaa"));
+		}catch (WrongTokenFormatException e){
+			fail("remove Article should not throw WrongTokenFormatException");
+		}
+
+		TweetProcess.removeRepeatedChars(tl);
+
+		assertEquals(tl.size(),4);
+		
+		assertEquals(tl.get(0).getValue(), "this");
+		assertEquals(tl.get(1).getValue(), "is");
+		assertEquals(tl.get(2).getValue(), "false");
+		assertEquals(tl.get(3).getValue(), "haha");
+	}
+
 }
