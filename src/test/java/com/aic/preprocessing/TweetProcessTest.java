@@ -64,4 +64,22 @@ public class TweetProcessTest{
 
 		for(Token t: result) assertTrue(t.getToken().equals("he") || t.getToken().equals("y"));
 	}
+
+	@Test
+	public void RemoveArticles(){
+		ArrayList<Token> tl = new ArrayList<Token>();
+
+		try{
+			tl.add(new Token("this"));
+			tl.add(new Token("is"));
+			tl.add(new Token("the"));
+			tl.add(new Token("sentence"));
+		}catch (WrongTokenFormatException e){
+			fail("remove Article should not throw WrongTokenFormatException");
+		}
+
+		TweetProcess.removeArticles(tl);
+
+		assertEquals(tl.size(), 3);
+	}
 }

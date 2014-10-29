@@ -2,6 +2,7 @@ package com.aic.preprocessing;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -71,9 +72,24 @@ public class TweetProcess {
 
 	/**
 	 * remove articles
+	 * TODO add more articles and others (prepositions, etc.). Maybe rename method
 	 */
-	private static List<Token> removeArticles(List<Token> tokens){
-		return null;
+	public static List<Token> removeArticles(List<Token> tokens){
+		
+		//TODO add all articles and preposition, etc. maybe use lib/dict
+		String[] articles = {"the"};
+
+		Iterator<Token> iterator = tokens.iterator();
+		
+		while(iterator.hasNext()){
+
+			Token tn = iterator.next();
+			
+			if(Arrays.asList(articles).contains(tn.getValue()))
+				iterator.remove();
+		}
+
+		return tokens;
 	}
 
 	/**
@@ -98,7 +114,7 @@ public class TweetProcess {
 	}
 
 	/**
-	* Replace special Characters with whitespaces
+	* Split Token with special characters (spc) and remove the spc
 	* TODO Diese Symbole werde noch nicht ausgestauscht/Test failed - \ {
 	* TODO alle werte Testen
 	* TODO trim results
