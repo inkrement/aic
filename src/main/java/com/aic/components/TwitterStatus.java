@@ -3,7 +3,9 @@ package com.aic.components;
 import twitter4j.*;
 import java.util.*;
 
-public class TwitterStatus{
+import java.io.Serializable;
+
+public class TwitterStatus implements Serializable{
 	private List<Token> token;
 	private Date timestamp;
 	private int favouriteCount;
@@ -40,7 +42,11 @@ public class TwitterStatus{
 		return username;
 	}
 
-	public Date getTimestamp(){
+	public long getTimestamp(){
+		return timestamp.getTime();
+	}
+
+	public Date getDate(){
 		return timestamp;
 	}
 

@@ -70,4 +70,22 @@ public class CacheTest{
 		File file = new File(filepath);
 		assertFalse(file.exists());
 	}
+
+
+	@Test
+	public void testLoadFile(){
+		Cache.clear();
+
+		Date timestamp = new Date();
+		TwitterStatusList tweetlist = new TwitterStatusList("somekeyword");
+		tweetlist.add(new TwitterStatus(timestamp, "inkrement", "some #fancy tweet @twitter"));
+
+		File filetoload = Cache.store(tweetlist);
+
+		TwitterStatusList loadedlist = Cache.loadFile(filetoload);
+
+		assertEquals(tweetlist, loadedlist);
+
+		Cache.clear();
+	}
 }

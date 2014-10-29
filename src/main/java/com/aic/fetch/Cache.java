@@ -20,25 +20,22 @@ public class Cache{
 	 * loads a list of already cached datasets
 	 * cuts overlapping parts that are not in the given timerange
 	 */
-	//UNTESTED
 	public static List<TwitterStatusList> load(String name, Date start, Date end){
 		List<TwitterStatusList> result = new ArrayList<TwitterStatusList>();
 
 		//find all files matching name_*
 		File[] files = getFilePaths(name);
 
-
 		//parse timestamps and eventually load files
 
 		for(File f: files){
-			//parse timestamp and check
 			String[] parts = f.getName().split("_");
 			Date f_start = new Date(Long.parseLong(parts[1], 10));
 			Date f_end = new Date(Long.parseLong(parts[2], 10));
 
 			if(overlap(f_start, f_end, start, end)){
-				//load into list
-				result.add(loadFile(f));
+				//load list and trim it to fit timerange
+				result.add(loadFile(f).trim(start, end));
 			}
 		}
 
@@ -48,25 +45,24 @@ public class Cache{
 	/**
 	 * serializes and stores the given tweetlist.
 	 */
-	public static void store(TwitterStatusList tweets){
-		String filename = path + "/" + tweets.getKeyword() + "_" + tweets.getStart().getTime() + "_" + tweets.getEnd().getTime();
-		//TODO: create subfolder
-
-		path.getParentFile().mkdirs();
-
+	public static File store(TwitterStatusList tweets){
+		File outputfile = new File(path + "/" + tweets.getKeyword() + "_" + tweets.getStart().getTime() + "_" + tweets.getEnd().getTime());
+		outputfile.getParentFile().mkdirs();
 
 		try{
-			FileOutputStream f_out = new FileOutputStream(filename);
+			FileOutputStream f_out = new FileOutputStream(outputfile);
 			ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
 
 			// Write object out to disk
 			obj_out.writeObject ( tweets );
+			obj_out.flush();
 		} catch(FileNotFoundException e){
-			System.err.println("could not find file: " + filename + " " + e.getMessage());
+			System.err.println("could not find file: " + outputfile + " " + e.getMessage());
 		} catch(IOException e){
-			System.err.println("could not write to file: " + filename + " " + e.getMessage());
+			System.err.println("could not write to file: " + outputfile + " " + e.getMessage());
 		}
 
+		return outputfile;
 	}
 
 	//UNTESTED
@@ -74,17 +70,25 @@ public class Cache{
 		TwitterStatusList result = null;
 
 		try{
+			System.out.println("loadF: " + file);
 			FileInputStream fileIn = new FileInputStream(file);
+			System.out.println("loadF: " + fileIn);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
+			System.out.println("loadF: " + in);
+
 			result = (TwitterStatusList) in.readObject();
+
+			System.out.println("loadF: " + result);
+
 			in.close();
 			fileIn.close();
+		} catch(FileNotFoundException e){
+			System.err.println("loadFile: file not found");
 		} catch(IOException i){
-			i.printStackTrace();
+			System.err.println("cound not load file");
 		} catch(ClassNotFoundException c){
-			System.out.println("Employee class not found");
-			c.printStackTrace();
+			System.err.println("TwitterStatusList class not found");
 		}
 
 		return result;
