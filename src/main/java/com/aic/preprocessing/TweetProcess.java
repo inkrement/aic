@@ -97,11 +97,30 @@ public class TweetProcess {
 	* TODO: Filter fuer Woerter mit doppelbuchstaben, z.B. beer
 	* example: heyyyyyy -> hey
 	*/
-	private static List<Token> removeMultipleChars(List<Token> tokens){
+	public static List<Token> removeRepeatedChars(List<Token> tokens){
 
-		
+		//Find repeated occurrence of a char
+		String regex = "(.)\\1+";
 
-		return null;
+		Pattern p = Pattern.compile(regex); 	
+		Matcher m;	
+ 		Iterator<Token> iterator = tokens.iterator();
+		Token tn;
+
+		while(iterator.hasNext()){
+			
+			tn = iterator.next();
+			
+			m = p.matcher(tn.getValue());
+
+			//Found Token with repeated chars
+			if(m.find()){
+				tn.setValue(tn.getValue().replaceAll("(.)\\1+","$1"));
+			}
+			
+		}
+
+		return tokens;
 	}
 
 
