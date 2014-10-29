@@ -102,22 +102,13 @@ public class TweetProcess {
 		//Find repeated occurrence of a char
 		String regex = "(.)\\1+";
 
-		Pattern p = Pattern.compile(regex); 	
-		Matcher m;	
- 		Iterator<Token> iterator = tokens.iterator();
+		Iterator<Token> iterator = tokens.iterator();
 		Token tn;
 
-		while(iterator.hasNext()){
-			
+		while(iterator.hasNext()){			
 			tn = iterator.next();
-			
-			m = p.matcher(tn.getValue());
-
-			//Found Token with repeated chars
-			if(m.find()){
-				tn.setValue(tn.getValue().replaceAll("(.)\\1+","$1"));
-			}
-			
+			//Remove all repeated characters			
+			tn.setValue(tn.getValue().replaceAll(regex,"$1"));			
 		}
 
 		return tokens;
