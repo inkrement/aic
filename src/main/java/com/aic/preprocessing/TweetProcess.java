@@ -114,25 +114,11 @@ public class TweetProcess {
 		return tokens;
 	}
 
-
-	/**
-	* Trimms Token-Values
-	* example: haaa   llo -> haaa llo
-	*/
-	private static List<Token> removeMultipleWhitespaces(List<Token> tokens){
-
-		//TODO implement
-
-		return null;
-	}
-
 	/**
 	* Split Token with special characters (spc) and remove the spc
-	* TODO alle werte Testen
 	*/
 	public static List<Token> replaceSpecialChars(List<Token> tokens){
 		
-		//String regex ="[_:.+-,!$%^&*();\\/|<>\"'§{}]+";
 		String regex = "[^\\dA-Za-z ]+";
 
 		List<Token> nl = new ArrayList<Token>();
