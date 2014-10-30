@@ -8,6 +8,17 @@ build/
 # file with twitter credentials
 twitter.properties
 
+# tmp files
+tmp/
+
+# eclipse
+.project
+.classpath
+.settings/
+
+# windows
+desktop.ini
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

@@ -23,7 +23,7 @@ and takes the four GET parameters `name`, `password`, `start` and `end`. The lat
 two parameters represent dates and therefore have to conform to the pattern `MMddyyyy`. An
 example query may look like this: `http://localhost:8080/sentiment?name=Microsoft&password=test123&start=01011970&end=01011972`.
 
-To test the `fetching tweets` functionality, call `http://localhost:8080/tweets?name=Microsoft&start=20141018&end=20141020`. (Pattern for dates is yyyyddMM, similiar to the pattern used by twitter)
+To test the `fetching tweets` functionality, call `http://localhost:8080/tweets?name=Microsoft&start=20141018&end=20141020`. (Pattern for dates is yyyyddMM, time zone is UTC, similiar to the pattern used by twitter)
 
 Misc
 ----

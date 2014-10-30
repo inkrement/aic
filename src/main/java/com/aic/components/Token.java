@@ -1,13 +1,17 @@
 package com.aic.components;
 
+import java.io.Serializable;
+
 import com.aic.preprocessing.*;
 
-public class Token{
+public class Token implements Serializable{
+	private static final long serialVersionUID = -2290044716672034421L;
+
 	TokenType type;
 	String token;
 	String value;
 
-	//TODO: minimal length?
+	// TODO: minimal length?
 	public Token(String word) throws WrongTokenFormatException{
 		if(word == null)
 			throw new WrongTokenFormatException("words should not be null");
@@ -18,7 +22,7 @@ public class Token{
 		if(word.contains(" "))
 			throw new WrongTokenFormatException("words should not contain space");
 
-		//TODO: Satzzeichen
+		// TODO: Satzzeichen
 		switch(word.charAt(0)){
 			case '#':
 				type = TokenType.TAG;
