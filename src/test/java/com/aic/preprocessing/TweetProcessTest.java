@@ -53,6 +53,44 @@ public class TweetProcessTest{
 		ArrayList<Token> tl = new ArrayList<Token>();
 		
 		try{
+			tl.add(new Token("he°y"));
+			tl.add(new Token("he^y"));
+			tl.add(new Token("he!y"));
+			tl.add(new Token("he\"y"));
+			tl.add(new Token("he§y"));
+			tl.add(new Token("he$y"));
+			tl.add(new Token("he%y"));
+			tl.add(new Token("he&y"));
+			tl.add(new Token("he/y"));
+			tl.add(new Token("he{y"));
+			tl.add(new Token("he(y"));
+			tl.add(new Token("he[y"));
+			tl.add(new Token("he)y"));
+			tl.add(new Token("he]y"));
+			tl.add(new Token("he=y"));	
+			tl.add(new Token("he}y"));
+			tl.add(new Token("he?y"));
+			tl.add(new Token("he\\y"));
+			tl.add(new Token("he´y"));
+			tl.add(new Token("he`y"));
+			tl.add(new Token("he@y"));
+			tl.add(new Token("he€y"));
+			tl.add(new Token("he*y"));
+			tl.add(new Token("he+y"));
+			tl.add(new Token("he~y"));
+			tl.add(new Token("he'y"));
+			tl.add(new Token("he#y"));
+			tl.add(new Token("he’y"));
+			tl.add(new Token("he<y"));
+			tl.add(new Token("he>y"));
+			tl.add(new Token("he|y"));
+			tl.add(new Token("he;y"));
+			tl.add(new Token("he,y"));
+			tl.add(new Token("he·y"));
+			tl.add(new Token("he:y"));
+			tl.add(new Token("he…y"));
+			tl.add(new Token("he–y"));
+			tl.add(new Token("he_y"));
 			tl.add(new Token("he-y"));
 		} catch(WrongTokenFormatException e){
 			fail("should not throw WrongTokenFormatException");
@@ -60,7 +98,7 @@ public class TweetProcessTest{
 
 		List<Token> result = TweetProcess.replaceSpecialChars(tl);
 
-		assertEquals(result.size(), 2);
+		assertEquals(result.size(), 78);
 
 		for(Token t: result) assertTrue(t.getToken().equals("he") || t.getToken().equals("y"));
 	}
