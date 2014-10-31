@@ -51,7 +51,7 @@ public class TweetProcess {
 			if(t.length() < 2) continue;
 
 			//trim punctuation
-			t = t.replaceAll("[^a-zA-Z0-9]", "");
+			t = t.replaceAll("[^a-zA-Z0-9#@]", "");
 
 			try{
 				tl.add(new Token(t));
@@ -93,13 +93,28 @@ public class TweetProcess {
 	}
 
 	/**
+	 * remove question words. e.g. which, how, what, etc
+	 */
+	public static List<Token> removeQuestionWords(List<Token> tokens){
+		
+		//TODO Please feed me some Code
+
+		return null;
+	}
+
+	/**
 	* Remove multiple character-occurences
 	* TODO: Filter fuer Woerter mit doppelbuchstaben, z.B. beer
+	* TODO: Doppelbuchstaben eventuell alle belassen und erst bei drei wiederholten Buchstaben anfangen (?)
+	* TODO: anders. List (o.Ae) von Wörtern mit Doppelbuchstaben und diese in der Schleife ueberspringen
 	* example: heyyyyyy -> hey
 	*/
 	public static List<Token> removeRepeatedChars(List<Token> tokens){
 
 		//Find repeated occurrence of a char
+		// (.) : One character
+		// 1 : The same character as (.)
+		// + : Repeated occurences of (.)
 		String regex = "(.)\\1+";
 
 		Iterator<Token> iterator = tokens.iterator();
@@ -107,7 +122,8 @@ public class TweetProcess {
 
 		while(iterator.hasNext()){			
 			tn = iterator.next();
-			//Remove all repeated characters			
+			//Remove all repeated characters
+			// $1 : Use just one of multiple occurrence of a character		
 			tn.setValue(tn.getValue().replaceAll(regex,"$1"));			
 		}
 

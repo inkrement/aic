@@ -43,9 +43,21 @@ public class TweetProcessTest{
 	@Test
 	public void tokenizeSentence() {
 
-		List<Token> tl = TweetProcess.tokenizer("some sentance");
+		//TODO test smileys
 
-    	assertEquals(tl.size(), 2);
+		List<Token> tl = TweetProcess.tokenizer("some sentance #hashtag @mentioning");
+
+    	assertEquals(tl.size(), 4);
+
+    	Token t1 = tl.get(0);
+    	Token t2 = tl.get(1);
+    	Token t3 = tl.get(2);
+    	Token t4 = tl.get(3);
+
+    	assertEquals(t1.getType(), TokenType.WORD);
+    	assertEquals(t2.getType(), TokenType.WORD);
+    	assertEquals(t3.getType(), TokenType.TAG);
+    	assertEquals(t4.getType(), TokenType.MENTIONING);
 	}
 
 	@Test
