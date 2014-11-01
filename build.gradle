@@ -31,6 +31,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.twitter4j:twitter4j-core:4.0.2")
     compile("org.twitter4j:twitter4j-stream:4.0.2")
+
+    compile("edu.stanford.nlp:stanford-corenlp:3.4.1")
+    compile("edu.stanford.nlp:stanford-corenlp:3.4.1:models")
+
     testCompile("junit:junit")
 }
 
