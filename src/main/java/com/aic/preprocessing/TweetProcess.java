@@ -7,6 +7,8 @@ import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.util.CoreMap;
+import edu.stanford.nlp.util.Filter;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -34,19 +36,32 @@ public class TweetProcess {
         for (List<HasWord> sentence : tokenizer) {
             List<TaggedWord> tagged = tagger.tagSentence(sentence);
             Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
-            trees.add(tree);
+            trees.add(filter(tree));
         }
 
         return trees;
 	}
 
     /**
-     * filter unused words
-     * @param tokens
+     * filter tree
+     * @param tree
      * @return
      */
-	public static List<Tree> filter(List<Tree> tokens){
-		return null;
+	public static Tree filter(Tree tree){
+        Tree PrunedTree ;
+
+        Filter<Tree> f = new Filter<Tree>() {
+
+            public boolean accept(Tree t) {
+                //example. removes foreign words
+                return ! t.label().value().equals("FW");
+            }
+
+        };
+
+
+
+        return tree.prune(f);
 	}
 
 
