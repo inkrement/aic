@@ -78,7 +78,7 @@ public class TweetProcess {
 		// (.) : One character
 		// 1 : The same character as (.)
 		// + : Repeated occurences of (.)
-		final String regex = "(.)\\1+\\1";
+		final String regex = "(.)\\1{3,}";
 
 			//Remove all repeated characters
 			// $1 : Use just one of multiple occurrence of a character		

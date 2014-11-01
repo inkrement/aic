@@ -1,5 +1,6 @@
 package com.aic.components;
 
+import edu.stanford.nlp.trees.Tree;
 import twitter4j.*;
 
 import java.util.*;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 {
 	private static final long serialVersionUID = 7526472295654436147L;
-	private List<Token> token;
+	private List<Tree> token;
 	private Date timestamp;
 	private int favouriteCount;
 	private int retweetCount;
@@ -48,12 +49,12 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 		return timestamp.toString() + " [" + username + "] " + join(token);
 	}
 
-	private static String join(List<Token> tokenList)
+	private static String join(List<Tree> treeList)
 	{
 		StringBuilder sb = new StringBuilder();
-		for (Token t: tokenList)
+		for (Tree t: treeList)
 		{
-			sb.append(t.getToken() + " ");
+			sb.append(t);
 		}
 		return sb.toString();
 
