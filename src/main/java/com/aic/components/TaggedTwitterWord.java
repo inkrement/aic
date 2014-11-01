@@ -10,6 +10,8 @@ import java.util.List;
  * Created by chris on 01/11/14.
  */
 public class TaggedTwitterWord extends TaggedWord{
+    private TokenType type;
+
 
     public static List<? extends HasWord> fromTaggedWordList(List<TaggedWord> tagged) {
         List<TaggedTwitterWord> result = new ArrayList<TaggedTwitterWord>();
@@ -23,7 +25,23 @@ public class TaggedTwitterWord extends TaggedWord{
     }
 
     private static TaggedTwitterWord fromTaggedWord(TaggedWord tw) {
-        return null;
+
+        TaggedTwitterWord ttw = new TaggedTwitterWord();
+
+        switch(tw.toString().charAt(0)){
+            case '@':
+                ttw.type = TokenType.MENTIONING;
+                ttw.setTag(tw.toString().substring(1));
+                break;
+            case '#':
+                ttw.type = TokenType.TAG;
+                ttw.setTag(tw.toString().substring(1));
+                break;
+            default:
+                ttw.type = TokenType.WORD;
+                ttw.setTag(tw.toString());
+        }
+        return ttw;
     }
 
 
