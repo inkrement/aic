@@ -1,11 +1,14 @@
 package com.aic;
 
+import com.aic.components.TaggedTwitterWord;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.parser.shiftreduce.ShiftReduceParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
+import edu.stanford.nlp.tagger.common.Tagger;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import edu.stanford.nlp.tagger.maxent.TestSentence;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreePrint;
 import org.junit.Test;
@@ -16,6 +19,7 @@ import edu.stanford.nlp.util.*;
 
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -52,16 +56,19 @@ public class ExampleTest {
 
         String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
 
-        String text = "My dog likes to shake his stuffed chickadee toy.";
+        String text = "My dog likes to shake his stuffed chickadee toy. some #tags";
 
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        final MaxentTagger tagger = new MaxentTagger(taggerPath);
         //ShiftReduceParser model = ShiftReduceParser.loadModel(modelPath);
         LexicalizedParser parser = LexicalizedParser.loadModel(PCG_MODEL);
 
         DocumentPreprocessor tokenizer = new DocumentPreprocessor(new StringReader(text));
+
         for (List<HasWord> sentence : tokenizer) {
+
             List<TaggedWord> tagged = tagger.tagSentence(sentence);
-            Tree tree = parser.apply(tagged);
+
+            Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
             //System.out.println(tree);
             new TreePrint("penn,typedDependenciesCollapsed").printTree(tree);
         }
