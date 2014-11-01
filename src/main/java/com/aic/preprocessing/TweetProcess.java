@@ -1,25 +1,50 @@
 package com.aic.preprocessing;
 
-import java.util.List;
+import com.aic.components.TaggedTwitterWord;
+import com.aic.components.Token;
+import com.aic.components.TokenType;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
+import edu.stanford.nlp.process.DocumentPreprocessor;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import edu.stanford.nlp.trees.Tree;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.regex.Pattern;
+import java.util.List;
 import java.util.regex.Matcher;
-import com.aic.components.*;
+import java.util.regex.Pattern;
 
 public class TweetProcess {
-
+    static final private String PCG_MODEL = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
+    static final private String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
 
 	private String input = new String();
 
-	/**
-	 * do all preprocessing steps at once
-	 *
-	 * @param String input content of a tweet
-	 */
-	public static List<Token> preprocess(String input){
-		return tokenizer(input);
+    /**
+     *
+     * @param input
+     * @return
+     */
+	public static List<Tree> preprocess(String input){
+        List<Tree> trees = new ArrayList<Tree>();
+
+        String preprocessed_string = input;
+
+        final MaxentTagger tagger = new MaxentTagger(taggerPath);
+        LexicalizedParser parser = LexicalizedParser.loadModel(PCG_MODEL);
+        DocumentPreprocessor tokenizer = new DocumentPreprocessor(new StringReader(preprocessed_string));
+
+        for (List<HasWord> sentence : tokenizer) {
+            List<TaggedWord> tagged = tagger.tagSentence(sentence);
+            Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
+            trees.add(tree);
+        }
+
+        return trees;
 	}
 
 	/**
@@ -34,7 +59,7 @@ public class TweetProcess {
 	 * transform word
 	 * example: verb to noun
 	 *
-	 * @param String input multiple words
+	 * @param input multiple words
 	 */
 	public static Token transform(Token input){
 		return null;
