@@ -145,7 +145,7 @@ public class TweetProcessTest{
 			tl.add(new Token("this"));
 			tl.add(new Token("is"));
 			tl.add(new Token("faalse"));
-			tl.add(new Token("hahhaa"));
+			tl.add(new Token("hahhaaa"));
 		}catch (WrongTokenFormatException e){
 			fail("remove Article should not throw WrongTokenFormatException");
 		}
@@ -156,8 +156,8 @@ public class TweetProcessTest{
 		
 		assertEquals(tl.get(0).getValue(), "this");
 		assertEquals(tl.get(1).getValue(), "is");
-		assertEquals(tl.get(2).getValue(), "false");
-		assertEquals(tl.get(3).getValue(), "haha");
+		assertEquals(tl.get(2).getValue(), "faalse");
+		assertEquals(tl.get(3).getValue(), "hahha");
 	}
 
 }

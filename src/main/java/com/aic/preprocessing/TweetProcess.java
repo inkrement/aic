@@ -115,7 +115,7 @@ public class TweetProcess {
 		// (.) : One character
 		// 1 : The same character as (.)
 		// + : Repeated occurences of (.)
-		String regex = "(.)\\1+";
+		String regex = "(.)\\1+\\1";
 
 		Iterator<Token> iterator = tokens.iterator();
 		Token tn;
