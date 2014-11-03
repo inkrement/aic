@@ -7,7 +7,6 @@ import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.Tree;
-import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Filter;
 
 import java.io.StringReader;
@@ -20,12 +19,12 @@ public class TweetProcess {
 
 
     /**
-     *
+     * 
      * @param input
      * @return
      */
-	public static List<Tree> preprocess(String input){
-        List<Tree> trees = new ArrayList<Tree>();
+	public static List<TaggedTwitterWord> preprocess(String input){
+        List<TaggedTwitterWord> token = new ArrayList<TaggedTwitterWord>();
 
         String preprocessed_string = removeURLs(removeRepeatedChars(input));
 
@@ -36,10 +35,13 @@ public class TweetProcess {
         for (List<HasWord> sentence : tokenizer) {
             List<TaggedWord> tagged = tagger.tagSentence(sentence);
             Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
-            trees.add(filter(tree));
+
+            //convert tree to list
+            List<TaggedTwitterWord> ttwl = filter(tree).yieldHasWord();
+            token.addAll(ttwl);
         }
 
-        return trees;
+        return token;
 	}
 
     /**
@@ -90,8 +92,8 @@ public class TweetProcess {
 	* Remove URLS
 	*/
 	public static String removeURLs(String token){
-		final String regex = "(?:^|\\s)(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+		final String regex = "(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 		
-		return token.replace(regex,"");
+		return token.replaceAll(regex, "");
 	}
 }

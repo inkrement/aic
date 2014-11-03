@@ -9,6 +9,7 @@ public class TweetProcessTest{
 
 	@Test
 	public void removeValidURL() {
+        System.out.println("http://orf.at: " + TweetProcess.removeURLs("http://orf.at"));
     	assertTrue(TweetProcess.removeURLs("http://orf.at").isEmpty());
         assertEquals(TweetProcess.removeURLs("hey http://orf.at"), "hey ");
         assertEquals(TweetProcess.removeURLs("hey du"), "hey du");

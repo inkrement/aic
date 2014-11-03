@@ -1,17 +1,43 @@
 package com.aic.components;
 
-import edu.stanford.nlp.trees.Tree;
-import twitter4j.*;
+import twitter4j.Place;
+import twitter4j.Status;
 
-import java.util.*;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 {
 	private static final long serialVersionUID = 7526472295654436147L;
-	private List<Tree> token;
+	private List<TaggedTwitterWord> content;
 	private Date timestamp;
-	private int favouriteCount;
+
+    public int getRetweetCount() {
+        return retweetCount;
+    }
+
+    public void setRetweetCount(int retweetCount) {
+        this.retweetCount = retweetCount;
+    }
+
+    public int getFavouriteCount() {
+        return favouriteCount;
+    }
+
+    public void setFavouriteCount(int favouriteCount) {
+        this.favouriteCount = favouriteCount;
+    }
+
+    public Place getLocation() {
+        return location;
+    }
+
+    public void setLocation(Place location) {
+        this.location = location;
+    }
+
+    private int favouriteCount;
 	private int retweetCount;
 	private Place location;
 	private String username;
@@ -26,7 +52,7 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 			username = twitter4jstatus.getUser().getScreenName();
 			id = twitter4jstatus.getId();
 			
-			token = com.aic.preprocessing.TweetProcess.preprocess(twitter4jstatus.getText());
+			content = com.aic.preprocessing.TweetProcess.preprocess(twitter4jstatus.getText());
 		}
 
 	/**
@@ -41,18 +67,18 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 			this.username = username;
 			this.id = -1;
 
-			token = com.aic.preprocessing.TweetProcess.preprocess(text);
+			content = com.aic.preprocessing.TweetProcess.preprocess(text);
 		}
 
 	public String toString()
 	{
-		return timestamp.toString() + " [" + username + "] " + join(token);
+		return timestamp.toString() + " [" + username + "] " + join(content);
 	}
 
-	private static String join(List<Tree> treeList)
+	private static String join(List<TaggedTwitterWord> treeList)
 	{
 		StringBuilder sb = new StringBuilder();
-		for (Tree t: treeList)
+		for (TaggedTwitterWord t: treeList)
 		{
 			sb.append(t);
 		}
