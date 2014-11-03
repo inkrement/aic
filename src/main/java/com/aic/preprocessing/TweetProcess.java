@@ -53,13 +53,81 @@ public class TweetProcess {
 	public static Tree filter(Tree tree){
         Tree PrunedTree ;
 
+        /**
+         * CC - Coordinating conjunction
+         CD - Cardinal number
+         DT - Determiner
+         EX - Existential there
+         FW - Foreign word
+         IN - Preposition or subordinating conjunction
+         LS - List item marker
+         PDT - Predeterminer
+         POS - Possessive ending
+         PRP - Personal pronoun
+         PRP$ - Possessive pronoun (prolog version PRP-S)
+         TO - to
+         WDT - Wh-determiner
+         WP - Wh-pronoun
+         WP$ - Possessive wh-pronoun (prolog version WP-S)
+         WRB - Wh-adverb
+         */
+
         Filter<Tree> f = new Filter<Tree>() {
 
             public boolean accept(Tree t) {
                 //example. removes foreign words
-                return notForeignWord(t);
+                return notForeignWord(t) || notCardinalNumber(t) || notCoordinationConjungtion(t) ||
+                        notDeterminer(t) || notExtentionalThere(t) || notListItemMarker(t) ||
+                        notPersonalPronoun(t) || notPossessiveEnding(t) || notPossessivePronoun(t) ||
+                        notPossessiveWhPronoun(t) || notPredeterminer(t) || notPreposition(t) ||
+                        notTo(t) || notWhDeterminer(t) || notWhPronoun(t) ||
+                        notWhAdverb(t);
             }
-
+            public boolean notCoordinationConjungtion(Tree t){
+                return !t.label().value().equals("CC");
+            }
+            public boolean notCardinalNumber(Tree t){
+                return !t.label().value().equals("CD");
+            }
+            public boolean notDeterminer(Tree t){
+                return !t.label().value().equals("DT");
+            }
+            public boolean notExtentionalThere(Tree t){
+                return !t.label().value().equals("EX");
+            }
+            public boolean notPreposition(Tree t){
+                return !t.label().value().equals("IN");
+            }
+            public boolean notListItemMarker(Tree t){
+                return !t.label().value().equals("LS");
+            }
+            public boolean notPredeterminer(Tree t){
+                return !t.label().value().equals("PDT");
+            }
+            public boolean notPossessiveEnding(Tree t){
+                return !t.label().value().equals("POS");
+            }
+            public boolean notPersonalPronoun(Tree t){
+                return !t.label().value().equals("PRP");
+            }
+            public boolean notPossessivePronoun(Tree t){
+                return !t.label().value().equals("PRP$");
+            }
+            public boolean notTo(Tree t){
+                return !t.label().value().equals("TO");
+            }
+            public boolean notWhDeterminer(Tree t){
+                return !t.label().value().equals("WDT");
+            }
+            public boolean notWhPronoun(Tree t){
+                return !t.label().value().equals("WP");
+            }
+            public boolean notPossessiveWhPronoun(Tree t){
+                return !t.label().value().equals("WP$");
+            }
+            public boolean notWhAdverb(Tree t){
+                return !t.label().value().equals("WRB");
+            }
             public boolean notForeignWord(Tree t) {
                 return !t.label().value().equals("FW");
             }
