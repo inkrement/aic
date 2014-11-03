@@ -25,22 +25,24 @@ public class TaggedTwitterWord extends TaggedWord{
     }
 
     private static TaggedTwitterWord fromTaggedWord(TaggedWord tw) {
-
         TaggedTwitterWord ttw = new TaggedTwitterWord();
+        ttw.setTag(tw.tag());
+
 
         switch(tw.toString().charAt(0)){
             case '@':
                 ttw.type = TokenType.MENTIONING;
-                ttw.setTag(tw.toString().substring(1));
+                ttw.setWord(tw.word().substring(1));
                 break;
             case '#':
                 ttw.type = TokenType.TAG;
-                ttw.setTag(tw.toString().substring(1));
+                ttw.setWord(tw.word().substring(1));
                 break;
             default:
                 ttw.type = TokenType.WORD;
-                ttw.setTag(tw.toString());
+                ttw.setWord(tw.word());
         }
+
         return ttw;
     }
 

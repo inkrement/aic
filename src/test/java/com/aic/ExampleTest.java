@@ -1,25 +1,21 @@
 package com.aic;
 
-import com.aic.components.TaggedTwitterWord;
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
-import edu.stanford.nlp.parser.shiftreduce.ShiftReduceParser;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
-import edu.stanford.nlp.tagger.common.Tagger;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-import edu.stanford.nlp.tagger.maxent.TestSentence;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreePrint;
+import edu.stanford.nlp.util.CoreMap;
 import org.junit.Test;
 
-import edu.stanford.nlp.ling.*;
-import edu.stanford.nlp.pipeline.*;
-import edu.stanford.nlp.util.*;
-
-
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -67,8 +63,9 @@ public class ExampleTest {
         for (List<HasWord> sentence : tokenizer) {
 
             List<TaggedWord> tagged = tagger.tagSentence(sentence);
+            //TaggedTwitterWord.fromTaggedWordList(tagged)
+            Tree tree = parser.apply(tagged);
 
-            Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
             //System.out.println(tree);
             new TreePrint("penn,typedDependenciesCollapsed").printTree(tree);
         }
