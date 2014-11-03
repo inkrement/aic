@@ -8,13 +8,27 @@ import com.aic.components.*;
 
 import java.nio.file.*;
 
+import static java.io.File.createTempFile;
+
 /**
  * @todo implement
  */
 
 public class Cache
 {
-	public static final File path = new File("tmp" + File.separator + "cache");
+    public static final Path path = getTempDirectory();
+
+    private static Path getTempDirectory(){
+        Path result = null;
+
+        try {
+            result = Files.createTempDirectory(null).toAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
 	/**
 	 * loads a list of already cached datasets cuts overlapping parts that are
@@ -51,14 +65,13 @@ public class Cache
 		return result;
 	}
 
-	/**
-	 * serializes and stores the given tweet list.
-	 * 
-	 * @param end
-	 * @param start
-	 */
-	public static File store(TwitterStatusList tweets)
-	{
+    /**
+     *
+     * @param tweets
+     * @return
+     * @throws IOException
+     */
+	public static File store(TwitterStatusList tweets) {
 		Date start = tweets.getStart();
 		Date end = tweets.getEnd();
 		System.out.println("Store: start: " +start + ", end: "+end);
@@ -67,8 +80,13 @@ public class Cache
 			start = tweets.getStart();
 			end = tweets.getEnd();
 		}
-		File outputfile = new File(path + File.separator + tweets.getKeyword() + "_" + start.getTime() + "_" + end.getTime());
-		outputfile.getParentFile().mkdirs();
+        File outputfile = null;
+        try {
+            outputfile = File.createTempFile(File.separator + tweets.getKeyword() + "_" + start.getTime() + "_" + end.getTime(), ".tmp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //outputfile.getParentFile().mkdirs();
 
 		try
 		{
@@ -132,7 +150,10 @@ public class Cache
 	// TODO javadoc	
 	public static File[] getFilePaths(final String keyword)
 	{
-		File dir = new File(path.getPath());
+		File dir = new File(path.toString());
+
+
+
 		File[] files = dir.listFiles(new FilenameFilter()
 		{
 			@Override
@@ -158,13 +179,13 @@ public class Cache
 
 	public static void clear()
 	{
-		clearDirectory(path);
+		clearDirectory(path.toString());
 	}
 
-	public static void clearDirectory(File dir)
+	public static void clearDirectory(String dir)
 	{
 		// Files.deleteIfExists(path);
-		for (File file: dir.listFiles())
+		for (File file: new File(dir).listFiles())
 			file.delete();
 	}
 

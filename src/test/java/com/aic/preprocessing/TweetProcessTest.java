@@ -11,6 +11,7 @@ import edu.stanford.nlp.trees.TreePrint;
 import org.junit.Test;
 
 import java.io.StringReader;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -63,8 +64,48 @@ public class TweetProcessTest{
             Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
 
             //System.out.println(tree);
-            new TreePrint("penn,typedDependenciesCollapsed").printTree(tree);
+            //new TreePrint("penn,typedDependenciesCollapsed").printTree(tree);
         }
+    }
+
+    @Test
+    public void treeToList() {
+        final String PCG_MODEL = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
+        //String modelPath = "edu/stanford/nlp/models/srparser/englishSR.ser.gz";
+
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+
+        String text = "My dog likes to shake his stuffed chickadee toy";
+
+        final MaxentTagger tagger = new MaxentTagger(taggerPath);
+        //ShiftReduceParser model = ShiftReduceParser.loadModel(modelPath);
+        LexicalizedParser parser = LexicalizedParser.loadModel(PCG_MODEL);
+
+        DocumentPreprocessor tokenizer = new DocumentPreprocessor(new StringReader(text));
+
+        Iterator<List<HasWord>> i = tokenizer.iterator();
+        //assert elements
+        assertTrue(i.hasNext());
+
+        List<TaggedTwitterWord> taggedwords = null;
+
+        System.out.println("start iterate sentences: " + tokenizer.toString());
+
+        while (i.hasNext()) {
+            List<HasWord> sentence = i.next();
+            System.out.println("Sentence: " + sentence);
+
+            List<TaggedWord> tagged = tagger.tagSentence(sentence);
+            Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
+
+            taggedwords = TaggedTwitterWord.fromTree(tree);
+
+            System.out.println("list: " + taggedwords);
+        }
+
+        assertEquals(taggedwords.size(), 9);
+
+
     }
 
 }

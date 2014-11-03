@@ -2,6 +2,7 @@ package com.aic.components;
 
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.trees.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,17 @@ import java.util.List;
 public class TaggedTwitterWord extends TaggedWord{
     private TokenType type;
 
+    public static List<TaggedTwitterWord> fromTree(Tree t){
+        List<TaggedTwitterWord> result = new ArrayList<>();
+
+        // Puntigam würd mich für das killen ...
+        for(HasWord ttw: t.yieldHasWord()){
+            if(ttw instanceof TaggedTwitterWord)
+                result.add((TaggedTwitterWord) ttw);
+        }
+
+        return result;
+    }
 
     public static List<? extends HasWord> fromTaggedWordList(List<TaggedWord> tagged) {
         List<TaggedTwitterWord> result = new ArrayList<TaggedTwitterWord>();

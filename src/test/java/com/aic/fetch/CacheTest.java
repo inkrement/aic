@@ -17,12 +17,14 @@ public class CacheTest{
 	public void fileCreated() {
 		Cache.clear();
 
-		TwitterStatusList tweetlist = new TwitterStatusList("microsoft");
 		Date timestamp = new Date();
+        TwitterStatusList tweetlist = new TwitterStatusList("microsoft");
 		tweetlist.add(new TwitterStatus(timestamp, "inkrement", "some #fancy tweet @twitter"));
 
+        System.out.println("tweetlist to store: " + tweetlist);
 		Cache.store(tweetlist);
 
+        System.out.println("Pfad: " + Cache.path);
 		File file = new File(Cache.path + File.separator + "microsoft_" + timestamp.getTime() + "_" + timestamp.getTime());
 
 		System.out.println("fileCreated path: " + file);
@@ -56,7 +58,7 @@ public class CacheTest{
 
 	@Test
 	public void clearCache() {
-		String filepath = Cache.path.getPath() + File.separator + "somerandomfile";
+		String filepath = Cache.path.toString() + File.separator + "somerandomfile";
 		System.out.println("filepath: " + filepath);
 
 		File f = new File(filepath);

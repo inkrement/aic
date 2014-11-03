@@ -37,12 +37,13 @@ public class TweetProcess {
             Tree tree = parser.apply(TaggedTwitterWord.fromTaggedWordList(tagged));
 
             //convert tree to list
-            List<TaggedTwitterWord> ttwl = filter(tree).yieldHasWord();
+            List<TaggedTwitterWord> ttwl = TaggedTwitterWord.fromTree(filter(tree));
             token.addAll(ttwl);
         }
 
         return token;
 	}
+
 
     /**
      * filter tree
@@ -56,10 +57,15 @@ public class TweetProcess {
 
             public boolean accept(Tree t) {
                 //example. removes foreign words
-                return ! t.label().value().equals("FW");
+                return notForeignWord(t);
+            }
+
+            public boolean notForeignWord(Tree t) {
+                return !t.label().value().equals("FW");
             }
 
         };
+
 
 
 
