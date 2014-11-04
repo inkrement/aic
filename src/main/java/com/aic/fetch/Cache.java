@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.*;
+
 import com.aic.components.*;
 
 import java.nio.file.*;
@@ -16,19 +17,7 @@ import static java.io.File.createTempFile;
 
 public class Cache
 {
-    public static final Path path = getTempDirectory();
-
-    private static Path getTempDirectory(){
-        Path result = null;
-
-        try {
-            result = Files.createTempDirectory(null).toAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
+    public static final String PATH = "tmp" +  File.separator + "cache" + File.separator;
 
 	/**
 	 * loads a list of already cached datasets cuts overlapping parts that are
@@ -74,18 +63,13 @@ public class Cache
 	public static File store(TwitterStatusList tweets) {
 		Date start = tweets.getStart();
 		Date end = tweets.getEnd();
-		System.out.println("Store: start: " +start + ", end: "+end);
+		System.out.println("Store: start: " + start + ", end: "+end);
 		if (tweets.size() == Fetch.MAX_TWEETS)
 		{
 			start = tweets.getStart();
 			end = tweets.getEnd();
 		}
-        File outputfile = null;
-        try {
-            outputfile = File.createTempFile(File.separator + tweets.getKeyword() + "_" + start.getTime() + "_" + end.getTime(), ".tmp");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        File outputfile = new File(PATH + tweets.getKeyword() + "_" + start.getTime() + "_" + end.getTime()+ ".tmp");
         //outputfile.getParentFile().mkdirs();
 
 		try
@@ -99,11 +83,12 @@ public class Cache
 		}
 		catch (FileNotFoundException e)
 		{
-			System.err.println("could not find file: " + outputfile + " " + e.getMessage());
+			System.err.println("Could not find file: " + outputfile + " " + e.getMessage());
+			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-			System.err.println("could not write to file: " + outputfile + " " + e.getMessage());
+			System.err.println("Could not write to file: " + outputfile + " " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -150,9 +135,7 @@ public class Cache
 	// TODO javadoc	
 	public static File[] getFilePaths(final String keyword)
 	{
-		File dir = new File(path.toString());
-
-
+		File dir = new File(PATH.toString());
 
 		File[] files = dir.listFiles(new FilenameFilter()
 		{
@@ -177,16 +160,14 @@ public class Cache
 		return files;
 	}
 
-	public static void clear()
+	public static void clear() throws IOException
 	{
-		clearDirectory(path.toString());
-	}
-
-	public static void clearDirectory(String dir)
-	{
-		// Files.deleteIfExists(path);
+		String dir= PATH.toString();
+		File d = new File(dir);
 		for (File file: new File(dir).listFiles())
-			file.delete();
+		{
+			Files.delete(file.toPath());
+		}
 	}
 
 	public static boolean overlap(Date f_start, Date f_end, Date start, Date end)

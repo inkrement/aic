@@ -106,4 +106,45 @@ public class TwitterStatusList extends ArrayList<TwitterStatus> implements Compa
 		this.end = end;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		System.out.println(this.toString() +"="+obj.toString());
+		if (this == obj) return true;
+		if (getClass() != obj.getClass()) return false;
+		TwitterStatusList other = (TwitterStatusList) obj;
+		if (end == null)
+		{
+			if (other.end != null) return false;
+		}
+		else if (!end.equals(other.end)) return false;
+		if (keyword == null)
+		{
+			if (other.keyword != null) return false;
+		}
+		else if (!keyword.equals(other.keyword)) return false;
+		if (start == null)
+		{
+			if (other.start != null) return false;
+		}
+		else if (!start.equals(other.start)) return false;
+		if (size() != other.size()) return false;
+		for (int i = 0; i < size(); i++)
+		{
+			if (!get(i).equals(other.get(i)))
+				return false;
+		}
+		return true;
+	}
 }

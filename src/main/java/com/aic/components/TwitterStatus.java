@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.aic.preprocessing.TweetProcess;
+
 public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 {
 	private static final long serialVersionUID = 7526472295654436147L;
@@ -52,7 +54,7 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 			username = twitter4jstatus.getUser().getScreenName();
 			id = twitter4jstatus.getId();
 			
-			content = com.aic.preprocessing.TweetProcess.preprocess(twitter4jstatus.getText());
+			content = TweetProcess.preprocess(twitter4jstatus.getText());
 		}
 
 	/**
@@ -67,7 +69,7 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 			this.username = username;
 			this.id = -1;
 
-			content = com.aic.preprocessing.TweetProcess.preprocess(text);
+			content = TweetProcess.preprocess(text);
 		}
 
 	public String toString()
@@ -105,5 +107,22 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 	public int compareTo(TwitterStatus other)
 	{
 		return timestamp.compareTo(other.getDate());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return (int) (id ^ (id >>> 32));
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		TwitterStatus other = (TwitterStatus) obj;
+		if (id != other.id) return false;
+		return true;
 	}
 }

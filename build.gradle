@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 // Eclipse plugin
-// apply plugin: 'eclipse'
+apply plugin: 'eclipse'
 
 jar {
     baseName = 'gs-rest-service'

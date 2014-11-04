@@ -13,52 +13,60 @@ import java.io.IOException;
 
 public class CacheTest{
 
-	@Test
-	public void fileCreated() {
+	@Before
+	public void before() throws IOException
+	{
 		Cache.clear();
-
+	}
+	
+	@After
+	public void after() throws IOException
+	{
+		Cache.clear();
+	}
+	
+	@Test
+	public void fileCreated() throws IOException {
 		Date timestamp = new Date();
         TwitterStatusList tweetlist = new TwitterStatusList("microsoft");
 		tweetlist.add(new TwitterStatus(timestamp, "inkrement", "some #fancy tweet @twitter"));
+		tweetlist.setDates(timestamp, timestamp);
 
         System.out.println("tweetlist to store: " + tweetlist);
 		Cache.store(tweetlist);
 
-        System.out.println("Pfad: " + Cache.path);
-		File file = new File(Cache.path + File.separator + "microsoft_" + timestamp.getTime() + "_" + timestamp.getTime());
+        System.out.println("Pfad: " + Cache.PATH);
+		File file = new File(Cache.PATH + "microsoft_" + timestamp.getTime() + "_" + timestamp.getTime() + ".tmp");
 
-		System.out.println("fileCreated path: " + file);
+		System.out.println("fileCreated path: " + file.getAbsolutePath());
+		System.out.println(new File(Cache.PATH).getAbsolutePath());
 		assertTrue(file.exists());
-
-		Cache.clear();
 	}
 
 
 	@Test
-	public void findAllKeywordFilePaths(){
+	public void findAllKeywordFilePaths() throws IOException{
 		String keyword = "microsoft";
 
-		Cache.clear();
-
+			
 		Date timestamp = new Date();
 		TwitterStatusList tweetlist = new TwitterStatusList(keyword);
 		tweetlist.add(new TwitterStatus(timestamp, "inkrement", "some #fancy tweet @twitter"));
-
+		tweetlist.setDates(timestamp, timestamp);
+		
 		Cache.store(tweetlist);
 
 		File[] files = Cache.getFilePaths(keyword);
 		
-		assertEquals(files.length, 1);
+		assertEquals(1, files.length);
 		//System.out.println("files found: " + files[0].toString());
 		//System.out.println( "should be: " + Cache.path + "/" + keyword + "_" + timestamp.getTime() + "_" + timestamp.getTime() );
-		assertEquals(files[0].toString(), Cache.path + File.separator + keyword + "_" + timestamp.getTime() + "_" + timestamp.getTime() );
-
-		Cache.clear();
+		assertEquals(files[0].toString(), Cache.PATH + keyword + "_" + timestamp.getTime() + "_" + timestamp.getTime() +".tmp");
 	}
 
 	@Test
-	public void clearCache() {
-		String filepath = Cache.path.toString() + File.separator + "somerandomfile";
+	public void clearCache() throws IOException {
+		String filepath = Cache.PATH.toString() + "somerandomfile";
 		System.out.println("filepath: " + filepath);
 
 		File f = new File(filepath);
@@ -73,23 +81,23 @@ public class CacheTest{
 
 		File file = new File(filepath);
 		assertFalse(file.exists());
+		assertEquals(new File(Cache.PATH).list().length,0);
 	}
 
 
 	@Test
-	public void testLoadFile(){
+	public void testLoadFile() throws IOException{
 		Cache.clear();
 
 		Date timestamp = new Date();
 		TwitterStatusList tweetlist = new TwitterStatusList("somekeyword");
 		tweetlist.add(new TwitterStatus(timestamp, "inkrement", "some #fancy tweet @twitter"));
-
+		tweetlist.setDates(timestamp, timestamp);
+		
 		File filetoload = Cache.store(tweetlist);
 
 		TwitterStatusList loadedlist = Cache.loadFile(filetoload);
 
 		assertEquals(tweetlist, loadedlist);
-
-		Cache.clear();
 	}
 }
