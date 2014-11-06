@@ -62,18 +62,25 @@ public class TwitterStatusList extends ArrayList<TwitterStatus> implements Compa
 
 	public TwitterStatusList trim(Date start2, Date end2)
 	{
-		if (start2.getTime() <= start.getTime() && end.getTime() <= end2.getTime())
+
+        if (start2.getTime() <= start.getTime() && end.getTime() <= end2.getTime())
 		{
 			return this;
 		}
+
 		TwitterStatusList result = new TwitterStatusList(this.keyword);
-		for (TwitterStatus ts: this)
+
+        for (TwitterStatus ts: this)
 		{
 			if (start2.getTime() <= ts.getTimestamp() && ts.getTimestamp() <= end2.getTime())
 			{
 				result.add(ts);
 			}
 		}
+
+        if(result.size() == 0){
+            return result;
+        }
 
 		Date newStart = result.get(0).getDate();
 		Date newEnd = result.get(result.size() - 1).getDate();
