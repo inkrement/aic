@@ -63,7 +63,9 @@ public class TwitterStatusList extends ArrayList<TwitterStatus> implements Compa
 	public TwitterStatusList trim(Date start2, Date end2)
 	{
 
-        if (start2.getTime() <= start.getTime() && end.getTime() <= end2.getTime())
+
+
+		if (start2.getTime() <= start.getTime() && end.getTime() <= end2.getTime())
 		{
 			return this;
 		}
@@ -94,6 +96,36 @@ public class TwitterStatusList extends ArrayList<TwitterStatus> implements Compa
 		}
 		result.setDates(newStart, newEnd);
 		return result;
+	}
+
+	/**
+	 * Override add and update start/end - Date, if necessary
+	 * @param status TwitterStatus to add
+	 * @return true, if adding was successful
+	 */
+	@Override
+	public boolean add(TwitterStatus status){
+
+		if(start == null){
+			start = status.getDate();
+		}
+
+		if(end == null){
+			end = status.getDate();
+		}
+
+		if(start.getTime() >= status.getDate().getTime()){
+			start = status.getDate();
+		}
+
+		if(end.getTime() <= status.getDate().getTime()){
+			end = status.getDate();
+		}
+
+
+
+
+		return super.add(status);
 	}
 
 	@Override
