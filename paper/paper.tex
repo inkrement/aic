@@ -1,11 +1,20 @@
-\documentclass{sig-alternate}
+\documentclass{acm_proc_article-sp}
 
 %% set up bibliography
 \usepackage[backend=bibtex,doi=false,isbn=false,url=false]{biblatex}
 \bibliography{biblio}  % sigproc.bib is the name of the Bibliography in this case
 %\bibliographystyle{acm}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
 \begin{document}
+\tikzstyle{block} = [draw, fill=blue!20, rectangle, 
+    minimum height=3em, minimum width=6em]
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
 
 \title{State of the art in {\ttlit Sentiment Analysis}}
 
@@ -92,17 +101,17 @@ Florian Taus\\
 
 \maketitle
 \begin{abstract}
-
+The extensive growth of user-generated content in social networks and the common usage of emoticons and hashtags has introduced new possibilities to classify these information. In this paper, we provide an overview of the state-of-the-art regarding sentiment analysis of Twitter messages. The usefulness of existing lexical ressources and special expressions like smileys or hashtags is evaluated and an general introduction to sentiment analysis is provided as part of the introduction.
 \end{abstract}
 
 % A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
+%\category{H.4}{Information Systems Applications}{Miscellaneous}
 %A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
-\terms{Theory}
+%\terms{Theory}
 
-\keywords{ACM proceedings, \LaTeX, text tagging}
+%\keywords{ACM proceedings, \LaTeX, text tagging}
 
 \input{chapters/1_introduction.tex}
 \input{chapters/4_preprocessing.tex}
