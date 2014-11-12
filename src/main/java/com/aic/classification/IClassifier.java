@@ -10,10 +10,11 @@ import java.util.List;
 public interface IClassifier {
 
 	/**
-	 * Assigns a sentiment to the given input.
+	 * Assign a sentiment to the piece of text represented by the given feature
+	 * vector.
 	 *
-	 * @param input the input to classify
+	 * @param featureVector the feature vector used for classification
 	 * @return the assigned sentiment
 	 */
-	public Sentiment classify(List<? extends TaggedWord> input);
+	public Sentiment classify(List<? extends TaggedWord> featureVector);
 }
