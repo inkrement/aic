@@ -21,9 +21,11 @@ In general sentiment analysis can be splitted into 2 steps: a preprocessing and 
 
 
 % a lot research on how sentiment is sentiment is expressed in other media types social quite new
-While sentiment analysis of conventinal ressources like news papers or articles is quite well investigated the special research area of sentiment analysis in terms of social network posts is relatively new. Excpecially the possibility of priorizing keywords\footnote{known as hashtags} and the common usage of emoticons lead to advanced possibilities to categorize feelings of posts.
+While sentiment analysis of conventinal ressources like news papers or articles is quite well investigated the special research area of sentiment analysis in terms of social network posts is relatively unexplored. Excpecially the possibility of priorizing keywords\footnote{known as hashtags} and the common usage of emoticons lead to advanced possibilities to categorize feelings of posts.
 
 
-% perfekt für marktforschung und meinungsbildung
-
-
+\section{Related Work}
+Sentiment analysis a growing and well explored part of Natural Langugage Processing (NLP). There are several papers from \citeauthor{Pang2008} regarding sentiment analysis in general and related topics like the effects of various machine learning approaches\autocite{Pang2002}\autocite{Pang2008}. Especially the last topic is a well studied field \autocite{Manning2000}.
+Some related research areas are document level classification, sentence-level classification and machine learning. Due the limited number of characters within a single twitter post, this topic is quite similar to sentance-level sentiment analysis.
+There are several recent papers regarding sentiment analysis in the context of twitter posts. \citeauthor{Agarwal2011} published within \citetitle{Agarwal2011} general information and techniques which cover this area\autocite{Agarwal2011}. In \citetitle{Kouloumpis2011} the utility of linguistic features for detecting the sentiment of tweets are investigated. 
+\citeauthor{Saif2012} introduce a novel approach of adding semantics as additional features into the training set. For each extracted entity (e.g. Galaxy S) from Twitter Messages, they add a semantic concept (e.g. Samsung product) as an additional feature, and measure the correlation of the representative concept with negative/positive sentiment\autocite{Saif2012}. In \citetitle{Go2009} a algorithm is presented, which accurately classifies tweets as positive or negative, in respect to a query term\autocite{Go2009}.
