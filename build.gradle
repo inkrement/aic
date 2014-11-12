@@ -13,8 +13,6 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
-// Eclipse plugin
-apply plugin: 'eclipse'
 
 jar {
     baseName = 'gs-rest-service'
@@ -31,9 +29,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.twitter4j:twitter4j-core:4.0.2")
     compile("org.twitter4j:twitter4j-stream:4.0.2")
-
     compile("edu.stanford.nlp:stanford-corenlp:3.4.1")
     compile("edu.stanford.nlp:stanford-corenlp:3.4.1:models")
+    compile("nz.ac.waikato.cms.weka:weka-dev:3.7.11")
 
     testCompile("junit:junit")
 }
