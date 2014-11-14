@@ -1,5 +1,6 @@
 package com.aic;
 
+import com.aic.classification.SentiWord;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
@@ -69,6 +70,14 @@ public class ExampleTest {
             //System.out.println(tree);
             new TreePrint("penn,typedDependenciesCollapsed").printTree(tree);
         }
+    }
+
+    @Test
+    public void testSentiWord(){
+
+        SentiWord sw = new SentiWord();
+
+        System.out.println("good#a " + sw.extract("good", "a"));
     }
 
 }
