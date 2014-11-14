@@ -72,6 +72,10 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 			content = TweetProcess.preprocess(text);
 		}
 
+    public List<TaggedTwitterWord> getContent(){
+        return content;
+    }
+
 	public String toString()
 	{
 		return timestamp.toString() + " [" + username + "] " + join(content);

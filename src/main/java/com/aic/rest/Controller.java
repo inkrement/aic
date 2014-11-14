@@ -1,8 +1,10 @@
 package com.aic.rest;
 
+import com.aic.classification.Classifier;
 import com.aic.fetch.*;
 import com.aic.components.*;
 
+import com.aic.preprocessing.TweetProcess;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,13 +42,25 @@ public class Controller {
      * @param end
      */
     @RequestMapping(value = "/sentiment", method = RequestMethod.GET)
-    public Sentiment sentiment(@RequestParam(value = "name") String name,
+    public Double sentiment(@RequestParam(value = "name") String name,
                                @RequestParam(value = "password") String password,
                                @RequestParam(value = "start", required = false)
                                     @DateTimeFormat(pattern = "MMddyyyy") Date start,
                                @RequestParam(value = "end", required = false)
                                     @DateTimeFormat(pattern = "MMddyyyy") Date end) {
-        return new Sentiment(0);
+
+        //fetch tweets
+        List<TwitterStatus> l = Fetch.get(name, start, end);
+        Classifier c = new Classifier();
+
+        int pos = 0;
+
+        for(TwitterStatus ts: l){
+            if(c.classify(ts.getContent()).equals(com.aic.classification.Sentiment.POSITIVE))
+                pos++;
+        }
+
+        return ((double)pos)/l.size();
     }
     
     @RequestMapping(value = "/tweets", method = RequestMethod.GET)
