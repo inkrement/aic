@@ -1,5 +1,6 @@
 package com.aic.classification;
 
+import com.aic.shared.FeatureVector;
 import edu.stanford.nlp.ling.TaggedWord;
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.LibSVM;
@@ -39,7 +40,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 	}
 
 	@Override
-	public Sentiment classify(List<? extends TaggedWord> featureVector) throws ClassificationException {
+	public Sentiment classify(FeatureVector featureVector) throws ClassificationException {
 		Instance instanceToClassify = null;
 		try {
 			double classification = classifier.classifyInstance(instanceToClassify);

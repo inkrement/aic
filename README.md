@@ -43,7 +43,7 @@ Florian Taus: Twitter API
 
 Dominik Pichler, Christian Hotz-Behofsits: Preprocessing
 
-Matthias Reisinger, Thomas Schmidtlehner: Classify
+Matthias Reisinger, Thomas Schmidleithner: Classify
 
 
 
@@ -55,3 +55,10 @@ TODO
  - POS Tagging http://nlp.stanford.edu/software/tagger.shtml http://opennlp.apache.org/
 
 http://www.thinkmind.org/download.php?articleid=immm_2012_1_10_20033
+
+Credits
+-----
+
+For preprocessing purposes the [Tweet NLP](http://www.ark.cs.cmu.edu/TweetNLP/) part-of-speech tagger is used.
+As a training set for the classifier the tweet corpus file by [Sentiment140](http://help.sentiment140.com/for-students)
+is used.

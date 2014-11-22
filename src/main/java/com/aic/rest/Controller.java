@@ -56,8 +56,8 @@ public class Controller {
         int pos = 0;
 
         for(TwitterStatus ts: l){
-            if(c.classify(ts.getContent()).equals(com.aic.classification.Sentiment.POSITIVE))
-                pos++;
+            /*if(c.classify(ts.getContent()).equals(com.aic.classification.Sentiment.POSITIVE))
+                pos++;*/
         }
 
         return ((double)pos)/l.size();
