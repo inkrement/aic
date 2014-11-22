@@ -1,10 +1,9 @@
 package com.aic.rest;
 
-import com.aic.classification.Classifier;
+import com.aic.classification.SentimentClassifier;
 import com.aic.fetch.*;
 import com.aic.components.*;
 
-import com.aic.preprocessing.TweetProcess;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +50,7 @@ public class Controller {
 
         //fetch tweets
         List<TwitterStatus> l = Fetch.get(name, start, end);
-        Classifier c = new Classifier();
+        SentimentClassifier c = new SentimentClassifier();
 
         int pos = 0;
 

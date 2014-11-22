@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Classifier for performing sentiment analysis.
  */
-public interface IClassifier {
+public interface ISentimentClassifier {
 
 	/**
 	 * Assign a sentiment to the piece of text represented by the given feature
