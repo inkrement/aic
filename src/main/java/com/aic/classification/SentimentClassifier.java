@@ -4,6 +4,7 @@ import cmu.arktweetnlp.Tagger;
 import com.aic.preprocessing.ISentimentPreprocessor;
 import com.aic.preprocessing.PreprocessingException;
 import com.aic.preprocessing.SentimentTwitterPreprocessor;
+import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import com.fasterxml.jackson.core.JsonFactory;
 import org.w3c.dom.Attr;
@@ -98,8 +99,8 @@ public class SentimentClassifier implements ISentimentClassifier {
 		HashSet<String> features = new HashSet<>();
 		ISentimentPreprocessor preprocessor = new SentimentTwitterPreprocessor();
 		for (FeatureVector featureVector : trainingData.keySet()) {
-			for (Tagger.TaggedToken token : featureVector.getFeatures()) {
-				features.add(token.token);
+			for (Feature feature : featureVector.getFeatures()) {
+				features.add(feature.getWord());
 			}
 		}
 		return features;
@@ -128,9 +129,9 @@ public class SentimentClassifier implements ISentimentClassifier {
 
 	private Instance loadInstance(FeatureVector featureVector, Sentiment sentiment) {
 		Map<Integer, Double> featureMap = new HashMap<>();
-		for (Tagger.TaggedToken token : featureVector.getFeatures()) {
-			if (isUsedAsFeature(token.token)) {
-				featureMap.put(featureIndexMap.get(token.token), 1.0);
+		for (Feature feature : featureVector.getFeatures()) {
+			if (isUsedAsFeature(feature.getWord())) {
+				featureMap.put(featureIndexMap.get(feature.getWord()), 1.0);
 			}
 		}
 

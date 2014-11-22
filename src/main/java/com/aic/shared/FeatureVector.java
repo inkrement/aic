@@ -1,7 +1,5 @@
 package com.aic.shared;
 
-import cmu.arktweetnlp.Tagger;
-
 import java.util.List;
 
 /**
@@ -9,13 +7,12 @@ import java.util.List;
  */
 public class FeatureVector {
 
-    List<Tagger.TaggedToken> taggedTokens;
+    private List<Feature> features;
 
-    public void setFeatures(List<Tagger.TaggedToken> taggedTokens) {
-        this.taggedTokens = taggedTokens;
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
     }
-
-    public List<Tagger.TaggedToken> getFeatures() {
-        return taggedTokens;
+    public List<Feature> getFeatures() {
+        return features;
     }
 }
