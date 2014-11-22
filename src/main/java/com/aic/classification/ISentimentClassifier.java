@@ -16,5 +16,5 @@ public interface ISentimentClassifier {
 	 * @param featureVector the feature vector used for classification
 	 * @return the assigned sentiment
 	 */
-	public Sentiment classify(List<? extends TaggedWord> featureVector);
+	public Sentiment classify(List<? extends TaggedWord> featureVector) throws ClassificationException;
 }
