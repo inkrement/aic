@@ -23,7 +23,7 @@ public class TweetPreprocessTest {
 	@Test
 	public void tokensCorrectlyParsed() throws PreprocessingException {
         FeatureVector featureVector = preprocessor.preprocess("@stum450n Hi. Thanks for the follow. Nice website..." +
-                " check your carriage returns though, the bottom of 'Website &amp; brand identity' is out (unhappy). He asked you fir your name.");
+                " check your carriage returns though, the bottom of 'Website &amp; brand identity' is out (unhappy)");
         List<String> features = new ArrayList<String>();
         for (Tagger.TaggedToken t : featureVector.getFeatures()) {
             features.add(t.token);
