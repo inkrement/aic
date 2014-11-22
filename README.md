@@ -59,6 +59,4 @@ http://www.thinkmind.org/download.php?articleid=immm_2012_1_10_20033
 Credits
 -----
 
-For preprocessing purposes the [Tweet NLP](http://www.ark.cs.cmu.edu/TweetNLP/) part-of-speech tagger is used.
-As a training set for the classifier the tweet corpus file by [Sentiment140](http://help.sentiment140.com/for-students)
-is used.
+For preprocessing purposes the [Stanford NLP](http://nlp.stanford.edu) implementation is used.
