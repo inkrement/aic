@@ -1,5 +1,6 @@
 package com.aic.rest;
 
+import com.aic.classification.ClassificationException;
 import com.aic.classification.SentimentClassifier;
 import com.aic.fetch.*;
 import com.aic.components.*;
@@ -46,7 +47,7 @@ public class Controller {
                                @RequestParam(value = "start", required = false)
                                     @DateTimeFormat(pattern = "MMddyyyy") Date start,
                                @RequestParam(value = "end", required = false)
-                                    @DateTimeFormat(pattern = "MMddyyyy") Date end) {
+                                    @DateTimeFormat(pattern = "MMddyyyy") Date end) throws ClassificationException {
 
         //fetch tweets
         List<TwitterStatus> l = Fetch.get(name, start, end);
