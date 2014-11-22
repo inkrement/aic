@@ -32,6 +32,7 @@ dependencies {
     compile("edu.stanford.nlp:stanford-corenlp:3.4.1")
     compile("edu.stanford.nlp:stanford-corenlp:3.4.1:models")
     compile("nz.ac.waikato.cms.weka:weka-dev:3.7.11")
+    compile("nz.ac.waikato.cms.weka:LibSVM:1.0.6")
 
     compile("org.springframework.boot:spring-boot-starter-security")
 
