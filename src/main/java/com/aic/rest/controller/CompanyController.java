@@ -3,11 +3,10 @@ package com.aic.rest.controller;
 import com.aic.rest.RestException;
 import com.aic.rest.domain.Company;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Hashtable;
@@ -34,17 +33,16 @@ public class CompanyController {
     /**
      * Register a company within the system.
      *
-     * TODO: throw exception if company already exists.
-     *
-     * @param name
-     * @param password
+     * @param company the company to save
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public void register(@RequestParam(value = "name") String name,
-                         @RequestParam(value = "password") String password) {
-        Company company = new Company(name, password);
-        companies.put(name, company);
+    public ResponseEntity<Company> register(@RequestBody Company company) throws RestException {
+        if (companies.containsKey(company.getName()))
+            throw new RestException("Company already exists");
+
+        companies.put(company.getName(), company);
+        return new ResponseEntity<Company>(company, HttpStatus.OK);
     }
 
     /**

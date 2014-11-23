@@ -7,6 +7,8 @@ public class Company {
     private String name;
     private String password;
 
+    public Company() { }
+
     public Company(String name, String password) {
         this.name = name;
         this.password = password;

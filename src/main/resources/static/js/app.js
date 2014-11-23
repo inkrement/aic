@@ -9,5 +9,9 @@ App.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'templates/register.html',
         controller: RegisterController
     });
+    $routeProvider.when('/sentiment', {
+        templateUrl: 'templates/sentiment.html',
+        controller: SentimentController
+    });
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
