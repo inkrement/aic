@@ -1,6 +1,6 @@
 package com.aic;
 
-import com.aic.classification.SentiWord;
+import com.aic.sentiment_analysis.classification.SentiWord;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
