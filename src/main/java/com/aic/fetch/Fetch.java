@@ -28,16 +28,14 @@ import com.aic.components.TwitterStatusList;
  * 
  * @author Florian Taus
  */
-public class Fetch
-{
+public class Fetch implements ITweetLoader {
+
 	public final static int MAX_TWEETS = 100;
 
 	private final static SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 	private final static String CONFIGURATION_FILE = "twitter.properties";
 
-	// TODO javadoc	
-	public static List<TwitterStatus> get(String name, Date start, Date end)
-	{
+	public List<TwitterStatus> load(String name, Date start, Date end) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(end);
 		cal.set(Calendar.HOUR_OF_DAY, 23);
@@ -90,15 +88,12 @@ public class Fetch
 	 * (see {@link https://dev.twitter.com/rest/public/search})
 	 * </p>
 	 * 
-	 * @param name
-	 *            The term the tweets should conatin
-	 * @param start
-	 *            The start date for the search
-	 * @param end
-	 *            The end date for the search
+	 * @param name The term the tweets should contain
+	 * @param start The start date for the search
+	 * @param end The end date for the search
 	 * @param endId
 	 * @param startId
-	 * @return A list of tweets matching the criterias (at most 100)
+	 * @return A list of tweets matching the criteria (at most 100)
 	 */
 	public static TwitterStatusList fetch(String name, Date start, Date end, long startId, long endId)
 	{

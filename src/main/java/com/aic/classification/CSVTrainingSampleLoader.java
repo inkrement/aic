@@ -47,6 +47,7 @@ public class CSVTrainingSampleLoader {
 			TrainingSample trainingSample = new TrainingSample(featureVector, sentiment);
 			trainingSamples.add(trainingSample);
 		}
+
 		scanner.close();
 		return trainingSamples;
 	}
