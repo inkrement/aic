@@ -50,7 +50,6 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
                 feature.setWord(word);
                 feature.setTag(label.tag());
                 features.add(feature);
-                System.out.println(label.tag() + " - " + word);
             }
         }
         FeatureVector featureVector = new FeatureVector();
