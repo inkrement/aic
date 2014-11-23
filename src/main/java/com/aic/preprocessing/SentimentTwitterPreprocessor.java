@@ -57,7 +57,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
      * @param tag the tag that needs to get checked
      * @return boolean value
      */
-    public boolean containsNotAllowedTag(String tag) {
+    private boolean containsNotAllowedTag(String tag) {
         if (tag.equals(","))
             return true;
         if (tag.equals(":"))
@@ -68,7 +68,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         return false;
     }
 
-    public String normalizeWord(String word) {
+    private String normalizeWord(String word) {
         // lowercase word
         word = word.toLowerCase();
         // remove URL
