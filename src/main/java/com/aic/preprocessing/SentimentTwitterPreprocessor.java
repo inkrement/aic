@@ -66,9 +66,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
      * @return boolean value
      */
     private boolean containsAllowedTag(String tag) {
-        if (tag.equals("VB"))
-            return true;
-        if (tag.equals("JJ"))
+        if (tag.equals("VB") || tag.equals("JJ"))
             return true;
 
         return false;
