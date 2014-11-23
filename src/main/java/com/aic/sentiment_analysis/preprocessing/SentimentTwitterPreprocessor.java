@@ -1,7 +1,7 @@
 package com.aic.sentiment_analysis.preprocessing;
 
-import com.aic.sentiment_analysis.shared.Feature;
-import com.aic.sentiment_analysis.shared.FeatureVector;
+import com.aic.sentiment_analysis.feature.Feature;
+import com.aic.sentiment_analysis.feature.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;

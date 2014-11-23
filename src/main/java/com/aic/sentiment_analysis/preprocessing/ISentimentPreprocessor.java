@@ -1,6 +1,6 @@
 package com.aic.sentiment_analysis.preprocessing;
 
-import com.aic.sentiment_analysis.shared.FeatureVector;
+import com.aic.sentiment_analysis.feature.FeatureVector;
 
 /**
  * Preprocessor for parsing messages to

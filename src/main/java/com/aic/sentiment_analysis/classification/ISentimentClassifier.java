@@ -1,6 +1,6 @@
 package com.aic.sentiment_analysis.classification;
 
-import com.aic.sentiment_analysis.shared.FeatureVector;
+import com.aic.sentiment_analysis.feature.FeatureVector;
 
 /**
  * Classifier for performing sentiment analysis.

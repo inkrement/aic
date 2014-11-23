@@ -1,4 +1,4 @@
-package com.aic.sentiment_analysis.shared;
+package com.aic.sentiment_analysis.feature;
 
 import java.util.List;
 

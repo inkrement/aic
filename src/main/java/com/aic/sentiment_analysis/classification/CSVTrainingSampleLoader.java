@@ -3,7 +3,7 @@ package com.aic.sentiment_analysis.classification;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
-import com.aic.sentiment_analysis.shared.FeatureVector;
+import com.aic.sentiment_analysis.feature.FeatureVector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
