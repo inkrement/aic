@@ -1,8 +1,6 @@
 package com.aic.shared;
 
-import edu.stanford.nlp.ling.CoreLabel;
-
-public class Feature extends CoreLabel {
+public class Feature {
 
     private String word = "";
 

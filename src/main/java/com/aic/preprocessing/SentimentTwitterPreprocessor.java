@@ -1,12 +1,10 @@
 package com.aic.preprocessing;
 
-import cmu.arktweetnlp.Tagger;
 import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;

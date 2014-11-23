@@ -51,7 +51,9 @@ public class Controller {
 
         //fetch tweets
         List<TwitterStatus> l = Fetch.get(name, start, end);
-        SentimentClassifier c = new SentimentClassifier();
+
+	    // TODO pass valid training data
+        SentimentClassifier c = new SentimentClassifier(null);
 
         int pos = 0;
 
