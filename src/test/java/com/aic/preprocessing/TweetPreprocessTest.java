@@ -25,7 +25,7 @@ public class TweetPreprocessTest {
         FeatureVector featureVector = preprocessor.preprocess("5 7/8 U.K. na you're ur http://orf.at @stum450n Hi. " +
                 "Thank u for you the follow. Nice website... :-) #funny lololol won't gonna " +
                 " check your carriage returns though, the bottom of 'Website &amp; lol brand identity' is out (unhappy)");
-        List<String> features = new ArrayList<String>();
+        List<String> features = new ArrayList<>();
         for (Feature f : featureVector.getFeatures()) {
             features.add(f.getWord());
         }
@@ -39,12 +39,13 @@ public class TweetPreprocessTest {
      */
     @Test
     public void testIfWordsNormalized() throws PreprocessingException {
-        FeatureVector featureVector = preprocessor.preprocess("Make use of LOWERCASE and remove" +
+        FeatureVector featureVector = preprocessor.preprocess("Make use of LOWERCASE and remove #hashtags and" +
                         " URLs like http://wikipedia.org, https://wikipedia.org and http://www.wikipedia.org");
-        List<String> features = new ArrayList<String>();
+        List<String> features = new ArrayList<>();
         for (Feature f : featureVector.getFeatures()) {
             features.add(f.getWord());
         }
+        Assert.assertFalse("'#funny' found but should not be part of the message", features.contains("#funny"));
         Assert.assertTrue("'make' not found",  features.contains("make"));
         Assert.assertFalse("'Make' found but not contained in message",  features.contains("Make"));
         Assert.assertTrue("'lowercase' not found",  features.contains("lowercase"));

@@ -23,6 +23,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     private static final String URL_PATTERN = "((https?|ftp|gopher|telnet|file|Unsure|http):" +
             "((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+    private static final String HASHTAG_PATTERN = "#";
     private static final String TAGGER_PATH = "gate-EN-twitter-fast.model";
 
     private MaxentTagger tagger;
@@ -42,7 +43,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         tagger.tagCoreLabels(coreLabels);
 
         for (CoreLabel label : coreLabels) {
-            String word = normalizeWord(label.word());
+            String word = normalizeWord(label.word(), label.tag());
             if (!word.isEmpty() && !containsNotAllowedTag(label.tag())) {
                 Feature feature = new Feature();
                 feature.setWord(word);
@@ -75,13 +76,23 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         return false;
     }
 
-    private String normalizeWord(String word) {
+    private String normalizeWord(String word, String tag) {
         // lowercase word
         word = word.toLowerCase();
+
         // remove URL
         word = removeUrl(word);
 
+        // remove hashtag character
+        if (tag.equals("HT")) {
+            word = removeHashtagCharacter(word);
+        }
+
         return word;
+    }
+
+    private String removeHashtagCharacter(String word) {
+        return word.replaceAll(HASHTAG_PATTERN,"");
     }
 
     private String removeUrl(String word) {
