@@ -4,26 +4,18 @@
  * @constructor
  */
 var SentimentController = function($scope, $http) {
-    $scope.fetchCarsList = function() {
-        $http.get('cars/carlist.json').success(function(carList){
-            $scope.cars = carList;
-        });
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
     };
-    $scope.addNewCar = function(newCar) {
-        $http.post('cars/addCar/' + newCar).success(function() {
-            $scope.fetchCarsList();
-        });
-        $scope.carName = '';
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
     };
-    $scope.removeCar = function(car) {
-        $http.delete('cars/removeCar/' + car).success(function() {
-            $scope.fetchCarsList();
-        });
-    };
-    $scope.removeAllCars = function() {
-        $http.delete('cars/removeAllCars').success(function() {
-            $scope.fetchCarsList();
-        });
-    };
-    $scope.fetchCarsList();
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[2];
 };
