@@ -50,6 +50,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
                 feature.setWord(word);
                 feature.setTag(label.tag());
                 features.add(feature);
+                System.out.println(label.tag() + " - " + word);
             }
         }
         FeatureVector featureVector = new FeatureVector();
@@ -65,13 +66,36 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
      * @return boolean value
      */
     private boolean containsNotAllowedTag(String tag) {
+        // remove comma
         if (tag.equals(","))
             return true;
+
+        // remove '...'
         if (tag.equals(":"))
             return true;
+
+        // remove stop mark
         if (tag.equals("."))
             return true;
+
+        // remove URL
         if (tag.equals("URL"))
+            return true;
+
+        // remove twitter username
+        if (tag.equals("USR"))
+            return true;
+
+        // remove empty tag
+        if (tag.equals(""))
+            return true;
+
+        // remove numeral
+        if (tag.equals("CC"))
+            return true;
+
+        // remove noun
+        if (tag.equals("NN"))
             return true;
 
         return false;
