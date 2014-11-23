@@ -1,7 +1,5 @@
 package com.aic.sentiment_analysis.fetch;
 
-import com.aic.sentiment_analysis.components.TwitterStatus;
-
 import java.util.Date;
 import java.util.List;
 

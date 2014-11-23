@@ -1,5 +1,6 @@
 package com.aic.sentiment_analysis.components;
 
+import com.aic.sentiment_analysis.fetch.TwitterStatus;
 import com.aic.sentiment_analysis.fetch.TwitterStatusList;
 import org.junit.* ;
 import static org.junit.Assert.* ;

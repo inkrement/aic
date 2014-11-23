@@ -1,4 +1,4 @@
-package com.aic.sentiment_analysis.components;
+package com.aic.sentiment_analysis.preprocessing;
 
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;

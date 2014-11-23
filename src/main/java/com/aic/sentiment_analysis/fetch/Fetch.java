@@ -19,8 +19,6 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-import com.aic.sentiment_analysis.components.TwitterStatus;
-
 /**
  * The class for fetching tweets.
  * 

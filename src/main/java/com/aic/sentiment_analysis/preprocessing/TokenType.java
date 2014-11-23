@@ -1,4 +1,4 @@
-package com.aic.sentiment_analysis.components;
+package com.aic.sentiment_analysis.preprocessing;
 
 public enum TokenType {
    TAG, MENTIONING, WORD, SMILEY

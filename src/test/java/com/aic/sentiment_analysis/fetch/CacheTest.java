@@ -3,8 +3,6 @@ package com.aic.sentiment_analysis.fetch;
 import org.junit.* ;
 import static org.junit.Assert.* ;
 
-import com.aic.sentiment_analysis.components.*;
-
 import java.io.File;
 import java.util.Date;
 

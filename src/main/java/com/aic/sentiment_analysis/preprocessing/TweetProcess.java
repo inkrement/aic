@@ -1,6 +1,5 @@
 package com.aic.sentiment_analysis.preprocessing;
 
-import com.aic.sentiment_analysis.components.TaggedTwitterWord;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
