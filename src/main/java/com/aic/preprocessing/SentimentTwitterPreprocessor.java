@@ -4,7 +4,6 @@ import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
-import edu.stanford.nlp.tagger.common.Tagger;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.StringReader;
@@ -13,6 +12,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Implementation of {@link com.aic.preprocessing.ISentimentPreprocessor} based
+ * on the Stanford NLP framework.
+ *
+ * @see <a href="http://nlp.stanford.edu/software/index.shtml">Stanford NLP</a>
+ * @see <a href="https://gate.ac.uk/wiki/twitter-postagger.html">POS Tagger Model file</a>
+ */
 public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     private static final String URL_PATTERN = "((https?|ftp|gopher|telnet|file|Unsure|http):" +
@@ -28,7 +34,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
     @Override
     public FeatureVector preprocess(String message) throws PreprocessingException {
         PTBTokenizer.PTBTokenizerFactory<CoreLabel> fac = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(true, true);
-        List<Feature> features = new ArrayList<Feature>();
+        List<Feature> features = new ArrayList<>();
 
         List<CoreLabel> coreLabels = fac.getTokenizer(new StringReader(message)).tokenize();
 
