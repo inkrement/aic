@@ -82,17 +82,21 @@ public class SentimentClassifier implements ISentimentClassifier {
 
 	private Instances loadTrainingInstances(Iterable<TrainingSample> trainingSamples) {
 		Instances instances = new Instances("train", featureList, 0);
+		instances.setClassIndex(featureList.size() - 1);
+
 		for (TrainingSample trainingSample : trainingSamples) {
-			Instance instance = loadInstance(trainingSample);
+			FeatureVector featureVector = trainingSample.getFeatureVector();
+			Sentiment sentiment = trainingSample.getSentiment();
+			Instance instance = loadInstance(featureVector, sentiment);
 			instances.add(instance);
 			instance.setDataset(instances);
 		}
+
 		return instances;
 	}
 
-	private Instance loadInstance(TrainingSample trainingSample) {
+	private Instance loadInstance(FeatureVector featureVector, Sentiment sentiment) {
 		TreeMap<Integer, Double> featureMap = new TreeMap<>();
-		FeatureVector featureVector = trainingSample.getFeatureVector();
 		for (Feature feature : featureVector.getFeatures()) {
 			if (isUsedAsFeature(feature.getWord())) {
 				featureMap.put(featureIndexMap.get(feature.getWord()), 1.0);
@@ -108,8 +112,10 @@ public class SentimentClassifier implements ISentimentClassifier {
 			i++;
 		}
 
-		indices[i] = featureList.size() - 1;
-		values[i] = intFromSentiment(trainingSample.getSentiment());
+		if (sentiment != null) {
+			indices[i] = featureList.size() - 1;
+			values[i] = intFromSentiment(sentiment);
+		}
 
 		Instance instance = new SparseInstance(1.0, values, indices,
 				featureList.size() - 1);
@@ -130,13 +136,21 @@ public class SentimentClassifier implements ISentimentClassifier {
 
 	@Override
 	public Sentiment classify(FeatureVector featureVector) throws ClassificationException {
-		Instance instanceToClassify = null;
+		Instances instances = new Instances("live", featureList, 0);
+		instances.setClassIndex(featureList.size() - 1);
+		Instance instanceToClassify = loadInstance(featureVector);
+		instances.add(instanceToClassify);
+		instanceToClassify.setDataset(instances);
 		try {
 			double classification = classifier.classifyInstance(instanceToClassify);
 			return sentimentFromClassification(classification);
 		} catch (Exception e) {
 			throw new ClassificationException(e);
 		}
+	}
+
+	private Instance loadInstance(FeatureVector featureVector) {
+		return loadInstance(featureVector, null);
 	}
 
 	private Sentiment sentimentFromClassification(double classification) {
