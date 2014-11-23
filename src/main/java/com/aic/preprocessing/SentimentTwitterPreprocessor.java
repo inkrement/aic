@@ -26,18 +26,19 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
     private static final String HASHTAG_PATTERN = "#";
     private static final String TAGGER_PATH = "gate-EN-twitter-fast.model";
 
+    private PTBTokenizer.PTBTokenizerFactory<CoreLabel> tokenizer;
     private MaxentTagger tagger;
 
     public SentimentTwitterPreprocessor() {
         tagger = new MaxentTagger(TAGGER_PATH);
+        tokenizer = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(true, true);
     }
 
     @Override
     public FeatureVector preprocess(String message) throws PreprocessingException {
-        PTBTokenizer.PTBTokenizerFactory<CoreLabel> fac = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(true, true);
-        List<Feature> features = new ArrayList<>();
 
-        List<CoreLabel> coreLabels = fac.getTokenizer(new StringReader(message)).tokenize();
+        List<Feature> features = new ArrayList<>();
+        List<CoreLabel> coreLabels = tokenizer.getTokenizer(new StringReader(message)).tokenize();
 
         // tag labels
         tagger.tagCoreLabels(coreLabels);
