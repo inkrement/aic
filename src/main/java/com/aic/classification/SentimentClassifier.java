@@ -5,7 +5,9 @@ import com.aic.preprocessing.PreprocessingException;
 import com.aic.preprocessing.SentimentTwitterPreprocessor;
 import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
+import org.w3c.dom.Attr;
 import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
 import weka.core.Attribute;
 import weka.core.Instance;
@@ -24,6 +26,7 @@ import java.util.*;
 public class SentimentClassifier implements ISentimentClassifier {
 
 	private final Classifier classifier;
+	private final Instances trainingInstances;
 	private final ArrayList<Attribute> featureList;
 	private final Map<String, Integer> featureIndexMap;
 
@@ -32,7 +35,8 @@ public class SentimentClassifier implements ISentimentClassifier {
 		classifier = new LibSVM();
 		featureList = loadFeatureList(trainingSamples);
 		featureIndexMap = initFeatureIndexMap(featureList);
-		train(trainingSamples);
+		trainingInstances = loadInstances("train", trainingSamples, featureList);
+		train();
 	}
 
 	private Map<String, Integer> initFeatureIndexMap(ArrayList<Attribute> featureList) {
@@ -78,8 +82,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 		return features;
 	}
 
-	private void train(Iterable<TrainingSample> trainingSamples) throws ClassificationException {
-		Instances trainingInstances = loadTrainingInstances(trainingSamples);
+	private void train() throws ClassificationException {
 		try {
 			classifier.buildClassifier(trainingInstances);
 		} catch (Exception e) {
@@ -87,8 +90,10 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 	}
 
-	private Instances loadTrainingInstances(Iterable<TrainingSample> trainingSamples) {
-		Instances instances = new Instances("train", featureList, 0);
+	private Instances loadInstances(String name,
+	                                Iterable<TrainingSample> trainingSamples,
+	                                ArrayList<Attribute> featureList) {
+		Instances instances = new Instances(name, featureList, 0);
 		instances.setClassIndex(featureList.size() - 1);
 
 		for (TrainingSample trainingSample : trainingSamples) {
@@ -165,6 +170,18 @@ public class SentimentClassifier implements ISentimentClassifier {
 			return Sentiment.NEGATIVE;
 		} else {
 			return Sentiment.POSITIVE;
+		}
+	}
+
+	public Evaluation evaluate(Iterable<TrainingSample> testSamples)
+			throws ClassificationException {
+		Instances testInstances = loadInstances("test", testSamples, featureList);
+		try {
+			Evaluation evaluate = new Evaluation(trainingInstances);
+			evaluate.evaluateModel(classifier, testInstances);
+			return evaluate;
+		} catch (Exception e) {
+			throw new ClassificationException(e);
 		}
 	}
 }
