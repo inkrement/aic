@@ -5,6 +5,9 @@ import com.aic.preprocessing.PreprocessingException;
 import com.aic.preprocessing.SentimentTwitterPreprocessor;
 import com.aic.shared.FeatureVector;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
 import java.util.*;
 
 /**
@@ -18,11 +21,12 @@ public class CSVTrainingSampleLoader {
 	/**
 	 * Loads the training data that needed for classification from a CVS file.
 	 */
-	public List<TrainingSample> load(String pathToCSV)
-			throws PreprocessingException {
+	public List<TrainingSample> load(URI uri)
+			throws PreprocessingException, FileNotFoundException {
 		List<TrainingSample> trainingSamples = new ArrayList<>();
 		ISentimentPreprocessor preprocessor = new SentimentTwitterPreprocessor();
-		Scanner scanner = new Scanner("");
+		Scanner scanner = new Scanner(new File(uri));
+
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
 			String[] columns = line.substring(1, line.length() - 1).split("\",\"");

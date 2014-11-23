@@ -5,14 +5,11 @@ import com.aic.preprocessing.PreprocessingException;
 import com.aic.preprocessing.SentimentTwitterPreprocessor;
 import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
-import org.w3c.dom.Attr;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
-import weka.core.Attribute;
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.core.SparseInstance;
+import weka.core.*;
 
 import java.util.*;
 
@@ -32,7 +29,8 @@ public class SentimentClassifier implements ISentimentClassifier {
 
 	public SentimentClassifier(Iterable<TrainingSample> trainingSamples)
 			throws ClassificationException {
-		classifier = new LibSVM();
+		classifier = ;
+//		classifier = new NaiveBayes();
 		featureList = loadFeatureList(trainingSamples);
 		featureIndexMap = initFeatureIndexMap(featureList);
 		trainingInstances = loadInstances("train", trainingSamples, featureList);

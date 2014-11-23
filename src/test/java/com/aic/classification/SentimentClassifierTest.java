@@ -3,6 +3,7 @@ package com.aic.classification;
 import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import org.junit.Test;
+import weka.classifiers.Evaluation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,9 @@ public class SentimentClassifierTest {
 				get(0).getFeatureVector());
 
 		assertEquals(classificationResult, Sentiment.POSITIVE);
+
+		Evaluation evaluation = classifier.evaluate(trainingSamples);
+		System.out.println(evaluation.toSummaryString());
 	}
 
 	@Test
