@@ -31,7 +31,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     public SentimentTwitterPreprocessor() {
         tagger = new MaxentTagger(TAGGER_PATH);
-        tokenizer = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(true, true);
+        tokenizer = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(false, false);
     }
 
     @Override
@@ -45,11 +45,13 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
         for (CoreLabel label : coreLabels) {
             String word = normalizeWord(label.word(), label.tag());
-            if (!word.isEmpty() && !containsNotAllowedTag(label.tag())) {
+            if (!word.isEmpty() && !containsNotAllowedTag(label.tag())
+                    && (label.tag().equals("VB") || label.tag().equals("JJ"))) {
                 Feature feature = new Feature();
                 feature.setWord(word);
                 feature.setTag(label.tag());
                 features.add(feature);
+                //System.out.println(label.tag() + " - " + word);
             }
         }
         FeatureVector featureVector = new FeatureVector();
