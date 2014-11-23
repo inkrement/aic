@@ -7,7 +7,7 @@ var App = angular.module('AngularSpringApp', ['AngularSpringApp.filters',
 App.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/register', {
         templateUrl: 'templates/register.html',
-        controller: RegisterController
+        controller: SentimentController
     });
     $routeProvider.when('/sentiment', {
         templateUrl: 'templates/sentiment.html',

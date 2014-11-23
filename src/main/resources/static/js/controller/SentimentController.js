@@ -3,19 +3,22 @@
  * SentimentController
  * @constructor
  */
-var SentimentController = function($scope, $http) {
-    $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
+var SentimentController = function($scope, $http, $location) {
 
-        $scope.opened = true;
+    /* Helper function for current active menu in view */
+    $scope.isActive = function (viewLocation) {
+        var active = (viewLocation === $location.path());
+        return active;
     };
 
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
+    $scope.saveCompany = function(newCompany) {
+        $http.post('register', newCompany).success(function(){
+            $scope.successTextAlert = newCompany.name + " successfully registered";
+            $scope.showSuccessAlert = true;
+        })
+        .error(function(data, status, headers, config) {
+            $scope.errorTextAlert = "Could not register company: " + status;
+            $scope.showErrorAlert = true;
+        });
     };
-
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[2];
 };
