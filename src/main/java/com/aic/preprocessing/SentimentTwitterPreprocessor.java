@@ -4,6 +4,8 @@ import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
+import edu.stanford.nlp.tagger.common.Tagger;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -15,17 +17,31 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     private static final String URL_PATTERN = "((https?|ftp|gopher|telnet|file|Unsure|http):" +
             "((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+    private static final String TAGGER_PATH = "edu/stanford/nlp/models/pos-tagger/" +
+            "english-left3words/english-left3words-distsim.tagger";
+
+    private MaxentTagger tagger;
+
+    public SentimentTwitterPreprocessor() {
+        tagger = new MaxentTagger(TAGGER_PATH);
+    }
 
     @Override
     public FeatureVector preprocess(String message) throws PreprocessingException {
         PTBTokenizer.PTBTokenizerFactory<CoreLabel> fac = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(true, true);
         List<Feature> features = new ArrayList<Feature>();
 
-        for (CoreLabel label : fac.getTokenizer(new StringReader(message)).tokenize()) {
+        List<CoreLabel> coreLabels = fac.getTokenizer(new StringReader(message)).tokenize();
+
+        // tag labels
+        tagger.tagCoreLabels(coreLabels);
+
+        for (CoreLabel label : coreLabels) {
             String word = normalizeWord(label.word());
-            if (!word.isEmpty()) {
+            if (!word.isEmpty() && !containsNotAllowedTag(label.tag())) {
                 Feature feature = new Feature();
                 feature.setWord(word);
+                feature.setTag(label.tag());
                 features.add(feature);
             }
         }
@@ -33,6 +49,23 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         featureVector.setFeatures(features);
 
         return featureVector;
+    }
+
+    /**
+     * Boolean function for filtering unnecessary tags
+     *
+     * @param tag the tag that needs to get checked
+     * @return boolean value
+     */
+    public boolean containsNotAllowedTag(String tag) {
+        if (tag.equals(","))
+            return true;
+        if (tag.equals(":"))
+            return true;
+        if (tag.equals("."))
+            return true;
+
+        return false;
     }
 
     public String normalizeWord(String word) {
