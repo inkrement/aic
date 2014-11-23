@@ -1,8 +1,7 @@
 Advanced Internet Computing Sentiment Analysis
 ===
 
-Setup:
-------
+# Setup
 
 For compiling the sources and starting the Tomcat server simply type the command
 `gradlew bootRun` on your shell. You'll see some log messages during startup,
@@ -25,8 +24,7 @@ example query may look like this: `http://localhost:8080/sentiment?name=Microsof
 
 To test the `fetching tweets` functionality, call `http://localhost:8080/tweets?name=Microsoft&start=20141018&end=20141020`. (Pattern for dates is yyyyddMM, time zone is UTC, similiar to the pattern used by twitter)
 
-Misc
-----
+# Environment
 
 Programming Language: JAVA (Jetty Container)
 
@@ -34,35 +32,33 @@ Framework: Spring
 
 Library: Twitter4j
 
-Datenbank:
-
 Architecture: Client-Server
 
 
-Florian Taus: Twitter API
+## Preprocessing
 
-Dominik Pichler, Christian Hotz-Behofsits: Preprocessing
-
-Matthias Reisinger, Thomas Schmidleithner: Classify
-
-Preprocessing
------
-
-The preprocessor uses the Penn Treebank for tagging and the related tagset can be found
+For preprocessing purposes the [Stanford NLP](http://nlp.stanford.edu) implementation is used. The part-of-speech
+tagger makes use of the Penn Treebank, the corresponding tagset can be found
 [here](http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html). We used the
 [GATE Twitter part-of-speech tagging model](https://gate.ac.uk/wiki/twitter-postagger.html) for extending the
 tagging informations especially for twitter data (HT (hashtags), UH ("lol", "ikr"), USR (username mentions),
 RT (retweet signifiers), URL (URLs)).
 
-TODO
------
+## Classification
+
+For the classification part we used the data mining framework [WEKA](http://www.cs.waikato.ac.nz/ml/weka/) and
+[LibSVM](http://www.csie.ntu.edu.tw/~cjlin/libsvm/) as a support vector machine.
+
+# Team
+
+**Twitter API:** Florian Taus
+
+**Preprocessing:** Dominik Pichler, Christian Hotz-Behofsits
+
+**Classifier:** Matthias Reisinger, Thomas Schmidleithner
+
+# TODO
 
  - Serializing within the caching class
- - POS Tagging http://nlp.stanford.edu/software/tagger.shtml http://opennlp.apache.org/
 
 http://www.thinkmind.org/download.php?articleid=immm_2012_1_10_20033
-
-Credits
------
-
-For preprocessing purposes the [Stanford NLP](http://nlp.stanford.edu) implementation is used.
