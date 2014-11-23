@@ -1,13 +1,10 @@
 package com.aic.classification;
 
-import cmu.arktweetnlp.Tagger;
 import com.aic.preprocessing.ISentimentPreprocessor;
 import com.aic.preprocessing.PreprocessingException;
 import com.aic.preprocessing.SentimentTwitterPreprocessor;
 import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
-import com.fasterxml.jackson.core.JsonFactory;
-import org.w3c.dom.Attr;
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.LibSVM;
 import weka.core.Attribute;
@@ -19,49 +16,16 @@ import java.util.*;
 
 public class SentimentClassifier implements ISentimentClassifier {
 
-	private static final String pathToTrainingData = "";
-
 	private final Classifier classifier;
 	private final ArrayList<Attribute> featureList;
 	private final Map<String, Integer> featureIndexMap;
 
-	public SentimentClassifier() throws ClassificationException {
-		try {
-			classifier = new LibSVM();
-			Map<FeatureVector, Sentiment> trainingData = loadTrainingData();
-			featureList = loadFeatureList(trainingData);
-			featureIndexMap = initFeatureIndexMap(featureList);
-			train(trainingData);
-		} catch (PreprocessingException e) {
-			throw new ClassificationException(e);
-		}
-	}
-
-	private Map<FeatureVector, Sentiment> loadTrainingData() throws PreprocessingException {
-		Map<FeatureVector, Sentiment> trainingData = new HashMap<>();
-		ISentimentPreprocessor preprocessor = new SentimentTwitterPreprocessor();
-		Scanner scanner = new Scanner("");
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			String[] columns = line.substring(1, line.length() - 1).split("\",\"");
-
-			String sentimentString = columns[0];
-			Sentiment sentiment;
-			if (sentimentString.equals("0")) {
-				sentiment = Sentiment.NEGATIVE;
-			} else if (sentimentString.equals("4")) {
-				sentiment = Sentiment.POSITIVE;
-			} else {
-				continue;
-			}
-
-			String tweet = columns[columns.length - 1];
-			FeatureVector featureVector = preprocessor.preprocess(tweet);
-
-			trainingData.put(featureVector, sentiment);
-		}
-		scanner.close();
-		return trainingData;
+	public SentimentClassifier(Iterable<TrainingSample> trainingSamples)
+			throws ClassificationException {
+		classifier = new LibSVM();
+		featureList = loadFeatureList(trainingSamples);
+		featureIndexMap = initFeatureIndexMap(featureList);
+		train(trainingSamples);
 	}
 
 	private Map<String, Integer> initFeatureIndexMap(ArrayList<Attribute> featureList) {
@@ -73,10 +37,10 @@ public class SentimentClassifier implements ISentimentClassifier {
 		return featureIndexMap;
 	}
 
-	private ArrayList<Attribute> loadFeatureList(Map<FeatureVector, Sentiment> trainingData)
+	private ArrayList<Attribute> loadFeatureList(Iterable<TrainingSample>trainingSamples)
 			throws ClassificationException {
 		try {
-			Set<String> featureStrings = loadDistinctFeatures(trainingData);
+			Set<String> featureStrings = loadDistinctFeatures(trainingSamples);
 			ArrayList<Attribute> featureList = new ArrayList<>();
 			for (String feature : featureStrings) {
 				featureList.add(new Attribute(feature));
@@ -94,11 +58,12 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 	}
 
-	private Set<String> loadDistinctFeatures(Map<FeatureVector, Sentiment> trainingData)
+	private Set<String> loadDistinctFeatures(Iterable<TrainingSample> trainingSamples)
 			throws PreprocessingException {
 		HashSet<String> features = new HashSet<>();
 		ISentimentPreprocessor preprocessor = new SentimentTwitterPreprocessor();
-		for (FeatureVector featureVector : trainingData.keySet()) {
+		for (TrainingSample trainingSample : trainingSamples) {
+			FeatureVector featureVector = trainingSample.getFeatureVector();
 			for (Feature feature : featureVector.getFeatures()) {
 				features.add(feature.getWord());
 			}
@@ -106,8 +71,8 @@ public class SentimentClassifier implements ISentimentClassifier {
 		return features;
 	}
 
-	private void train(Map<FeatureVector, Sentiment> trainingData) throws ClassificationException {
-		Instances trainingInstances = loadTrainingInstances(trainingData);
+	private void train(Iterable<TrainingSample> trainingSamples) throws ClassificationException {
+		Instances trainingInstances = loadTrainingInstances(trainingSamples);
 		try {
 			classifier.buildClassifier(trainingInstances);
 		} catch (Exception e) {
@@ -115,20 +80,19 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 	}
 
-	private Instances loadTrainingInstances(Map<FeatureVector, Sentiment> trainingData) {
+	private Instances loadTrainingInstances(Iterable<TrainingSample> trainingSamples) {
 		Instances instances = new Instances("train", featureList, 0);
-		for (Map.Entry<FeatureVector, Sentiment> trainingDataEntry : trainingData.entrySet()) {
-			FeatureVector featureVector = trainingDataEntry.getKey();
-			Sentiment sentiment = trainingDataEntry.getValue();
-			Instance instance = loadInstance(featureVector, sentiment);
+		for (TrainingSample trainingSample : trainingSamples) {
+			Instance instance = loadInstance(trainingSample);
 			instances.add(instance);
 			instance.setDataset(instances);
 		}
 		return instances;
 	}
 
-	private Instance loadInstance(FeatureVector featureVector, Sentiment sentiment) {
-		Map<Integer, Double> featureMap = new HashMap<>();
+	private Instance loadInstance(TrainingSample trainingSample) {
+		TreeMap<Integer, Double> featureMap = new TreeMap<>();
+		FeatureVector featureVector = trainingSample.getFeatureVector();
 		for (Feature feature : featureVector.getFeatures()) {
 			if (isUsedAsFeature(feature.getWord())) {
 				featureMap.put(featureIndexMap.get(feature.getWord()), 1.0);
@@ -145,7 +109,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 
 		indices[i] = featureList.size() - 1;
-		values[i] = intFromSentiment(sentiment);
+		values[i] = intFromSentiment(trainingSample.getSentiment());
 
 		Instance instance = new SparseInstance(1.0, values, indices,
 				featureList.size() - 1);
