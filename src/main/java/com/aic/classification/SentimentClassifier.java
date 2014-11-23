@@ -7,9 +7,11 @@ import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
-import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
-import weka.core.*;
+import weka.core.Attribute;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.SparseInstance;
 
 import java.util.*;
 
@@ -29,8 +31,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 
 	public SentimentClassifier(Iterable<TrainingSample> trainingSamples)
 			throws ClassificationException {
-		classifier = ;
-//		classifier = new NaiveBayes();
+		classifier = new LibSVM();
 		featureList = loadFeatureList(trainingSamples);
 		featureIndexMap = initFeatureIndexMap(featureList);
 		trainingInstances = loadInstances("train", trainingSamples, featureList);
