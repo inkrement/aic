@@ -17,8 +17,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     private static final String URL_PATTERN = "((https?|ftp|gopher|telnet|file|Unsure|http):" +
             "((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
-    private static final String TAGGER_PATH = "edu/stanford/nlp/models/pos-tagger/" +
-            "english-left3words/english-left3words-distsim.tagger";
+    private static final String TAGGER_PATH = "gate-EN-twitter-fast.model";
 
     private MaxentTagger tagger;
 
@@ -63,6 +62,8 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         if (tag.equals(":"))
             return true;
         if (tag.equals("."))
+            return true;
+        if (tag.equals("URL"))
             return true;
 
         return false;

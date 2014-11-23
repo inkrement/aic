@@ -45,8 +45,14 @@ Dominik Pichler, Christian Hotz-Behofsits: Preprocessing
 
 Matthias Reisinger, Thomas Schmidleithner: Classify
 
+Preprocessing
+-----
 
-
+The preprocessor uses the Penn Treebank for tagging and the related tagset can be found
+[here](http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html). We used the
+[GATE Twitter part-of-speech tagging model](https://gate.ac.uk/wiki/twitter-postagger.html) for extending the
+tagging informations especially for twitter data (HT (hashtags), UH ("lol", "ikr"), USR (username mentions),
+RT (retweet signifiers), URL (URLs)).
 
 TODO
 -----
