@@ -5,18 +5,22 @@ import com.aic.preprocessing.PreprocessingException;
 import com.aic.preprocessing.SentimentTwitterPreprocessor;
 import com.aic.shared.FeatureVector;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
- * Loads the training data that needed for classification from a CVS file.
+ * Provides means to load classification training data from a CSV file that
+ * follows the format of the Sentiment140 tweet corpus.
+ *
+ * @see <a href="http://help.sentiment140.com/for-students">Sentiment140</a>
  */
 public class CSVTrainingSampleLoader {
 
-	public Map<FeatureVector, Sentiment> load(String pathToCSV)
+	/**
+	 * Loads the training data that needed for classification from a CVS file.
+	 */
+	public List<TrainingSample> load(String pathToCSV)
 			throws PreprocessingException {
-		Map<FeatureVector, Sentiment> trainingData = new HashMap<>();
+		List<TrainingSample> trainingSamples = new ArrayList<>();
 		ISentimentPreprocessor preprocessor = new SentimentTwitterPreprocessor();
 		Scanner scanner = new Scanner("");
 		while (scanner.hasNextLine()) {
@@ -36,9 +40,10 @@ public class CSVTrainingSampleLoader {
 			String tweet = columns[columns.length - 1];
 			FeatureVector featureVector = preprocessor.preprocess(tweet);
 
-			trainingData.put(featureVector, sentiment);
+			TrainingSample trainingSample = new TrainingSample(featureVector, sentiment);
+			trainingSamples.add(trainingSample);
 		}
 		scanner.close();
-		return trainingData;
+		return trainingSamples;
 	}
 }

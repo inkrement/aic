@@ -14,6 +14,13 @@ import weka.core.SparseInstance;
 
 import java.util.*;
 
+/**
+ * Implementation of {@link com.aic.classification.ISentimentClassifier} based
+ * on the WEKA classification framework.
+ *
+ * @see <a href="http://www.cs.waikato.ac.nz/~ml/weka/">Official WEKA Website</a>
+ * @see <a href="http://weka.sourceforge.net/doc.dev/">WEKA API Reference (Javadoc)</a>
+ */
 public class SentimentClassifier implements ISentimentClassifier {
 
 	private final Classifier classifier;
