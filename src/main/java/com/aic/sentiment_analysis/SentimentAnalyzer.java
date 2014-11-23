@@ -16,6 +16,10 @@ import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class provides means to retrieve the public perception of a company,
+ * by performing sentiment analysis on correlating twitter messages.
+ */
 public class SentimentAnalyzer {
 
 	private ITweetLoader tweetLoader;
@@ -40,10 +44,21 @@ public class SentimentAnalyzer {
 		}
 	}
 
-	public float averageSentiment(String company, Date start, Date end)
+	/**
+	 * Calculate the public perception of the company with the given name, based
+	 * on the tweets that have been posted during a specific observation period.
+	 *
+	 * @param companyName the according company's name
+	 * @param start the start of the observation period
+	 * @param end the end of the observation period
+	 * @return a value between 0.0 and 1.0, whereas higher values denote a more
+	 *         positive public perception.
+	 * @throws SentimentAnalysisException
+	 */
+	public float averageSentiment(String companyName, Date start, Date end)
 			throws SentimentAnalysisException {
 		try {
-			List<TwitterStatus> tweets = tweetLoader.load(company, start, end);
+			List<TwitterStatus> tweets = tweetLoader.load(companyName, start, end);
 			int positiveTweets = 0;
 
 			for (TwitterStatus tweet : tweets) {
