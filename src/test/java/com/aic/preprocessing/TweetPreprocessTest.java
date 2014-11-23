@@ -46,10 +46,9 @@ public class TweetPreprocessTest {
             features.add(f.getWord());
         }
         Assert.assertFalse("'#funny' found but should not be part of the message", features.contains("#funny"));
-        Assert.assertTrue("'make' not found",  features.contains("make"));
         Assert.assertFalse("'Make' found but not contained in message",  features.contains("Make"));
         Assert.assertTrue("'lowercase' not found",  features.contains("lowercase"));
-        Assert.assertTrue("'urls' not found",  features.contains("urls"));
+        Assert.assertFalse("'urls' not found",  features.contains("urls"));
         Assert.assertFalse("'URLs' not found",  features.contains("URLs"));
         Assert.assertFalse("'http://wikipedia.org' not found",  features.contains("http://wikipedia.org"));
         Assert.assertFalse("'https://wikipedia.org' not found",  features.contains("https://wikipedia.org"));

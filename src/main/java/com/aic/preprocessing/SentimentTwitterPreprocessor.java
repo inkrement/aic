@@ -45,13 +45,11 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
         for (CoreLabel label : coreLabels) {
             String word = normalizeWord(label.word(), label.tag());
-            if (!word.isEmpty() && !containsNotAllowedTag(label.tag())
-                    && (label.tag().equals("VB") || label.tag().equals("JJ"))) {
+            if (!word.isEmpty() && containsAllowedTag(label.tag())) {
                 Feature feature = new Feature();
                 feature.setWord(word);
                 feature.setTag(label.tag());
                 features.add(feature);
-                //System.out.println(label.tag() + " - " + word);
             }
         }
         FeatureVector featureVector = new FeatureVector();
@@ -62,41 +60,15 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     /**
      * Boolean function for filtering unnecessary tags
+     * Allow only tags of type verb (VB) and adjective (JJ)
      *
      * @param tag the tag that needs to get checked
      * @return boolean value
      */
-    private boolean containsNotAllowedTag(String tag) {
-        // remove comma
-        if (tag.equals(","))
+    private boolean containsAllowedTag(String tag) {
+        if (tag.equals("VB"))
             return true;
-
-        // remove '...'
-        if (tag.equals(":"))
-            return true;
-
-        // remove stop mark
-        if (tag.equals("."))
-            return true;
-
-        // remove URL
-        if (tag.equals("URL"))
-            return true;
-
-        // remove twitter username
-        if (tag.equals("USR"))
-            return true;
-
-        // remove empty tag
-        if (tag.equals(""))
-            return true;
-
-        // remove numeral
-        if (tag.equals("CC"))
-            return true;
-
-        // remove noun
-        if (tag.equals("NN"))
+        if (tag.equals("JJ"))
             return true;
 
         return false;
