@@ -1,5 +1,7 @@
 package com.aic.sentiment_analysis.classification;
 
+import com.aic.sentiment_analysis.classification.Sentiment;
+import com.aic.sentiment_analysis.classification.TrainingSample;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
