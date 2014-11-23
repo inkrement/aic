@@ -4,7 +4,6 @@ import com.aic.shared.Feature;
 import com.aic.shared.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
-import edu.stanford.nlp.tagger.common.Tagger;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.StringReader;
@@ -13,12 +12,18 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Implementation of {@link com.aic.preprocessing.ISentimentPreprocessor} based
+ * on the Stanford NLP framework.
+ *
+ * @see <a href="http://nlp.stanford.edu/software/index.shtml">Stanford NLP</a>
+ * @see <a href="https://gate.ac.uk/wiki/twitter-postagger.html">POS Tagger Model file</a>
+ */
 public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     private static final String URL_PATTERN = "((https?|ftp|gopher|telnet|file|Unsure|http):" +
             "((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
-    private static final String TAGGER_PATH = "edu/stanford/nlp/models/pos-tagger/" +
-            "english-left3words/english-left3words-distsim.tagger";
+    private static final String TAGGER_PATH = "gate-EN-twitter-fast.model";
 
     private MaxentTagger tagger;
 
@@ -29,7 +34,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
     @Override
     public FeatureVector preprocess(String message) throws PreprocessingException {
         PTBTokenizer.PTBTokenizerFactory<CoreLabel> fac = PTBTokenizer.PTBTokenizerFactory.newPTBTokenizerFactory(true, true);
-        List<Feature> features = new ArrayList<Feature>();
+        List<Feature> features = new ArrayList<>();
 
         List<CoreLabel> coreLabels = fac.getTokenizer(new StringReader(message)).tokenize();
 
@@ -57,18 +62,20 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
      * @param tag the tag that needs to get checked
      * @return boolean value
      */
-    public boolean containsNotAllowedTag(String tag) {
+    private boolean containsNotAllowedTag(String tag) {
         if (tag.equals(","))
             return true;
         if (tag.equals(":"))
             return true;
         if (tag.equals("."))
             return true;
+        if (tag.equals("URL"))
+            return true;
 
         return false;
     }
 
-    public String normalizeWord(String word) {
+    private String normalizeWord(String word) {
         // lowercase word
         word = word.toLowerCase();
         // remove URL

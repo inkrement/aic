@@ -22,7 +22,8 @@ public class TweetPreprocessTest {
      */
 	@Test
 	public void testIftokensCorrectlyParsed() throws PreprocessingException {
-        FeatureVector featureVector = preprocessor.preprocess("5 7/8 U.K. na you're ur http://orf.at @stum450n Hi. Thank u for you the follow. Nice website..." +
+        FeatureVector featureVector = preprocessor.preprocess("5 7/8 U.K. na you're ur http://orf.at @stum450n Hi. " +
+                "Thank u for you the follow. Nice website... :-) #funny lololol won't gonna " +
                 " check your carriage returns though, the bottom of 'Website &amp; lol brand identity' is out (unhappy)");
         List<String> features = new ArrayList<String>();
         for (Feature f : featureVector.getFeatures()) {
