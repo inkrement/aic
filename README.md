@@ -1,7 +1,7 @@
 Advanced Internet Computing Sentiment Analysis
 ===
 
-# Setup
+## Setup
 
 For compiling the sources and starting the Tomcat server simply type the command
 `gradlew bootRun` on your shell. You'll see some log messages during startup,
@@ -24,7 +24,7 @@ example query may look like this: `http://localhost:8080/sentiment?name=Microsof
 
 To test the `fetching tweets` functionality, call `http://localhost:8080/tweets?name=Microsoft&start=20141018&end=20141020`. (Pattern for dates is yyyyddMM, time zone is UTC, similiar to the pattern used by twitter)
 
-# Environment
+## Environment
 
 Programming Language: JAVA (Jetty Container)
 
@@ -35,7 +35,7 @@ Library: Twitter4j
 Architecture: Client-Server
 
 
-## Preprocessing
+### Preprocessing
 
 For preprocessing purposes the [Stanford NLP](http://nlp.stanford.edu) implementation is used. The part-of-speech
 tagger makes use of the Penn Treebank, the corresponding tagset can be found
@@ -44,12 +44,12 @@ tagger makes use of the Penn Treebank, the corresponding tagset can be found
 tagging informations especially for twitter data (HT (hashtags), UH ("lol", "ikr"), USR (username mentions),
 RT (retweet signifiers), URL (URLs)).
 
-## Classification
+### Classification
 
 For the classification part we used the data mining framework [WEKA](http://www.cs.waikato.ac.nz/ml/weka/) and
 [LibSVM](http://www.csie.ntu.edu.tw/~cjlin/libsvm/) as a support vector machine.
 
-# Team
+## Team
 
 **Twitter API:** Florian Taus
 
@@ -57,7 +57,7 @@ For the classification part we used the data mining framework [WEKA](http://www.
 
 **Classifier:** Matthias Reisinger, Thomas Schmidleithner
 
-# TODO
+## TODO
 
  - Serializing within the caching class
 
