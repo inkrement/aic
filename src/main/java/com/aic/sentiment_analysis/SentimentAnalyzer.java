@@ -30,7 +30,9 @@ public class SentimentAnalyzer {
 		try {
 			tweetLoader = new Fetch();
 			CSVTrainingSampleLoader sampleLoader = new CSVTrainingSampleLoader();
-			List<TrainingSample> samples = sampleLoader.load(new URI(Constants.CLASSIFIER_TRAINING_FILE_PATH));
+			URI trainingSetUri = getClass().getClassLoader().
+					getResource(Constants.CLASSIFIER_TRAINING_FILE_PATH).toURI();
+			List<TrainingSample> samples = sampleLoader.load(trainingSetUri);
 			classifier = new SentimentClassifier(samples);
 			preprocessor = new SentimentTwitterPreprocessor();
 		} catch (PreprocessingException e) {
