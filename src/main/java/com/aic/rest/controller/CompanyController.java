@@ -4,7 +4,6 @@ import com.aic.rest.RestException;
 import com.aic.rest.domain.Company;
 import com.aic.sentiment_analysis.SentimentAnalysisException;
 import com.aic.sentiment_analysis.SentimentAnalyzer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Handles the REST requests that are sent to the server.
@@ -94,7 +92,7 @@ public class CompanyController {
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end) throws RestException, SentimentAnalysisException {
         if (!isAuthorized(name, password))
             throw new RestException("Authorization failed");
-        System.out.println(start + " - " + end);
+
         return sentimentAnalyzer.averageSentiment(name, start, end);
     }
 }
