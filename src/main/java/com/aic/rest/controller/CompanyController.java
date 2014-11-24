@@ -4,6 +4,7 @@ import com.aic.rest.RestException;
 import com.aic.rest.domain.Company;
 import com.aic.sentiment_analysis.SentimentAnalysisException;
 import com.aic.sentiment_analysis.SentimentAnalyzer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,13 @@ import java.util.Hashtable;
 @RequestMapping("/")
 public class CompanyController {
 
+	private SentimentAnalyzer sentimentAnalyzer;
     private Hashtable<String, Company> companies;
 
-    private SentimentAnalyzer sentimentAnalyzer;
-
-    public CompanyController() {
+	@Autowired
+    public CompanyController(SentimentAnalyzer sentimentAnalyzer) {
+		this.sentimentAnalyzer = sentimentAnalyzer;
         this.companies = new Hashtable<>();
-        try {
-            this.sentimentAnalyzer = new SentimentAnalyzer();
-        } catch (SentimentAnalysisException e) {
-            e.printStackTrace();
-        }
     }
 
     @RequestMapping(value = "", method=RequestMethod.GET)

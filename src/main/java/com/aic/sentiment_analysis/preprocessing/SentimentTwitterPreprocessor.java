@@ -5,6 +5,7 @@ import com.aic.sentiment_analysis.feature.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import org.springframework.stereotype.Component;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
  * @see <a href="http://nlp.stanford.edu/software/index.shtml">Stanford NLP</a>
  * @see <a href="https://gate.ac.uk/wiki/twitter-postagger.html">POS Tagger Model file</a>
  */
+@Component
 public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     private static final String URL_PATTERN = "((https?|ftp|gopher|telnet|file|Unsure|http):" +

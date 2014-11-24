@@ -5,6 +5,8 @@ import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
 import com.aic.sentiment_analysis.feature.Feature;
 import com.aic.sentiment_analysis.feature.FeatureVector;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
@@ -22,6 +24,7 @@ import java.util.*;
  * @see <a href="http://www.cs.waikato.ac.nz/~ml/weka/">Official WEKA Website</a>
  * @see <a href="http://weka.sourceforge.net/doc.dev/">WEKA API Reference (Javadoc)</a>
  */
+@Component
 public class SentimentClassifier implements ISentimentClassifier {
 
 	private final Classifier classifier;
@@ -29,6 +32,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 	private final ArrayList<Attribute> featureList;
 	private final Map<String, Integer> featureIndexMap;
 
+	@Autowired
 	public SentimentClassifier(Iterable<TrainingSample> trainingSamples)
 			throws ClassificationException {
 		classifier = new LibSVM();

@@ -2,6 +2,7 @@ package com.aic.sentiment_analysis.fetch;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -15,10 +16,11 @@ import java.util.*;
  * 
  * @author Florian Taus
  */
+@Component
 public class Fetch implements ITweetLoader {
 
 	private static final Log logger = LogFactory.getLog(Fetch.class);
-	public static final int MAX_TWEETS = 2;
+	public static final int MAX_TWEETS = 5;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 	private static final String CONFIGURATION_FILE = "twitter.properties";
 
@@ -126,7 +128,7 @@ public class Fetch implements ITweetLoader {
 		// if (!tweetList.isEmpty())
 		// {
 		tweetList.setDates(tweetList.size() == MAX_TWEETS ? tweetList.get(0).getDate() : start, end);
-		Cache.store(tweetList);
+//		Cache.store(tweetList);
 		logger.debug("Stored");
 		// }
 

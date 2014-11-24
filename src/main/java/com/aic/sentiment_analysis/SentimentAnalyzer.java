@@ -11,6 +11,9 @@ import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.net.URI;
@@ -22,6 +25,7 @@ import java.util.List;
  * This class provides means to retrieve the public perception of a company,
  * by performing sentiment analysis on correlating twitter messages.
  */
+@Component
 public class SentimentAnalyzer {
 
 	private static final Log logger = LogFactory.getLog(SentimentAnalyzer.class);
@@ -30,24 +34,14 @@ public class SentimentAnalyzer {
 	private ISentimentClassifier classifier;
 	private ISentimentPreprocessor preprocessor;
 
-	public SentimentAnalyzer() throws SentimentAnalysisException {
-		try {
-			tweetLoader = new Fetch();
-			CSVTrainingSampleLoader sampleLoader = new CSVTrainingSampleLoader();
-			URI trainingSetUri = getClass().getClassLoader().
-					getResource(Constants.CLASSIFIER_TRAINING_FILE_PATH).toURI();
-			List<TrainingSample> samples = sampleLoader.load(trainingSetUri);
-			classifier = new SentimentClassifier(samples);
-			preprocessor = new SentimentTwitterPreprocessor();
-		} catch (PreprocessingException e) {
-			throw new SentimentAnalysisException(e);
-		} catch (FileNotFoundException e) {
-			throw new SentimentAnalysisException(e);
-		} catch (URISyntaxException e) {
-			throw new SentimentAnalysisException(e);
-		} catch (ClassificationException e) {
-			throw new SentimentAnalysisException(e);
-		}
+	@Autowired
+	public SentimentAnalyzer(ITweetLoader tweetLoader,
+	                         ISentimentClassifier classifier,
+	                         ISentimentPreprocessor preprocessor)
+			throws SentimentAnalysisException {
+		this.tweetLoader = tweetLoader;
+		this.classifier = classifier;
+		this.preprocessor = preprocessor;
 	}
 
 	/**
@@ -61,10 +55,16 @@ public class SentimentAnalyzer {
 	 *         positive public perception.
 	 * @throws SentimentAnalysisException
 	 */
+	@Cacheable("sentiments")
 	public float averageSentiment(String companyName, Date start, Date end)
 			throws SentimentAnalysisException {
 		try {
 			List<TwitterStatus> tweets = tweetLoader.load(companyName, start, end);
+
+			if (tweets.size() == 0) {
+				throw new SentimentAnalysisException("No tweets for available.");
+			}
+
 			int positiveTweets = 0;
 
 			for (TwitterStatus tweet : tweets) {
@@ -72,15 +72,18 @@ public class SentimentAnalyzer {
 				featureVector = preprocessor.preprocess(tweet.getText());
 
 				Sentiment sentiment = classifier.classify(featureVector);
-				logger.info("Classified \"" + tweet.getText() + "\" as " +
-						sentiment.name());
+				logger.debug("Classified \"" + tweet.getText() +
+						"\" as " + sentiment.name());
 
 				if (sentiment == Sentiment.POSITIVE) {
 					positiveTweets++;
 				}
 			}
 
-			return (float) positiveTweets / tweets.size();
+			float aggregatedSentiment = (float) positiveTweets / tweets.size();
+			logger.debug(String.format("Aggregated sentiment is %.2f",
+					aggregatedSentiment));
+			return aggregatedSentiment;
 		} catch (PreprocessingException e) {
 			throw new SentimentAnalysisException(e);
 		} catch (ClassificationException e) {
