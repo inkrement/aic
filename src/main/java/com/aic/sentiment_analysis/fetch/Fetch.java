@@ -150,12 +150,12 @@ public class Fetch implements ITweetLoader {
 	}
 
 	// TODO javadoc	
-	private static Configuration getConfiguration() throws IOException
+	private Configuration getConfiguration() throws IOException
 	{
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true);
 		Properties props = new Properties();
-		props.load(new FileInputStream(CONFIGURATION_FILE));
+		props.load(getClass().getResourceAsStream(CONFIGURATION_FILE));
 		if (props.containsKey("consumerKey") && props.containsKey("consumerSecret") && props.containsKey("accessToken") && props.containsKey("accessTokenSecret"))
 		{
 			cb.setOAuthConsumerKey(props.getProperty("consumerKey"));
