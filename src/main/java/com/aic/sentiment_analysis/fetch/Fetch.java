@@ -1,23 +1,14 @@
 package com.aic.sentiment_analysis.fetch;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
-import twitter4j.Query;
-import twitter4j.QueryResult;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * The class for fetching tweets.
@@ -26,10 +17,10 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class Fetch implements ITweetLoader {
 
-	public final static int MAX_TWEETS = 100;
-
-	private final static SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-	private final static String CONFIGURATION_FILE = "twitter.properties";
+	private static final Log logger = LogFactory.getLog(Fetch.class);
+	private static final int MAX_TWEETS = 100;
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+	private static final String CONFIGURATION_FILE = "twitter.properties";
 
 	public List<TwitterStatus> load(String name, Date start, Date end) {
 		Calendar cal = Calendar.getInstance();
@@ -38,7 +29,7 @@ public class Fetch implements ITweetLoader {
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
 		end = cal.getTime();
-		System.out.println("\n" + name + " (" + start + "-" + end + ")");
+		logger.debug("\n" + name + " (" + start + "-" + end + ")");
 		
 		List<TwitterStatus> result = new ArrayList<TwitterStatus>();
 //		List<TwitterStatusList> cached_tweets = Cache.load(name, start, end);
@@ -68,7 +59,7 @@ public class Fetch implements ITweetLoader {
 //		if (!start.equals(end))
 //		{
 			endId = Long.MAX_VALUE;
-			System.out.println("end of last file: " + start + ", end of range: " + end);
+//			System.out.println("end of last file: " + start + ", end of range: " + end);
 			result.addAll(fetch(name, start, end, startId, endId));
 //		}
 
@@ -93,13 +84,12 @@ public class Fetch implements ITweetLoader {
 	 * @param startId
 	 * @return A list of tweets matching the criteria (at most 100)
 	 */
-	public TwitterStatusList fetch(String name, Date start, Date end, long startId, long endId)
-	{
-		System.out.println("Fetch: " + name + ", start: " + start + ", end: " + end+ " ids: " + startId + "-" + endId);
+	private TwitterStatusList fetch(String name, Date start, Date end, long startId, long endId) {
+		logger.debug("Fetch: " + name + ", start: " + start + ", end: " + end +
+					 " ids: " + startId + "-" + endId);
 		TwitterStatusList tweetList = new TwitterStatusList(name);
 
-		try
-		{
+		try {
 			Twitter twitter = new TwitterFactory(getConfiguration()).getInstance();
 
 			Query query = new Query(name);
@@ -118,55 +108,46 @@ public class Fetch implements ITweetLoader {
 			QueryResult result;
 			result = twitter.search(query);
 
-			System.out.println(result.getCount());
+			logger.debug(result.getCount());
 			List<Status> tweets = result.getTweets();
 
-			System.out.println(tweets.size());
-			for (Status tweet: tweets)
-			{
+			logger.debug(tweets.size());
+			for (Status tweet: tweets) {
 				tweetList.add(new TwitterStatus(tweet));
 			}
 			Collections.sort(tweetList);
 
-		}
-		catch (TwitterException e)
-		{
-			e.printStackTrace();
-			System.err.println("Failed to search tweets: " + e.getMessage());
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			System.err.println("Failed to open configuration: " + e.getMessage());
+		} catch (TwitterException e) {
+			logger.error("Failed to search tweets", e);
+		} catch (IOException e) {
+			logger.error("Failed to open configuration", e);
 		}
 
 		// if (!tweetList.isEmpty())
 		// {
 		tweetList.setDates(tweetList.size() == MAX_TWEETS ? tweetList.get(0).getDate() : start, end);
 		Cache.store(tweetList);
-		System.out.println("Stored");
+		logger.debug("Stored");
 		// }
 
 		return tweetList;
 	}
 
-	// TODO javadoc	
-	private Configuration getConfiguration() throws IOException
-	{
+	private Configuration getConfiguration() throws IOException {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true);
 		Properties props = new Properties();
 		props.load(getClass().getResourceAsStream(CONFIGURATION_FILE));
-		if (props.containsKey("consumerKey") && props.containsKey("consumerSecret") && props.containsKey("accessToken") && props.containsKey("accessTokenSecret"))
-		{
+		if (props.containsKey("consumerKey")
+				&& props.containsKey("consumerSecret")
+				&& props.containsKey("accessToken")
+				&& props.containsKey("accessTokenSecret")) {
 			cb.setOAuthConsumerKey(props.getProperty("consumerKey"));
 			cb.setOAuthConsumerSecret(props.getProperty("consumerSecret"));
 			cb.setOAuthAccessToken(props.getProperty("accessToken"));
 			cb.setOAuthAccessTokenSecret(props.getProperty("accessTokenSecret"));
 			return cb.build();
-		}
-		else
-		{
+		} else {
 			throw new IOException("Credentials incomplete!");
 		}
 	}
