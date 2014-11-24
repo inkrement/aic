@@ -9,6 +9,8 @@ import com.aic.sentiment_analysis.fetch.TwitterStatus;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.FileNotFoundException;
 import java.net.URI;
@@ -21,6 +23,8 @@ import java.util.List;
  * by performing sentiment analysis on correlating twitter messages.
  */
 public class SentimentAnalyzer {
+
+	private static final Log logger = LogFactory.getLog(SentimentAnalyzer.class);
 
 	private ITweetLoader tweetLoader;
 	private ISentimentClassifier classifier;
@@ -68,6 +72,9 @@ public class SentimentAnalyzer {
 				featureVector = preprocessor.preprocess(tweet.getText());
 
 				Sentiment sentiment = classifier.classify(featureVector);
+				logger.info("Classified \"" + tweet.getText() + "\" as " +
+						sentiment.name());
+
 				if (sentiment == Sentiment.POSITIVE) {
 					positiveTweets++;
 				}
