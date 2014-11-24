@@ -80,10 +80,12 @@ public class Fetch implements ITweetLoader {
 	 * {@code start} and {@code end} date.
 	 * <p>
 	 * <b>Note:</b>
-	 * "The Search API is not complete index of all Tweets, but instead an index of recent Tweets. At the moment that index includes between 6-9 days of Tweets."
-	 * (see {@link https://dev.twitter.com/rest/public/search})
-	 * </p>
-	 * 
+	 * "The Search API is not complete index of all Tweets, but instead an index
+	 * of recent Tweets. At the moment that index includes between 6-9 days of
+	 * Tweets."
+	 * (see <a href="https://dev.twitter.com/rest/public/search">
+	 *     https://dev.twitter.com/rest/public/search</a>)
+	 *
 	 * @param name The term the tweets should contain
 	 * @param start The start date for the search
 	 * @param end The end date for the search
