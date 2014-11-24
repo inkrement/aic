@@ -1,7 +1,5 @@
 package com.aic.rest.domain;
 
-import javax.persistence.*;
-
 public class Company {
 
     private String name;

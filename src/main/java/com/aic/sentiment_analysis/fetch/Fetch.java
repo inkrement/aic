@@ -18,7 +18,7 @@ import java.util.*;
 public class Fetch implements ITweetLoader {
 
 	private static final Log logger = LogFactory.getLog(Fetch.class);
-	public static final int MAX_TWEETS = 100;
+	public static final int MAX_TWEETS = 2;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 	private static final String CONFIGURATION_FILE = "twitter.properties";
 
