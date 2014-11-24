@@ -18,7 +18,7 @@ import java.util.*;
 public class Fetch implements ITweetLoader {
 
 	private static final Log logger = LogFactory.getLog(Fetch.class);
-	private static final int MAX_TWEETS = 100;
+	public static final int MAX_TWEETS = 100;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 	private static final String CONFIGURATION_FILE = "twitter.properties";
 
@@ -137,7 +137,7 @@ public class Fetch implements ITweetLoader {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true);
 		Properties props = new Properties();
-		props.load(getClass().getResourceAsStream(CONFIGURATION_FILE));
+		props.load(getClass().getClassLoader().getResourceAsStream(CONFIGURATION_FILE));
 		if (props.containsKey("consumerKey")
 				&& props.containsKey("consumerSecret")
 				&& props.containsKey("accessToken")
