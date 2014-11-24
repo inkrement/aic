@@ -93,7 +93,7 @@ public class Fetch implements ITweetLoader {
 	 * @param startId
 	 * @return A list of tweets matching the criteria (at most 100)
 	 */
-	public static TwitterStatusList fetch(String name, Date start, Date end, long startId, long endId)
+	public TwitterStatusList fetch(String name, Date start, Date end, long startId, long endId)
 	{
 		System.out.println("Fetch: " + name + ", start: " + start + ", end: " + end+ " ids: " + startId + "-" + endId);
 		TwitterStatusList tweetList = new TwitterStatusList(name);
