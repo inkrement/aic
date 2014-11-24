@@ -1,4 +1,4 @@
-Advanced Internet Computing Sentiment Analysis
+AIC - Sentiment Analysis
 ===
 
 ## Setup
@@ -18,11 +18,11 @@ company and one for querying the sentiments for a company during a specific
 time period. The registration endpoint can be reached at `http://localhost:8080/register`
 and expects two POST parameters, namely, `name` and `password`. The sentiment for
 a company can be retrieved by contacting the endpoint `http://localhost:8080/sentiment`
-and takes the four GET parameters `name`, `password`, `start` and `end`. The latter
-two parameters represent dates and therefore have to conform to the pattern `MMddyyyy`. An
-example query may look like this: `http://localhost:8080/sentiment?name=Microsoft&password=test123&start=01011970&end=01011972`.
+and takes the four GET parameters `name`, `password`, `startDate` and `endDate`. The latter
+two parameters represent dates and therefore have to conform to the pattern `yyyy-MM-dd`. An
+example query may look like this: `http://localhost:8080/sentiment?name=Microsoft&password=test123&start=2014-09-08&end=2014-09-12`.
 
-To test the `fetching tweets` functionality, call `http://localhost:8080/tweets?name=Microsoft&start=20141018&end=20141020`. (Pattern for dates is yyyyddMM, time zone is UTC, similiar to the pattern used by twitter)
+It is also possible to use the REST service via a AngularJS Frontend which can be reached at `http://localhost:8080/`.
 
 ## Environment
 
