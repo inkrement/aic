@@ -41,36 +41,36 @@ public class Fetch implements ITweetLoader {
 		System.out.println("\n" + name + " (" + start + "-" + end + ")");
 		
 		List<TwitterStatus> result = new ArrayList<TwitterStatus>();
-		List<TwitterStatusList> cached_tweets = Cache.load(name, start, end);
-		System.out.println("1: " + start);
-		Collections.sort(cached_tweets);
-		System.out.println("2: " + start);
-		System.out.println("Number of cached tweet lists: " + cached_tweets.size());
+//		List<TwitterStatusList> cached_tweets = Cache.load(name, start, end);
+//		System.out.println("1: " + start);
+//		Collections.sort(cached_tweets);
+//		System.out.println("2: " + start);
+//		System.out.println("Number of cached tweet lists: " + cached_tweets.size());
 
 		long startId = 0;
 		long endId;
-		for (TwitterStatusList tsl: cached_tweets)
-		{
-			System.out.println("Cached file: start: " + tsl.getStart() + ", end: " + tsl.getEnd());
-			endId = tsl.getStartId() - 1;
-			System.out.println("3: " + start);
-			System.out.println("Start of range: " + start + ", start of file: " + tsl.getStart());
-			if (!start.equals(tsl.getStart()))
-			{
-				System.out.println("4: " + start);
-				result.addAll(fetch(name, start, tsl.getStart(), startId, tsl.getStartId() - 1));
-			}
-			result.addAll(tsl);
-			start = tsl.getEnd();
-			startId = tsl.getEndId() + 1;
-
-		}
-		if (!start.equals(end))
-		{
+//		for (TwitterStatusList tsl: cached_tweets)
+//		{
+//			System.out.println("Cached file: start: " + tsl.getStart() + ", end: " + tsl.getEnd());
+//			endId = tsl.getStartId() - 1;
+//			System.out.println("3: " + start);
+//			System.out.println("Start of range: " + start + ", start of file: " + tsl.getStart());
+//			if (!start.equals(tsl.getStart()))
+//			{
+//				System.out.println("4: " + start);
+//				result.addAll(fetch(name, start, tsl.getStart(), startId, tsl.getStartId() - 1));
+//			}
+//			result.addAll(tsl);
+//			start = tsl.getEnd();
+//			startId = tsl.getEndId() + 1;
+//
+//		}
+//		if (!start.equals(end))
+//		{
 			endId = Long.MAX_VALUE;
 			System.out.println("end of last file: " + start + ", end of range: " + end);
 			result.addAll(fetch(name, start, end, startId, endId));
-		}
+//		}
 
 		return result;
 	}
