@@ -60,14 +60,16 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
 
     /**
      * Boolean function for filtering unnecessary tags
-     * Allow only tags of type verb (VB) and adjective (JJ)
+     * Allow only tags of type verb (VB), adjective (JJ)
+     * or hashtag (HT).
      *
      * @param tag the tag that needs to get checked
      * @return boolean value
      */
     private boolean containsAllowedTag(String tag) {
-        if (tag.equals("VB") || tag.equals("JJ"))
+        if (tag.equals("VB") || tag.equals("HT") || tag.equals("JJ")) {
             return true;
+        }
 
         return false;
     }
