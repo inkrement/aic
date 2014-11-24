@@ -113,6 +113,7 @@ public class Fetch implements ITweetLoader {
 			query.setMaxId(endId);
 			query.setSinceId(startId);
 			query.setCount(MAX_TWEETS);
+			query.setLang("en");
 
 			QueryResult result;
 			result = twitter.search(query);
