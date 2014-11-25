@@ -2,12 +2,11 @@ package com.aic.sentiment_analysis.fetch;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -19,10 +18,17 @@ import java.util.*;
 @Component
 public class Fetch implements ITweetLoader {
 
-	private static final Log logger = LogFactory.getLog(Fetch.class);
 	public static final int MAX_TWEETS = 5;
+
+	private static final Log logger = LogFactory.getLog(Fetch.class);
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-	private static final String CONFIGURATION_FILE = "twitter.properties";
+
+	private Configuration configuration;
+
+	@Autowired
+	public Fetch(Configuration configuration) {
+		this.configuration = configuration;
+	}
 
 	public List<TwitterStatus> load(String name, Date start, Date end) {
 		Calendar cal = Calendar.getInstance();
@@ -92,7 +98,7 @@ public class Fetch implements ITweetLoader {
 		TwitterStatusList tweetList = new TwitterStatusList(name);
 
 		try {
-			Twitter twitter = new TwitterFactory(getConfiguration()).getInstance();
+			Twitter twitter = new TwitterFactory(configuration).getInstance();
 
 			Query query = new Query(name);
 
@@ -121,36 +127,14 @@ public class Fetch implements ITweetLoader {
 
 		} catch (TwitterException e) {
 			logger.error("Failed to search tweets", e);
-		} catch (IOException e) {
-			logger.error("Failed to open configuration", e);
 		}
 
-		// if (!tweetList.isEmpty())
-		// {
+//		if (!tweetList.isEmpty()) {
 		tweetList.setDates(tweetList.size() == MAX_TWEETS ? tweetList.get(0).getDate() : start, end);
 //		Cache.store(tweetList);
-		logger.debug("Stored");
-		// }
+//		logger.debug("Stored");
+//		}
 
 		return tweetList;
-	}
-
-	private Configuration getConfiguration() throws IOException {
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true);
-		Properties props = new Properties();
-		props.load(getClass().getClassLoader().getResourceAsStream(CONFIGURATION_FILE));
-		if (props.containsKey("consumerKey")
-				&& props.containsKey("consumerSecret")
-				&& props.containsKey("accessToken")
-				&& props.containsKey("accessTokenSecret")) {
-			cb.setOAuthConsumerKey(props.getProperty("consumerKey"));
-			cb.setOAuthConsumerSecret(props.getProperty("consumerSecret"));
-			cb.setOAuthAccessToken(props.getProperty("accessToken"));
-			cb.setOAuthAccessTokenSecret(props.getProperty("accessTokenSecret"));
-			return cb.build();
-		} else {
-			throw new IOException("Credentials incomplete!");
-		}
 	}
 }
