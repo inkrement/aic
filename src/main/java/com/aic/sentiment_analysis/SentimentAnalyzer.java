@@ -1,23 +1,19 @@
 package com.aic.sentiment_analysis;
 
-import com.aic.Constants;
-import com.aic.sentiment_analysis.classification.*;
+import com.aic.sentiment_analysis.classification.ClassificationException;
+import com.aic.sentiment_analysis.classification.ISentimentClassifier;
+import com.aic.sentiment_analysis.classification.Sentiment;
 import com.aic.sentiment_analysis.feature.FeatureVector;
-import com.aic.sentiment_analysis.fetch.Fetch;
 import com.aic.sentiment_analysis.fetch.ITweetLoader;
 import com.aic.sentiment_analysis.fetch.TwitterStatus;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
-import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +58,7 @@ public class SentimentAnalyzer {
 			List<TwitterStatus> tweets = tweetLoader.load(companyName, start, end);
 
 			if (tweets.size() == 0) {
-				throw new SentimentAnalysisException("No tweets for available.");
+				throw new SentimentAnalysisException("No tweets available for analysis.");
 			}
 
 			int positiveTweets = 0;
