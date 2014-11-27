@@ -15,4 +15,9 @@ public class FeatureVector {
     public List<Feature> getFeatures() {
         return features;
     }
+
+    @Override
+    public String toString(){
+        return features.toString();
+    }
 }

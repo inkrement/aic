@@ -19,4 +19,9 @@ public class Feature {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    @Override
+    public String toString(){
+        return word.toString() + "_"  + tag.toString();
+    }
 }
