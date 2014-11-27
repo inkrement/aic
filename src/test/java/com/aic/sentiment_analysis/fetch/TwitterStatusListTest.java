@@ -1,4 +1,4 @@
-package com.aic.sentiment_analysis.components;
+package com.aic.sentiment_analysis.fetch;
 
 import com.aic.sentiment_analysis.fetch.TwitterStatus;
 import com.aic.sentiment_analysis.fetch.TwitterStatusList;
