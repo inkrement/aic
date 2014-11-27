@@ -2,7 +2,9 @@ package com.aic;
 
 import com.aic.sentiment_analysis.classification.CSVTrainingSampleLoader;
 import com.aic.sentiment_analysis.classification.TrainingSample;
+import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
+import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -50,6 +52,11 @@ public class ApplicationConfig {
 			throw new IOException("Credentials incomplete!");
 		}
 	}
+
+    @Bean
+    public ISentimentPreprocessor sentimentPreprocessor(){
+        return new SentimentTwitterPreprocessor();
+    }
 
 	@Bean
 	public CacheManager cacheManager() {

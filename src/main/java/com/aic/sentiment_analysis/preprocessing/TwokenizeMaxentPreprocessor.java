@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
  * @see <a href="http://nlp.stanford.edu/software/index.shtml">Stanford NLP</a>
  * @see <a href="https://gate.ac.uk/wiki/twitter-postagger.html">POS Tagger Model file</a>
  */
-@Component
 public class TwokenizeMaxentPreprocessor implements ISentimentPreprocessor {
     static final Logger logger = Logger.getLogger(TwokenizeMaxentPreprocessor.class.getName());
 
