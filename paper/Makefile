@@ -1,7 +1,7 @@
 all: paper.pdf
 
 
-paper.pdf: paper.tex chapters/1_introduction.tex chapters/2_data.tex
+paper.pdf: paper.tex chapters/1_introduction.tex chapters/2_data.tex chapters/3_preprocessing.tex
 	pdflatex paper.tex
 	bibtex paper
 	pdflatex paper.tex
