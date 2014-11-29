@@ -1,5 +1,9 @@
 package com.aic.sentiment_analysis.feature;
 
+/**
+ * Represents a feature which consists of
+ * a tag and a word.
+ */
 public class Feature {
 
     private String word = "";

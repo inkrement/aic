@@ -60,6 +60,6 @@ public class ApplicationConfig {
 
 	@Bean
 	public CacheManager cacheManager() {
-		return new ConcurrentMapCacheManager("sentiments");
+		return new ConcurrentMapCacheManager("sentiments", "aggregateSentiment");
 	}
 }

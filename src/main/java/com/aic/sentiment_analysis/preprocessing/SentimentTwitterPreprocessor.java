@@ -1,12 +1,10 @@
 package com.aic.sentiment_analysis.preprocessing;
 
-import com.aic.rest.Sentiment;
 import com.aic.sentiment_analysis.feature.Feature;
 import com.aic.sentiment_analysis.feature.FeatureVector;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-import org.springframework.stereotype.Component;
 
 import java.io.StringReader;
 import java.util.ArrayList;

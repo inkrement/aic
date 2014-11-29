@@ -1,7 +1,7 @@
 package com.aic.sentiment_analysis.fetch;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 
 // TODO javadoc	
 public class TwitterStatusList extends ArrayList<TwitterStatus> implements Comparable<TwitterStatusList>

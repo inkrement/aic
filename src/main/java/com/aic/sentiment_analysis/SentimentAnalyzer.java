@@ -40,6 +40,51 @@ public class SentimentAnalyzer {
 		this.preprocessor = preprocessor;
 	}
 
+    /**
+     * Calculates a sentiment value based on an aggregation of tweets and
+     * each tweet classified by a sentiment
+     * {@link com.aic.sentiment_analysis.classification.Sentiment} value based
+     * on the tweets that have been posted during a specific observation period.
+     *
+     * @param companyName the according company's name
+     * @param start the start of the observation period
+     * @param end the end of the observation period
+     * @return an aggregated sentiment
+     * @throws SentimentAnalysisException
+     */
+    @Cacheable("aggregateSentiment")
+    public AggregateSentiment aggregateSentiment(String companyName, Date start, Date end)
+            throws SentimentAnalysisException {
+        AggregateSentiment aggregateSentiment = new AggregateSentiment();
+        try {
+            List<TwitterStatus> tweets = tweetLoader.load(companyName, start, end);
+
+            if (tweets.size() == 0) {
+                throw new SentimentAnalysisException("No tweets available for analysis.");
+            }
+
+            for (TwitterStatus tweet : tweets) {
+                FeatureVector featureVector = null;
+                featureVector = preprocessor.preprocess(tweet.getText());
+
+                Sentiment sentiment = classifier.classify(featureVector);
+
+                aggregateSentiment.putSentiment(tweet, sentiment);
+
+                logger.debug("Classified \"" + tweet.getText() +
+                        "\" as " + sentiment.name());
+            }
+
+            logger.debug(String.format("Aggregated sentiment is %.2f",
+                    aggregateSentiment.calculateAggregateSentimentRatio()));
+            return aggregateSentiment;
+        } catch (PreprocessingException e) {
+            throw new SentimentAnalysisException(e);
+        } catch (ClassificationException e) {
+            throw new SentimentAnalysisException(e);
+        }
+    }
+
 	/**
 	 * Calculate the public perception of the company with the given name, based
 	 * on the tweets that have been posted during a specific observation period.
@@ -54,6 +99,7 @@ public class SentimentAnalyzer {
 	@Cacheable("sentiments")
 	public float averageSentiment(String companyName, Date start, Date end)
 			throws SentimentAnalysisException {
+        AggregateSentiment aggregateSentiment = new AggregateSentiment();
 		try {
 			List<TwitterStatus> tweets = tweetLoader.load(companyName, start, end);
 
@@ -61,22 +107,16 @@ public class SentimentAnalyzer {
 				throw new SentimentAnalysisException("No tweets available for analysis.");
 			}
 
-			int positiveTweets = 0;
-
 			for (TwitterStatus tweet : tweets) {
 				FeatureVector featureVector = null;
 				featureVector = preprocessor.preprocess(tweet.getText());
 
 				Sentiment sentiment = classifier.classify(featureVector);
+                aggregateSentiment.putSentiment(tweet, sentiment);
 				logger.debug("Classified \"" + tweet.getText() +
 						"\" as " + sentiment.name());
-
-				if (sentiment == Sentiment.POSITIVE) {
-					positiveTweets++;
-				}
 			}
-
-			float aggregatedSentiment = (float) positiveTweets / tweets.size();
+            float aggregatedSentiment = aggregateSentiment.calculateAggregateSentimentRatio();
 			logger.debug(String.format("Aggregated sentiment is %.2f",
 					aggregatedSentiment));
 			return aggregatedSentiment;

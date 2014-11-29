@@ -1,11 +1,10 @@
 package com.aic.sentiment_analysis.fetch;
 
-import com.aic.sentiment_analysis.fetch.TwitterStatus;
-import com.aic.sentiment_analysis.fetch.TwitterStatusList;
-import org.junit.* ;
-import static org.junit.Assert.* ;
+import org.junit.Test;
 
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 public class TwitterStatusListTest{
 
