@@ -24,6 +24,9 @@
         <div class="alert alert-info" ng-show="showSentiment">
             Sentiment result: {{sentiment.sentimentRatio}}
         </div>
+        <div class="alert alert-info" ng-show="showSentiment">
+            Date-weighted sentiment result: {{sentiment.dateWeightedSentimentRatio}}
+        </div>
 
         <table class="table" ng-show="showSentiment">
             <thead>

@@ -8,10 +8,12 @@ import java.util.Map;
 public class AggregateSentiment {
     private Map<TwitterStatus, Sentiment> sentiments;
     private double sentimentRatio;
+    private double dateWeightedSentimentRatio;
 
     public AggregateSentiment(com.aic.sentiment_analysis.AggregateSentiment aggregateSentiment) {
         this.sentiments = aggregateSentiment.getSentimentAggregation();
         this.sentimentRatio = aggregateSentiment.calculateAggregateSentimentRatio();
+        this.dateWeightedSentimentRatio = aggregateSentiment.calculateDateWeightedAggregateSentimentRatio();
     }
 
     /**
@@ -25,5 +27,9 @@ public class AggregateSentiment {
 
     public double getSentimentRatio() {
         return sentimentRatio;
+    }
+
+    public double getDateWeightedSentimentRatio() {
+        return dateWeightedSentimentRatio;
     }
 }
