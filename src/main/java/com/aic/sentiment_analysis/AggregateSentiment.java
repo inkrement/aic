@@ -64,7 +64,7 @@ public class AggregateSentiment {
      *
      * @return weighted aggregated setiment ratio
      */
-    public float calculateAggregateSentimentRatio1() {
+    public float calculateDateWeightedAggregateSentimentRatio() {
 
         float sent = 0;
         //The last tweet has 90% of the weight of the first one

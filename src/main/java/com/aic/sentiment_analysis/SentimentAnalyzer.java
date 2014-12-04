@@ -78,7 +78,7 @@ public class SentimentAnalyzer {
             logger.debug(String.format("Aggregated sentiment is %.2f",
                     aggregateSentiment.calculateAggregateSentimentRatio()));
 			logger.debug(String.format("Weighted Aggregated sentiment is %.2f",
-					aggregateSentiment.calculateAggregateSentimentRatio1()));
+					aggregateSentiment.calculateDateWeightedAggregateSentimentRatio()));
             return aggregateSentiment;
         } catch (PreprocessingException e) {
             throw new SentimentAnalysisException(e);
