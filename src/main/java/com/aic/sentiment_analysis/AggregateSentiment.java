@@ -3,8 +3,7 @@ package com.aic.sentiment_analysis;
 import com.aic.sentiment_analysis.classification.Sentiment;
 import com.aic.sentiment_analysis.fetch.TwitterStatus;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents an aggregation of tweets {@link com.aic.sentiment_analysis.fetch.TwitterStatus} which
@@ -28,8 +27,10 @@ public class AggregateSentiment {
     public void putSentiment(TwitterStatus status, Sentiment sentiment) {
         sentiments.put(status, sentiment);
 
-        if (sentiment == Sentiment.POSITIVE)
+        if (sentiment == Sentiment.POSITIVE) {
             positiveTweetsCount++;
+            positiveStats.add(status);
+        }
     }
 
     /**
@@ -48,5 +49,59 @@ public class AggregateSentiment {
      */
     public float calculateAggregateSentimentRatio() {
         return (float) positiveTweetsCount / sentiments.size();
+    }
+
+
+    /**
+     * ################## Weight tweets based on Date ####################
+     * if location does not work
+     * TODO delete section if no neccessary
+     */
+
+    private ArrayList<TwitterStatus> positiveStats = new ArrayList<>();
+
+    /**
+     *
+     * @return weighted aggregated setiment ratio
+     */
+    public float calculateAggregateSentimentRatio1() {
+
+        float sent = 0;
+        //The last tweet has 90% of the weight of the first one
+        double endRatio = 0.8;
+        int size = positiveStats.size();
+
+        orderTweets();
+
+        if(size == 1){
+            return 1/sentiments.size();
+        }
+
+        for(int i = 0; i < positiveStats.size(); i++){
+            sent += 1-i*(1-endRatio)/(size-1);
+        }
+
+        //System.out.println("############### sent new: " + sent/sentiments.size());
+
+        return sent/sentiments.size();
+    }
+
+    private void orderTweets(){
+
+        Collections.sort(positiveStats, new Comparator<TwitterStatus>() {
+
+            public int compare(TwitterStatus tw1, TwitterStatus tw2) {
+                return (int) tw2.getDate().getTime() - (int) tw1.getDate().getTime();
+            }
+        });
+
+        /*
+        System.out.println("############################");
+        System.out.println(positiveStats.size());
+        for(TwitterStatus t : positiveStats){
+            System.out.println(t.getDate().getTime());
+        }
+        System.out.println("############################");
+        */
     }
 }
