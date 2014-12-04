@@ -26,7 +26,7 @@ It is also possible to use the REST service via a AngularJS Frontend which can b
 
 ## Environment
 
-Programming Language: JAVA (Jetty Container)
+Programming Language: Java (Tomcat Container)
 
 Framework: Spring
 
