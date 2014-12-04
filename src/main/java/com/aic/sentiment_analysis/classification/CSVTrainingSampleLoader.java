@@ -1,16 +1,16 @@
 package com.aic.sentiment_analysis.classification;
 
-import com.aic.sentiment_analysis.classification.Sentiment;
-import com.aic.sentiment_analysis.classification.TrainingSample;
+import com.aic.sentiment_analysis.feature.FeatureVector;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
-import com.aic.sentiment_analysis.feature.FeatureVector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Provides means to load classification training data from a CSV file that

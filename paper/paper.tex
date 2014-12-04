@@ -3,6 +3,7 @@
 %% set up bibliography
 \usepackage[backend=bibtex,doi=false,isbn=false,url=false]{biblatex}
 \bibliography{biblio}  % sigproc.bib is the name of the Bibliography in this case
+\usepackage{float}
 %\bibliographystyle{acm}
 
 \usepackage{tikz}
@@ -16,7 +17,7 @@
 \tikzstyle{output} = [coordinate]
 \tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
 
-\title{State of the art in {\ttlit Sentiment Analysis}}
+\title{State of the Art in \\ {\ttlit Twitter Sentiment Analysis}}
 
 
 %\subtitle{}
@@ -62,14 +63,14 @@
 %
 % 1st. author
 \alignauthor
-C. B. Hotz-Behofsits\\
+Christian B. Hotz-Behofsits\\
        \affaddr{0929002}\\
        \affaddr{christian.hotz-behofsits@tuwien.ac.at}
 % 2nd. author
 \alignauthor
-Thomas Schmidtleitner\\
+Thomas Schmidleithner\\
        \affaddr{1025525}\\
-       \affaddr{e1025525@student.tuwien.ac.at}
+       \affaddr{tschmidleithner@auto.tuwien.ac.at}
 % 3rd. author
 \alignauthor
 Dominik Pichler\\
@@ -114,9 +115,10 @@ The extensive growth of user-generated content in social networks and the common
 %\keywords{ACM proceedings, \LaTeX, text tagging}
 
 \input{chapters/1_introduction.tex}
-\input{chapters/4_preprocessing.tex}
-\input{chapters/2_methods.tex}
-\input{chapters/3_conclusions.tex}
+\input{chapters/2_data.tex}
+\input{chapters/3_preprocessing.tex}
+\input{chapters/4_methods.tex}
+\input{chapters/5_conclusions.tex}
 
 
 %

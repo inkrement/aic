@@ -39,6 +39,7 @@ dependencies {
     compile("nz.ac.waikato.cms.weka:weka-dev:3.7.11")
     compile("nz.ac.waikato.cms.weka:LibSVM:1.0.6")
     compile("net.sf.ehcache:ehcache:2.9.0")
+    compile("edu.cmu.cs:ark-tweet-nlp:0.3.2")
 
     testCompile("junit:junit")
 }

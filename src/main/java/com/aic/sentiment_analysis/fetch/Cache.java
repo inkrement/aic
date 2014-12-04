@@ -1,13 +1,10 @@
 package com.aic.sentiment_analysis.fetch;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-import java.io.*;
-
-import java.nio.file.*;
-
-import static java.io.File.createTempFile;
 
 /**
  * @todo implement

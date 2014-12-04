@@ -1,31 +1,43 @@
-<div class="row">
+<div class="row" ng-show="loggedIn()">
 
     <p class="well">Please specify the date range for the sentiment analysis</p>
 
     <form role="form">
-        <div  ng-show="loggedIn()">
-            <div class="form-group">
-                <div class="input-group">
-                    <label for="startDate">Start date</label>
-                    <input type="date" class="form-control" name="startDate" id="startDate" ng-model="range.start">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <label for="endDate">End date</label>
-                    <input type="date" class="form-control" name="endDate" id="endDate" ng-model="range.end">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <button type="submit" class="btn btn-default" ng-click="getCompanySentiment(range)">Get Sentiment value</button>
-                </div>
-            </div>
-
-            <div class="alert alert-info" ng-show="showSentiment">
-                Sentiment result: {{sentiment}}
+        <div class="form-group">
+            <div class="input-group">
+                <label for="startDate">Start date</label>
+                <input type="date" class="form-control" name="startDate" id="startDate" ng-model="range.start">
             </div>
         </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label for="endDate">End date</label>
+                <input type="date" class="form-control" name="endDate" id="endDate" ng-model="range.end">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <button type="submit" class="btn btn-default" ng-click="getCompanySentiment(range)">Get Sentiment value</button>
+            </div>
+        </div>
+
+        <div class="alert alert-info" ng-show="showSentiment">
+            Sentiment result: {{sentiment.sentimentRatio}}
+        </div>
+
+        <table class="table" ng-show="showSentiment">
+            <thead>
+                <th>Twitter Message</th>
+                <th>Sentiment</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key, value) in sentiment.sentimentAggregation"
+                    ng-class="{true:'success', false:'danger'}[value=='POSITIVE']">
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            </tbody>
+        </table>
     </form>
 
 </div>

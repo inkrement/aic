@@ -1,6 +1,7 @@
 package com.aic.rest.controller;
 
 import com.aic.rest.RestException;
+import com.aic.rest.domain.AggregateSentiment;
 import com.aic.rest.domain.Company;
 import com.aic.sentiment_analysis.SentimentAnalysisException;
 import com.aic.sentiment_analysis.SentimentAnalyzer;
@@ -81,7 +82,7 @@ public class CompanyController {
      */
     @RequestMapping(value = "/sentiment", method = RequestMethod.GET)
     @ResponseBody
-    public float sentiment(@RequestParam(value = "name") String name,
+    public AggregateSentiment sentiment(@RequestParam(value = "name") String name,
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "startDate")
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
@@ -90,6 +91,11 @@ public class CompanyController {
         if (!isAuthorized(name, password))
             throw new RestException("Authorization failed");
 
-        return sentimentAnalyzer.averageSentiment(name, start, end);
+        // Wrapping aggregateSentiment for Jackson
+        AggregateSentiment aggregateSentiment = new AggregateSentiment(
+            sentimentAnalyzer.aggregateSentiment(name, start, end)
+        );
+
+        return aggregateSentiment;
     }
 }

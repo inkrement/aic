@@ -18,7 +18,7 @@ import java.util.*;
 @Component
 public class Fetch implements ITweetLoader {
 
-	public static final int MAX_TWEETS = 5;
+	public static final int MAX_TWEETS = 50;
 
 	private static final Log logger = LogFactory.getLog(Fetch.class);
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");

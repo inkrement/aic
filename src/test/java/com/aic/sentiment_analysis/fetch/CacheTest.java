@@ -1,13 +1,5 @@
 package com.aic.sentiment_analysis.fetch;
 
-import org.junit.* ;
-import static org.junit.Assert.* ;
-
-import java.io.File;
-import java.util.Date;
-
-import java.io.IOException;
-
 public class CacheTest {
 
 //	@Before

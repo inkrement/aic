@@ -1,0 +1,70 @@
+\section{Preprocessing}
+The data preprocessing step is an essential 
+part of sentiment analysis. Its goal is to prepare data
+for the sentiment analysis and remove noisy, unnecessary, 
+inconsistent or incomplete parts.\autocite{Hemalatha2012}
+In a first step a tokenizer splits the tweet into conjugate parts, called words. 
+The resulting list of words is filtered regarding the word class, 
+the word itself and the intention of the sentiment analysis. 
+In case of sentiment analysis of twitter posts it is common to 
+remove the parts described in the following paragraphs.\autocite{Hemalatha2012}
+
+\paragraph{URLs}
+Uniform Resource Locators (URLs) refer to another site, which 
+in fact can contain very important information, but the internet address
+on its own is not of interest, because in most cases it
+contains only auto-generated information, which can not be influenced 
+by the poster.
+
+\paragraph{Unnecesarry words}
+It is not an obvious task to classify if a word is unnecessary
+or not. But some word classes, like pronouns, articles or interrogatives
+do not contain any relevant information and can be skipped. (TODO:Referenz)
+
+\paragraph{Retweets}
+Retweets reflect the position of another person and are not always
+created to express the same opinion (e.g. statement of sarcasm).
+
+\paragraph{Repeated characters}
+Tweets contain often deformed words 
+containing repeated characters like `heeeey' or
+`whuhuuu'. In this cases it is intended to reconstruct 
+the correct english term and only if it is not 
+possible or too sophisticated, the word is removed
+by the preprocessor.
+
+
+\subsection{Tokenizer}
+There are already several open source tokenizer implementations
+available. Some popular programming libraries for the english 
+language include the Stanford NLP PTBTokenizer
+\footnote{http://nlp.stanford.edu/software/tokenizer.shtml} 
+and the Apache OpenNLP Tokenizer\footnote{http://opennlp.apache.org/documentation/manual/opennlp.html}.
+These examples are quite versatile and can even be
+used for different tasks and languages.
+To overcome the special needs of sentiment analysis in terms of Twitter posts,
+highly specialized Tokenizer were created (e.g. Carnegie 
+Mellon Twokenizer\footnote{http://www.ark.cs.cmu.edu/TweetNLP/}).
+Some tokens like emoticons are difficult to handle. Although they 
+are a good and popular resource for sentiment analysis. \autocite{emoticons}
+It is a sophisticated task to recognize them correctly and some Tokenizers 
+like the Stanford NLP PTBTokenizer even skips them per default. 
+The Carnegie Mellon's Twokenizer recognizes the related parts and
+forwards them to the Tagger.
+
+\subsection{Tagger}
+Part-of-Speech (POS) tagging is a simple form of syntactic analysis and therefor
+very useful for Natural Language Processing.
+Tagging Tweets is very challenging, because of the twitter specific slang, emoticons and the lack of conventional orthography.
+%TODO: Quelle: Part-of-Speech Tagging for Twitter: Annotation, Features, and Experiments
+spelling errors, bad structure, abbreviations, and slang
+%TODO Quelle: Mirroring the Real World in Social Media: Twitter, Geolocation, and Sentiment Analysis
+There is a variety of freely downloadable POS taggers
+\footnote{http://www-nlp.stanford.edu/links/statnlp.html} e.g. Stanford POS tagger
+\footnote{http://nlp.stanford.edu/software/tagger.shtml}
+ but just a few are specialized on tagging twitter data like the TweetNLP tagger
+\footnote{http://www.ark.cs.cmu.edu/TweetNLP/}. In comparison with the Stanford POS tagger the TweetNLP tagger
+ reduces errors by 25\%.
+ %TODO Quelle: http://iswc2012.semanticweb.org/sites/default/files/76490497.pdf
+
+

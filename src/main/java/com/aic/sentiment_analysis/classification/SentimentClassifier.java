@@ -1,10 +1,10 @@
 package com.aic.sentiment_analysis.classification;
 
+import com.aic.sentiment_analysis.feature.Feature;
+import com.aic.sentiment_analysis.feature.FeatureVector;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
-import com.aic.sentiment_analysis.feature.Feature;
-import com.aic.sentiment_analysis.feature.FeatureVector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import weka.classifiers.Classifier;

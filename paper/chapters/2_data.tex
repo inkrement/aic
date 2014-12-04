@@ -1,0 +1,43 @@
+\section{Data}
+Twitter is a social network and microblogging service that
+allows their users to compose and read so called 
+\emph{tweets}. The user registration is not limited
+to professional writers, authors or similar expert groups 
+and there are no quality safeguards or writing guidelines. 
+
+Each tweet is a text message and can contain up to 140 characters
+including links, pictures\footnote{pictures are replaced 
+by a url targeting a public available image resource}, and special tagged words.
+These special tagged words start with a well defined prefix 
+and add semantic information to the prefixed string.
+Table \ref{tab:twitterprefixes} shows an overview of 
+common prefixes supported by Twitter and their purpose. 
+A hash (\#) labels a word, also known as hashtag.
+It is used to mark important keywords within tweets.
+There is also a at-sign-prefix \emph{@}, which allows 
+to mention and link other Twitter users in a post. Tweet composers can 
+insert URLs as part of their messages. Regarding the hard 
+length limitation of a tweet, url-shortener are often used to
+insert longer internet addresses.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ l | c | r }                 
+  prefix & name of character & meaning  \\
+  \hline
+  \# &  hashtag & keyword, index \\
+  @ & at-sign & twitter username \\
+  \hline
+\end{tabular}
+\caption{Common Twitter word prefixes}
+\label{tab:twitterprefixes}
+\end{table}
+
+The combination of the 140 character restriction and
+the missing writing guidelines leads to another problem: 
+Slang, emoticons and punctuation that are uncommon in longer 
+text messages are heavily used.\autocite{davies2011}
+In terms of sentiment analysis, tweet processing is more comparable to
+sentence level analysis as paragraph analysis. 
+
+%These circumstances make it even harder to  ...
