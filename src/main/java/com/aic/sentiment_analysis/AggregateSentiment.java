@@ -14,6 +14,8 @@ public class AggregateSentiment {
     private Map<TwitterStatus, Sentiment> sentiments;
     private int positiveTweetsCount;
 
+    private ArrayList<TwitterStatus> stats;
+
     public AggregateSentiment() {
         this.sentiments = new HashMap<>();
     }
@@ -29,7 +31,6 @@ public class AggregateSentiment {
 
         if (sentiment == Sentiment.POSITIVE) {
             positiveTweetsCount++;
-            positiveStats.add(status);
         }
     }
 
@@ -53,55 +54,45 @@ public class AggregateSentiment {
 
 
     /**
-     * ################## Weight tweets based on Date ####################
-     * if location does not work
-     * TODO delete section if no neccessary
-     */
-
-    private ArrayList<TwitterStatus> positiveStats = new ArrayList<>();
-
-    /**
-     *
-     * @return weighted aggregated setiment ratio
+     * Calculate the sentiment weighted by date
+     * @return weighted sentiment value
      */
     public float calculateDateWeightedAggregateSentimentRatio() {
 
-        float sent = 0;
-        //The last tweet has 90% of the weight of the first one
-        double endRatio = 0.8;
-        int size = positiveStats.size();
+        stats = new ArrayList<>(sentiments.keySet());
 
-        orderTweets();
+        float overallWeight = 0;
+        float singleWeight = 0;
+        float decreaseFactor = 0.2f;
+        int statsSize = stats.size();
 
-        if(size == 1){
-            return 1/sentiments.size();
+        orderTweetsByDate();
+
+        TwitterStatus ts;
+
+        for(int i = 0; i < statsSize; i++){
+            ts = stats.get(i);
+            if(sentiments.get(ts) == Sentiment.POSITIVE){
+                singleWeight += 1-i*decreaseFactor/(statsSize-1);
+                overallWeight += 1-i*decreaseFactor/(statsSize-1);
+            }else{
+                overallWeight++;
+            }
         }
 
-        for(int i = 0; i < positiveStats.size(); i++){
-            sent += 1-i*(1-endRatio)/(size-1);
-        }
-
-        //System.out.println("############### sent new: " + sent/sentiments.size());
-
-        return sent/sentiments.size();
+        return singleWeight/overallWeight;
     }
 
-    private void orderTweets(){
+    /**
+     * Order tweets by date
+     */
+    private void orderTweetsByDate(){
 
-        Collections.sort(positiveStats, new Comparator<TwitterStatus>() {
+        Collections.sort(stats, new Comparator<TwitterStatus>() {
 
             public int compare(TwitterStatus tw1, TwitterStatus tw2) {
                 return (int) tw2.getDate().getTime() - (int) tw1.getDate().getTime();
             }
         });
-
-        /*
-        System.out.println("############################");
-        System.out.println(positiveStats.size());
-        for(TwitterStatus t : positiveStats){
-            System.out.println(t.getDate().getTime());
-        }
-        System.out.println("############################");
-        */
     }
 }
