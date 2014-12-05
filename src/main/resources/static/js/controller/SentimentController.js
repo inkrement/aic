@@ -23,14 +23,16 @@ var SentimentController = function($scope, $http, $location) {
         $http.get("sentiment", {
             params: {
                 name: sentimentCompany.name,
-                password: sentimentCompany.password,
+                //password: sentimentCompany.password,
                 startDate: range.start,
                 endDate: range.end
             }
         }).success(function(data) {
             $scope.sentiment = data;
             $scope.showSentiment = true;
-        }).error(function(){
+        }).error(function(data, status, headers, config){
+            $scope.errorTextAlert = "Could not fetch tweets: " + data.message;
+            $scope.showErrorAlert = true;
             $scope.showSentiment = false;
         });
     }

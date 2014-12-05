@@ -3,13 +3,13 @@ package com.aic.rest.domain;
 public class Company {
 
     private String name;
-    private String password;
+    //private String password;
 
     public Company() { }
 
     public Company(String name, String password) {
         this.name = name;
-        this.password = password;
+        //this.password = password;
     }
 
     public String getName() {
@@ -20,11 +20,12 @@ public class Company {
         this.name = name;
     }
 
+    /*
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
+    }*/
 }

@@ -44,8 +44,10 @@ public class CompanyController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Company> register(@RequestBody Company company) throws RestException {
-        if (companies.containsKey(company.getName()))
-            throw new RestException("Company already exists");
+        if (companies.containsKey(company.getName())) {
+            return new ResponseEntity<>(company, HttpStatus.OK);
+            //throw new RestException("Company already exists");
+        }
 
         companies.put(company.getName(), company);
         return new ResponseEntity<>(company, HttpStatus.OK);
@@ -66,9 +68,12 @@ public class CompanyController {
             return false;
         }
         Company storedCompany = companies.get(name);
+        /*
         if (!storedCompany.getPassword().equals(password)) {
             return false;
         }
+        */
+
         return true;
     }
 
@@ -76,20 +81,20 @@ public class CompanyController {
      * Calculates the sentiment for the given company within the period.
      *
      * @param name name of the company
-     * @param password password of the company
+     * //@param password password of the company
      * @param start start date for the sentiment analysis
      * @param end end date for the sentiment analysis
      */
     @RequestMapping(value = "/sentiment", method = RequestMethod.GET)
     @ResponseBody
     public AggregateSentiment sentiment(@RequestParam(value = "name") String name,
-                           @RequestParam(value = "password") String password,
+                           //@RequestParam(value = "password") String password,
                            @RequestParam(value = "startDate")
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
                            @RequestParam(value = "endDate")
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end) throws RestException, SentimentAnalysisException {
-        if (!isAuthorized(name, password))
-            throw new RestException("Authorization failed");
+        /*if (!isAuthorized(name, password))
+            throw new RestException("Authorization failed");*/
 
         // Wrapping aggregateSentiment for Jackson
         AggregateSentiment aggregateSentiment = new AggregateSentiment(

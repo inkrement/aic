@@ -28,6 +28,10 @@
             Date-weighted sentiment result: {{sentiment.dateWeightedSentimentRatio}}
         </div>
 
+        <div class="alert alert-danger" ng-show="showErrorAlert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{errorTextAlert}}
+        </div>
+
         <table class="table" ng-show="showSentiment">
             <thead>
                 <th>Twitter Message</th>
