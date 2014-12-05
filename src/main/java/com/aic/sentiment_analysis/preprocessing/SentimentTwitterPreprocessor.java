@@ -42,8 +42,6 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         List<Feature> features = new ArrayList<>();
         List<CoreLabel> coreLabels = tokenizer.getTokenizer(new StringReader(message)).tokenize();
 
-        logger.info(coreLabels.toString());
-
         // tag labels
         tagger.tagCoreLabels(coreLabels);
 

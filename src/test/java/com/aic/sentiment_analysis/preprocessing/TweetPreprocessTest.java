@@ -54,4 +54,17 @@ public class TweetPreprocessTest {
         Assert.assertFalse("'https://wikipedia.org' not found",  features.contains("https://wikipedia.org"));
         Assert.assertFalse("'http://www.wikipedia.org' not found",  features.contains("http://www.wikipedia.org"));
     }
+
+    /**
+     * Tests if a username is contained in the feature vector.
+     */
+    @Test
+    public void testIfUsernameContained() throws PreprocessingException {
+        FeatureVector featureVector = preprocessor.preprocess("Trying to test @codeship stuff");
+        List<String> features = new ArrayList<>();
+        for (Feature f : featureVector.getFeatures()) {
+            features.add(f.getWord());
+        }
+        Assert.assertFalse("'@codeship' found but should not be part of the message", features.contains("@codeship"));
+    }
 }
