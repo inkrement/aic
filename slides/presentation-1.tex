@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Head matter - can we try to be consistent on
+% included packages
+\documentclass{beamer}
+\mode<presentation>
+{\usetheme{default}
+ \usecolortheme{default}
+ \usefonttheme{default}
+ \setbeamertemplate{navigation symbols}{}
+ \setbeamertemplate{caption}[numbered]} 
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting for title page
+\title[Twitter Sentiment Analysis]{Twitter Sentiment Analysis}
+\author{Christian Hotz-Behofsits, Dominik Pichler, Matthias Reisinger, Thomas Schmidleithner, Florian Taus}
+\institute{Advanced Internet Computing}
+\date{5th December 2014}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+%\section{Introduction}
+% There is actually no point to the sections 
+% since we are not using table of contents mark up
+\begin{frame}{Introduction}
+\begin{block}{Aim}
+Aggregate sentiment values of different tweets by a value specific keyword via the Twitter API.
+\end{block}
+\begin{itemize}
+   \item Load Tweets from Twitter API
+   \item Preprocessing
+   \item Classification
+   \item Aggregation of overall sentiment
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Twitter API}
+Twitter offers several APIs for different purposes. All require authorization and a valid Twitter API-account.
+
+\begin{itemize}
+	\item REST API
+	\begin{itemize}
+    	\item limited to 180 GET-Request/Minute
+        \item fetch all tweets at once
+    \end{itemize}
+    \item Streaming API
+	\begin{itemize}
+    	\item no limitation regarding tweets per minute
+        \item continuous tweet-stream
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+% Commands to include a figure:
+%\begin{figure}
+%\includegraphics[width=\textwidth]{your-figure's-file-name}
+%\caption{\label{fig:your-figure}Caption goes here.}
+%\end{figure}
+
+\begin{frame}{Preprocessing}
+\begin{block}{}
+Preprocess a tweet message and extract important information (feature vector) for classification.
+\end{block}
+\begin{itemize}
+	\item[Tokenizer]
+    splits input into related parts (tokens). e.g. Stanford NLP PTBTokenizer, Carnegie Mellon Twokenizer
+	\item[Tagger]
+    adds information to each token (e.g. word-class).  e.g Stanford NLP MaxentTagger
+	\item[Filter token list] 
+    filtering based on tagged-information. 
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Classification}
+%\begin{block}{}
+%Classification aims at dividing inputs into at least two classes by the use of a learned model.
+%\end{block}
+\begin{itemize}
+	\item Aims at dividing inputs into at least two classes
+    \item In this course: assign sentiments to textual inputs
+    \item Supervised and unsupervised approaches
+    \item Common supervised algorithms: Support vector machines (SVM), naive bayes, \ldots
+    \begin{itemize}
+        \item Textual input in form of a \emph{feature vector}
+        \item The feature vector contains relevant words such as verbs, adjectives and hashtags
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Classification (Implementation)}
+\begin{itemize}
+	\item Based on WEKA
+    \item SVM as classifier (LibSVM)
+    \item Train model with stanford twitter test corpus\footnote{\tiny{http://help.sentiment140.com/for-students}} (manually reduced to 1000 positive and 1000 negative instances)
+	\item Evaluation with testset (359 instances):\\ \textbf{64.35 \%} classified correctly
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Aggregate Classified Sentiments}
+Calcuate the weighted sentiment for each tweet whereby more recent dates are weighted heavier
+\begin{itemize}
+	\item The weight of the most recent positive tweet is 1
+    \item The weight of the oldest is 0.8
+    \item The weights in between decrease linear
+    \item $\sum_{i = 0}^{\#tweets-1}1-i*\frac{decreaseFactor}{\#tweets-1}$
+    \item Just positive tweets are weighted
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Prototype}
+Some libraries and attributes of our prototype.
+
+\begin{itemize}
+	\item Spring Boot
+    \item REST Backend
+    \item AngularJS Frontend
+    \item PTBTokenizer and Twokenizer
+    \item Maxent Tagger
+    \item Weka
+\end{itemize}
+
+\begin{block}{}
+$\rightarrow$ live demo!
+\end{block}
+
+\begin{block}{}
+Code available at: https://github.com/inkrement/aic
+\end{block}
+
+\end{frame}
+
+\end{document}
+
