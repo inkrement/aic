@@ -5,6 +5,8 @@ import com.aic.sentiment_analysis.feature.FeatureVector;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import weka.classifiers.Classifier;
@@ -26,6 +28,8 @@ import java.util.*;
  */
 public class SentimentClassifier implements ISentimentClassifier {
 
+	private static final Log logger = LogFactory.getLog(SentimentClassifier.class);
+
 	private final Classifier classifier;
 	private final Instances trainingInstances;
 	private final ArrayList<Attribute> featureList;
@@ -42,6 +46,17 @@ public class SentimentClassifier implements ISentimentClassifier {
 		featureList = loadFeatureList(trainingSamples);
 		featureIndexMap = initFeatureIndexMap(featureList);
 		trainingInstances = loadInstances("train", trainingSamples, featureList);
+
+		// debug output
+		StringBuilder featureString = new StringBuilder();
+		for (Attribute feature : featureList) {
+			featureString.append('{');
+			featureString.append(feature);
+			featureString.append("}, ");
+		}
+		featureString.delete(featureString.length() - 2, featureString.length());
+		logger.debug("The following features are used for classification: [" + featureString + "]");
+
 		train();
 	}
 
@@ -81,6 +96,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 		for (TrainingSample trainingSample : trainingSamples) {
 			FeatureVector featureVector = trainingSample.getFeatureVector();
 			for (Feature feature : featureVector.getFeatures()) {
+				logger.debug("Add feature for word '" + feature.getWord() + "'");
 				features.add(feature.getWord());
 			}
 		}
@@ -113,10 +129,15 @@ public class SentimentClassifier implements ISentimentClassifier {
 	}
 
 	private Instance loadInstance(FeatureVector featureVector, Sentiment sentiment) {
+		logger.debug("loadInstance");
+
 		TreeMap<Integer, Double> featureMap = new TreeMap<>();
 		for (Feature feature : featureVector.getFeatures()) {
 			if (isUsedAsFeature(feature.getWord())) {
 				featureMap.put(featureIndexMap.get(feature.getWord()), 1.0);
+				logger.debug("Use feature '" + feature.getWord() + "' for classification");
+			} else {
+				logger.debug("Discard feature '" + feature.getWord() + "'");
 			}
 		}
 
