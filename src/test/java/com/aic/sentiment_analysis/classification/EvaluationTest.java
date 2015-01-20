@@ -27,8 +27,8 @@ public class EvaluationTest {
 	@BeforeClass
 	public static void loadTrainingData() throws URISyntaxException, PreprocessingException, FileNotFoundException {
 		CSVTrainingSampleLoader sampleLoader = new CSVTrainingSampleLoader();
-		//CSVTrainingSTSLoader trainLoader = new CSVTrainingSTSLoader();
-		trainingSamples = sampleLoader.load(
+		CSVTrainingSTSLoader trainLoader = new CSVTrainingSTSLoader();
+		trainingSamples = trainLoader.load(
 				EvaluationTest.class.getClassLoader().getResource(Constants.CLASSIFIER_TRAINING_FILE_PATH).toURI());
 		testSamples = sampleLoader.load(
 				EvaluationTest.class.getClassLoader().getResource(PATH_TO_TEST_DATA).toURI());
