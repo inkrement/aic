@@ -1,6 +1,7 @@
 package com.aic.sentiment_analysis.classification;
 
 import com.aic.Constants;
+import com.aic.sentiment_analysis.ClassifierConfiguration;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,17 +9,20 @@ import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.trees.J48;
 import weka.core.SelectedTag;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class EvaluationTest {
 
 	private static final String PATH_TO_TEST_DATA = "testdata.manual.2009.06.14.csv";
 
-	private static Iterable<TrainingSample> trainingSamples;
-	private static Iterable<TrainingSample> testSamples;
+	private static List<TrainingSample> trainingSamples;
+	private static List<TrainingSample> testSamples;
 
 	@BeforeClass
 	public static void loadTrainingData() throws URISyntaxException, PreprocessingException, FileNotFoundException {
@@ -33,7 +37,8 @@ public class EvaluationTest {
 	@Test
 	public void evaluateLibSVM_C_SVC() throws ClassificationException {
 		LibSVM svm = new LibSVM();
-		svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_C_SVC, LibSVM.TAGS_SVMTYPE));
+		svm.setDegree(100);
+		svm.setGamma(12345);
 		evaluate(svm);
 	}
 
@@ -70,6 +75,18 @@ public class EvaluationTest {
 		NaiveBayes naiveBayes = new NaiveBayes();
 		naiveBayes.setUseSupervisedDiscretization(true);
 		evaluate(naiveBayes);
+	}
+
+	@Test
+	public void evaluateIBk() throws ClassificationException {
+		IBk ibk = new IBk();
+		evaluate(ibk);
+	}
+
+	@Test
+	public void evaluateJ48() throws ClassificationException {
+		J48 j48 = new J48();
+		evaluate(j48);
 	}
 
 	public void evaluate(Classifier algorithm) throws ClassificationException {

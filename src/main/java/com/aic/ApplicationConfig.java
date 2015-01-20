@@ -25,7 +25,7 @@ import java.util.Properties;
 public class ApplicationConfig {
 
 	@Bean
-	public Iterable<TrainingSample>	trainingSamples() throws URISyntaxException,
+	public List<TrainingSample> trainingSamples() throws URISyntaxException,
 			PreprocessingException, FileNotFoundException {
 		ICSVTrainingLoader sampleLoader = new CSVTrainingSampleLoader();
 		//ICSVTrainingLoader sampleLoader = new CSVTrainingSTSLoader();

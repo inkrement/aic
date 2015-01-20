@@ -2,20 +2,13 @@ package com.aic.sentiment_analysis.classification;
 
 import com.aic.sentiment_analysis.feature.Feature;
 import com.aic.sentiment_analysis.feature.FeatureVector;
-import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
-import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
-import weka.core.Attribute;
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.core.SparseInstance;
+import weka.core.*;
 
 import java.util.*;
 
@@ -40,12 +33,10 @@ public class SentimentClassifier implements ISentimentClassifier {
 	 * @param algorithm the concrete classification algorithm to use
 	 * @throws ClassificationException
 	 */
-	public SentimentClassifier(Iterable<TrainingSample> trainingSamples, Classifier algorithm)
+	public SentimentClassifier(List<TrainingSample> trainingSamples, Classifier algorithm)
 			throws ClassificationException {
 		classifier = new LibSVM();
 		featureList = loadFeatureList(trainingSamples);
-		featureIndexMap = initFeatureIndexMap(featureList);
-		trainingInstances = loadInstances("train", trainingSamples, featureList);
 
 		// debug output
 		StringBuilder featureString = new StringBuilder();
@@ -55,7 +46,10 @@ public class SentimentClassifier implements ISentimentClassifier {
 			featureString.append("}, ");
 		}
 		featureString.delete(featureString.length() - 2, featureString.length());
-		logger.debug("The following features are used for classification: [" + featureString + "]");
+		logger.debug("The following " + featureList.size() + " features are used for classification: [" + featureString + "]");
+
+		featureIndexMap = initFeatureIndexMap(featureList);
+		trainingInstances = loadInstances("train", trainingSamples, featureList);
 
 		train();
 	}
@@ -73,15 +67,15 @@ public class SentimentClassifier implements ISentimentClassifier {
 			throws ClassificationException {
 		try {
 			Set<String> featureStrings = loadDistinctFeatures(trainingSamples);
-			ArrayList<Attribute> featureList = new ArrayList<>();
+			ArrayList<Attribute> featureList = new FastVector<>();
 			for (String feature : featureStrings) {
 				featureList.add(new Attribute(feature));
 			}
 
-			List<String> sentiments = new ArrayList<>();
+			List<String> sentiments = new FastVector<>();
 			sentiments.add("negative");
 			sentiments.add("positive");
-			Attribute sentimentAttribute = new Attribute("sentiment", sentiments);
+			Attribute sentimentAttribute = new Attribute("___sentiment___", sentiments);
 			featureList.add(sentimentAttribute);
 
 			return featureList;
@@ -96,7 +90,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 		for (TrainingSample trainingSample : trainingSamples) {
 			FeatureVector featureVector = trainingSample.getFeatureVector();
 			for (Feature feature : featureVector.getFeatures()) {
-				logger.debug("Add feature for word '" + feature.getWord() + "'");
+//				logger.debug("Add feature for word '" + feature.getWord() + "'");
 				features.add(feature.getWord());
 			}
 		}
@@ -112,51 +106,64 @@ public class SentimentClassifier implements ISentimentClassifier {
 	}
 
 	private Instances loadInstances(String name,
-	                                Iterable<TrainingSample> trainingSamples,
+	                                List<TrainingSample> trainingSamples,
 	                                ArrayList<Attribute> featureList) {
-		Instances instances = new Instances(name, featureList, 0);
+		Instances instances = new Instances(name, featureList, trainingSamples.size());
 		instances.setClassIndex(featureList.size() - 1);
 
 		for (TrainingSample trainingSample : trainingSamples) {
 			FeatureVector featureVector = trainingSample.getFeatureVector();
 			Sentiment sentiment = trainingSample.getSentiment();
-			Instance instance = loadInstance(featureVector, sentiment);
+			Instance instance = loadInstance(instances, featureVector, sentiment);
 			instances.add(instance);
-			instance.setDataset(instances);
+//			instance.setDataset(instances);
 		}
 
 		return instances;
 	}
 
-	private Instance loadInstance(FeatureVector featureVector, Sentiment sentiment) {
-		logger.debug("loadInstance");
+	private Instance loadInstance(Instances instances, FeatureVector featureVector, Sentiment sentiment) {
+//		TreeMap<Integer, Double> featureMap = new TreeMap<>();
+//		for (Feature feature : featureVector.getFeatures()) {
+//			if (isUsedAsFeature(feature.getWord())) {
+//				featureMap.put(featureIndexMap.get(feature.getWord()), 1.0);
+//			}
+//		}
+//
+//		int indices[] = new int[featureMap.size() + 1];
+//		double values[] = new double[featureMap.size() + 1];
+//		int i = 0;
+//		for (Map.Entry<Integer, Double> entry : featureMap.entrySet()) {
+//			indices[i] = entry.getKey();
+//			values[i] = entry.getValue();
+//			i++;
+//		}
+//
+//		if (sentiment != null) {
+//			indices[i] = featureList.size() - 1;
+//			values[i] = intFromSentiment(sentiment);
+//		}
+//
+//		Instance instance = new SparseInstance(1.0, values, indices,
+//				featureList.size() - 1);
+//		logger.debug("sparse instance: " + instance);
 
-		TreeMap<Integer, Double> featureMap = new TreeMap<>();
+
+		SparseInstance instance = new SparseInstance(featureList.size());
+		instance.setDataset(instances);
+
 		for (Feature feature : featureVector.getFeatures()) {
 			if (isUsedAsFeature(feature.getWord())) {
-				featureMap.put(featureIndexMap.get(feature.getWord()), 1.0);
-				logger.debug("Use feature '" + feature.getWord() + "' for classification");
-			} else {
-				logger.debug("Discard feature '" + feature.getWord() + "'");
+				instance.setValue(featureIndexMap.get(feature.getWord()), 1.0);
 			}
 		}
 
-		int indices[] = new int[featureMap.size() + 1];
-		double values[] = new double[featureMap.size() + 1];
-		int i = 0;
-		for (Map.Entry<Integer, Double> entry : featureMap.entrySet()) {
-			indices[i] = entry.getKey();
-			values[i] = entry.getValue();
-			i++;
-		}
+		double[] defaults = new double[featureList.size()];
+		Arrays.fill(defaults, 0.0);
+		instance.replaceMissingValues(defaults);
 
-		if (sentiment != null) {
-			indices[i] = featureList.size() - 1;
-			values[i] = intFromSentiment(sentiment);
-		}
+		instance.setValue(featureList.size() - 1, intFromSentiment(sentiment));
 
-		Instance instance = new SparseInstance(1.0, values, indices,
-				featureList.size() - 1);
 		return instance;
 	}
 
@@ -172,13 +179,21 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 	}
 
+	private String stringFromSentiment(Sentiment sentiment) {
+		if (sentiment == Sentiment.NEGATIVE) {
+			return "negative";
+		} else {
+			return "positive";
+		}
+	}
+
 	@Override
 	public Sentiment classify(FeatureVector featureVector) throws ClassificationException {
-		Instances instances = new Instances("live", featureList, 0);
+		Instances instances = new Instances("live", featureList, 1);
 		instances.setClassIndex(featureList.size() - 1);
-		Instance instanceToClassify = loadInstance(featureVector);
+		Instance instanceToClassify = loadInstance(instances, featureVector);
 		instances.add(instanceToClassify);
-		instanceToClassify.setDataset(instances);
+//		instanceToClassify.setDataset(instances);
 		try {
 			double classification = classifier.classifyInstance(instanceToClassify);
 			return sentimentFromClassification(classification);
@@ -187,8 +202,8 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 	}
 
-	private Instance loadInstance(FeatureVector featureVector) {
-		return loadInstance(featureVector, null);
+	private Instance loadInstance(Instances instances, FeatureVector featureVector) {
+		return loadInstance(instances, featureVector, null);
 	}
 
 	private Sentiment sentimentFromClassification(double classification) {
@@ -199,7 +214,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 	}
 
-	public Evaluation evaluate(Iterable<TrainingSample> testSamples)
+	public Evaluation evaluate(List<TrainingSample> testSamples)
 			throws ClassificationException {
 		Instances testInstances = loadInstances("test", testSamples, featureList);
 		try {
