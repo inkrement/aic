@@ -24,7 +24,6 @@ import java.util.*;
  * @see <a href="http://www.cs.waikato.ac.nz/~ml/weka/">Official WEKA Website</a>
  * @see <a href="http://weka.sourceforge.net/doc.dev/">WEKA API Reference (Javadoc)</a>
  */
-@Component
 public class SentimentClassifier implements ISentimentClassifier {
 
 	private final Classifier classifier;
@@ -32,8 +31,12 @@ public class SentimentClassifier implements ISentimentClassifier {
 	private final ArrayList<Attribute> featureList;
 	private final Map<String, Integer> featureIndexMap;
 
-	@Autowired
-	public SentimentClassifier(Iterable<TrainingSample> trainingSamples)
+	/**
+	 * @param trainingSamples the data that should be used for training the classifier
+	 * @param algorithm the concrete classification algorithm to use
+	 * @throws ClassificationException
+	 */
+	public SentimentClassifier(Iterable<TrainingSample> trainingSamples, Classifier algorithm)
 			throws ClassificationException {
 		classifier = new LibSVM();
 		featureList = loadFeatureList(trainingSamples);

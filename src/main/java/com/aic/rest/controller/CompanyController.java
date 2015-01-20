@@ -3,6 +3,7 @@ package com.aic.rest.controller;
 import com.aic.rest.RestException;
 import com.aic.rest.domain.AggregateSentiment;
 import com.aic.rest.domain.Company;
+import com.aic.sentiment_analysis.ClassifierConfiguration;
 import com.aic.sentiment_analysis.SentimentAnalysisException;
 import com.aic.sentiment_analysis.SentimentAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,7 @@ public class CompanyController {
 
         // Wrapping aggregateSentiment for Jackson
         AggregateSentiment aggregateSentiment = new AggregateSentiment(
-            sentimentAnalyzer.aggregateSentiment(name, start, end)
+            sentimentAnalyzer.aggregateSentiment(name, start, end, ClassifierConfiguration.SVM)
         );
 
         return aggregateSentiment;

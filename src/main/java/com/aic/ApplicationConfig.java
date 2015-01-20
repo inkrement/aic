@@ -1,7 +1,6 @@
 package com.aic;
 
-import com.aic.sentiment_analysis.classification.CSVTrainingSampleLoader;
-import com.aic.sentiment_analysis.classification.TrainingSample;
+import com.aic.sentiment_analysis.classification.*;
 import com.aic.sentiment_analysis.preprocessing.ISentimentPreprocessor;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import com.aic.sentiment_analysis.preprocessing.SentimentTwitterPreprocessor;
@@ -11,6 +10,8 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.functions.LibSVM;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,5 +62,15 @@ public class ApplicationConfig {
 	@Bean
 	public CacheManager cacheManager() {
 		return new ConcurrentMapCacheManager("sentiments", "aggregateSentiment");
+	}
+
+	@Bean
+	public ISentimentClassifier svm() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+		return new SentimentClassifier(trainingSamples(), new LibSVM());
+	}
+
+	@Bean
+	public ISentimentClassifier naiveBayes() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+		return new SentimentClassifier(trainingSamples(), new NaiveBayes());
 	}
 }

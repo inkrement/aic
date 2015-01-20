@@ -4,6 +4,7 @@ import com.aic.sentiment_analysis.feature.Feature;
 import com.aic.sentiment_analysis.feature.FeatureVector;
 import org.junit.Test;
 import weka.classifiers.Evaluation;
+import weka.classifiers.functions.LibSVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class SentimentClassifierTest {
 		List<TrainingSample> trainingSamples = generateTrainingSamples(
 				"Happy", Sentiment.POSITIVE);
 
-		SentimentClassifier classifier = new SentimentClassifier(trainingSamples);
+		SentimentClassifier classifier = new SentimentClassifier(trainingSamples, new LibSVM());
 		Sentiment classificationResult = classifier.classify(trainingSamples.
 				get(0).getFeatureVector());
 
@@ -62,7 +63,7 @@ public class SentimentClassifierTest {
 		List<TrainingSample> trainingSamples = generateTrainingSamples(
 				"Unhappy", Sentiment.NEGATIVE);
 
-		SentimentClassifier classifier = new SentimentClassifier(trainingSamples);
+		SentimentClassifier classifier = new SentimentClassifier(trainingSamples, new LibSVM());
 		Sentiment classificationResult = classifier.classify(trainingSamples.
 				get(0).getFeatureVector());
 
