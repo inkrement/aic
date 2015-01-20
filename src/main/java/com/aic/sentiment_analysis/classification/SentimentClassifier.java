@@ -78,7 +78,6 @@ public class SentimentClassifier implements ISentimentClassifier {
 	private Set<String> loadDistinctFeatures(Iterable<TrainingSample> trainingSamples)
 			throws PreprocessingException {
 		HashSet<String> features = new HashSet<>();
-		ISentimentPreprocessor preprocessor = new SentimentTwitterPreprocessor();
 		for (TrainingSample trainingSample : trainingSamples) {
 			FeatureVector featureVector = trainingSample.getFeatureVector();
 			for (Feature feature : featureVector.getFeatures()) {
