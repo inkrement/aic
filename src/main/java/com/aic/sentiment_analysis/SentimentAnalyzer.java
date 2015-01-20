@@ -22,6 +22,7 @@ import java.util.List;
  * This class provides means to retrieve the public perception of a company,
  * by performing sentiment analysis on correlating twitter messages.
  */
+@Component
 public class SentimentAnalyzer {
 
 	private static final Log logger = LogFactory.getLog(SentimentAnalyzer.class);
