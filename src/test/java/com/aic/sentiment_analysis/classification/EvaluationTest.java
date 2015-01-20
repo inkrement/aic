@@ -37,8 +37,20 @@ public class EvaluationTest {
 	@Test
 	public void evaluateLibSVM_C_SVC() throws ClassificationException {
 		LibSVM svm = new LibSVM();
-		svm.setDegree(100);
-		svm.setGamma(12345);
+		svm.setCacheSize(40);
+		svm.setCoef0(0.0);
+		svm.setCost(1);
+		svm.setDegree(3);
+		svm.setDoNotReplaceMissingValues(false);
+		svm.setEps(0.001);
+		svm.setGamma(0.0);
+		svm.setKernelType(new SelectedTag(LibSVM.KERNELTYPE_RBF, LibSVM.TAGS_KERNELTYPE));
+		svm.setLoss(0.1);
+		svm.setNormalize(false);
+		svm.setNu(0.5);
+		svm.setProbabilityEstimates(false);
+		svm.setSeed(1);
+		svm.setShrinking(true);
 		evaluate(svm);
 	}
 
