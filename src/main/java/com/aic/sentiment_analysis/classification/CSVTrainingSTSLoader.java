@@ -32,13 +32,13 @@ public class CSVTrainingSTSLoader implements ICSVTrainingLoader {
 
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
-			String[] columns = line.substring(0, line.length() - 1).split(";");
+			String[] columns = line.substring(0, line.length() - 1).split(",");
 
-			String sentimentString = columns[0];
+			String sentimentString = columns[1];
 			Sentiment sentiment;
-			if (sentimentString.equals("0")) {
+			if (sentimentString.equals("neg")) {
 				sentiment = Sentiment.NEGATIVE;
-			} else if (sentimentString.equals("4")) {
+			} else if (sentimentString.equals("pos")) {
 				sentiment = Sentiment.POSITIVE;
 			} else {
 				continue;

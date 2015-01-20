@@ -5,8 +5,6 @@
  */
 var SentimentController = function($scope, $http, $location) {
 
-    $scope.classifier = {};
-
     /* Helper function for current active menu in view */
     $scope.isActive = function (viewLocation) {
         var active = (viewLocation === $location.path());
