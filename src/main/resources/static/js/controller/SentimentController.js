@@ -5,6 +5,8 @@
  */
 var SentimentController = function($scope, $http, $location) {
 
+    $scope.classifier = {};
+
     /* Helper function for current active menu in view */
     $scope.isActive = function (viewLocation) {
         var active = (viewLocation === $location.path());
@@ -46,6 +48,11 @@ var SentimentController = function($scope, $http, $location) {
         .error(function(data, status, headers, config) {
             $scope.errorTextAlert = "Could not register company: " + status;
             $scope.showErrorAlert = true;
+        });
+
+        $http.get("classifier").success(function(data) {
+            $scope.classifier = data;
+            console.log("classifier loaded");
         });
     };
 };

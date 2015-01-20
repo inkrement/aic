@@ -27,7 +27,8 @@ public class ApplicationConfig {
 	@Bean
 	public Iterable<TrainingSample>	trainingSamples() throws URISyntaxException,
 			PreprocessingException, FileNotFoundException {
-		CSVTrainingSampleLoader sampleLoader = new CSVTrainingSampleLoader();
+		ICSVTrainingLoader sampleLoader = new CSVTrainingSampleLoader();
+		//ICSVTrainingLoader sampleLoader = new CSVTrainingSTSLoader();
 		URI trainingSetUri = getClass().getClassLoader().
 				getResource(Constants.CLASSIFIER_TRAINING_FILE_PATH).toURI();
 		List<TrainingSample> samples = sampleLoader.load(trainingSetUri);

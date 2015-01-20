@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Handles the REST requests that are sent to the server.
@@ -32,6 +33,12 @@ public class CompanyController {
         this.companies = new Hashtable<>();
     }
 
+    @RequestMapping(value = "/classifier", method = RequestMethod.GET)
+    @ResponseBody
+    public ClassifierConfiguration[] populateClassifierConfigurations() {
+        return ClassifierConfiguration.values();
+    }
+
     @RequestMapping(value = "", method=RequestMethod.GET)
     public String index() {
         return "index";
@@ -47,7 +54,6 @@ public class CompanyController {
     public ResponseEntity<Company> register(@RequestBody Company company) throws RestException {
         if (companies.containsKey(company.getName())) {
             return new ResponseEntity<>(company, HttpStatus.OK);
-            //throw new RestException("Company already exists");
         }
 
         companies.put(company.getName(), company);
@@ -68,12 +74,6 @@ public class CompanyController {
         if (!companies.containsKey(name)) {
             return false;
         }
-        Company storedCompany = companies.get(name);
-        /*
-        if (!storedCompany.getPassword().equals(password)) {
-            return false;
-        }
-        */
 
         return true;
     }
@@ -94,8 +94,6 @@ public class CompanyController {
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
                            @RequestParam(value = "endDate")
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date end) throws RestException, SentimentAnalysisException {
-        /*if (!isAuthorized(name, password))
-            throw new RestException("Authorization failed");*/
 
         // Wrapping aggregateSentiment for Jackson
         AggregateSentiment aggregateSentiment = new AggregateSentiment(

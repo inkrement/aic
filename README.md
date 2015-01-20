@@ -42,7 +42,8 @@ tagger makes use of the Penn Treebank, the corresponding tagset can be found
 [here](http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html). We used the
 [GATE Twitter part-of-speech tagging model](https://gate.ac.uk/wiki/twitter-postagger.html) for extending the
 tagging informations especially for twitter data (HT (hashtags), UH ("lol", "ikr"), USR (username mentions),
-RT (retweet signifiers), URL (URLs)).
+RT (retweet signifiers), URL (URLs)). The Penn Treebank Tagset can be found
+[here](http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html).
 
 ### Classification
 

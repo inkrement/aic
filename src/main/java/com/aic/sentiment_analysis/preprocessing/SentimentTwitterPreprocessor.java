@@ -67,9 +67,12 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
      *
      * @param tag the tag that needs to get checked
      * @return boolean value
+     * @see <a href="http://www.comp.leeds.ac.uk/ccalas/tagsets/upenn.html">Tagset Overview</a>
      */
     private boolean containsAllowedTag(String tag) {
-        if (tag.equals("VB") || tag.equals("HT") || tag.equals("JJ")) {
+        if (tag.startsWith("VB") || tag.startsWith("HT") || tag.startsWith("JJ") ||
+                tag.startsWith("VBD") || tag.startsWith("VBG") || tag.startsWith("VBN") ||
+                tag.startsWith("VBP") || tag.startsWith("VBZ")) {
             return true;
         }
 

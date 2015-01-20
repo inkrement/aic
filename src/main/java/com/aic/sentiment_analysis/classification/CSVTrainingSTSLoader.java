@@ -14,11 +14,11 @@ import java.util.Scanner;
 
 /**
  * Provides means to load classification training data from a CSV file that
- * follows the format of the Sentiment140 tweet corpus.
+ * follows the STS-Gold-Dataset format.
  *
- * @see <a href="http://help.sentiment140.com/for-students">Sentiment140</a>
+ * @see <a href="http://tweenator.com/index.php?page_id=13">STS-Gold-Dataset</a>
  */
-public class CSVTrainingSampleLoader implements ICSVTrainingLoader {
+public class CSVTrainingSTSLoader implements ICSVTrainingLoader {
 
 	/**
 	 * Loads the training data that needed for classification from a CVS file.
@@ -32,7 +32,7 @@ public class CSVTrainingSampleLoader implements ICSVTrainingLoader {
 
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
-			String[] columns = line.substring(1, line.length() - 1).split("\",\"");
+			String[] columns = line.substring(0, line.length() - 1).split(";");
 
 			String sentimentString = columns[0];
 			Sentiment sentiment;
