@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Handles the REST requests that are sent to the server.
@@ -97,7 +96,7 @@ public class CompanyController {
 
         // Wrapping aggregateSentiment for Jackson
         AggregateSentiment aggregateSentiment = new AggregateSentiment(
-            sentimentAnalyzer.aggregateSentiment(name, start, end, ClassifierConfiguration.SVM)
+            sentimentAnalyzer.aggregateSentiment(name, start, end, ClassifierConfiguration.SVM_C_SVC)
         );
 
         return aggregateSentiment;

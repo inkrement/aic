@@ -5,6 +5,10 @@ package com.aic.sentiment_analysis;
  * {@link com.aic.sentiment_analysis.SentimentAnalyzer}.
  */
 public enum ClassifierConfiguration {
-	SVM,
-	NAIVE_BAYES
+	SVM_C_SVC,
+	SVM_NU_SVC,
+	SMO,
+	NAIVE_BAYES,
+	BAYES_NET,
+	KNN
 }

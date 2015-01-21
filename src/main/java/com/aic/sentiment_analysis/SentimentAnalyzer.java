@@ -32,11 +32,23 @@ public class SentimentAnalyzer {
     @Autowired
 	private ISentimentPreprocessor preprocessor;
     @Autowired
-    @Qualifier("svm")
-	private ISentimentClassifier svm;
+    @Qualifier("svm_C_SVC")
+	private ISentimentClassifier svm_C_SVC;
+    @Autowired
+    @Qualifier("svm_NU_SVC")
+	private ISentimentClassifier svm_NU_SVC;
+    @Autowired
+    @Qualifier("smo")
+	private ISentimentClassifier smo;
     @Autowired
     @Qualifier("naiveBayes")
 	private ISentimentClassifier naiveBayes;
+    @Autowired
+    @Qualifier("bayesNet")
+	private ISentimentClassifier bayesNet;
+    @Autowired
+    @Qualifier("kNN")
+	private ISentimentClassifier kNN;
 
     /**
      * Calculates a sentiment value based on an aggregation of tweets and
@@ -88,10 +100,18 @@ public class SentimentAnalyzer {
 
 	private ISentimentClassifier classifierForConfiguration(ClassifierConfiguration config) {
 		switch (config) {
+            case SVM_NU_SVC:
+                return svm_NU_SVC;
+            case SMO:
+                return smo;
 			case NAIVE_BAYES:
 				return naiveBayes;
+            case BAYES_NET:
+                return bayesNet;
+            case KNN:
+                return kNN;
 			default:
-				return svm;
+				return svm_C_SVC;
 		}
 	}
 }
