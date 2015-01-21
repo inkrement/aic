@@ -67,12 +67,12 @@ public class SentimentClassifier implements ISentimentClassifier {
 			throws ClassificationException {
 		try {
 			Set<String> featureStrings = loadDistinctFeatures(trainingSamples);
-			ArrayList<Attribute> featureList = new FastVector<>();
+			ArrayList<Attribute> featureList = new ArrayList<>();
 			for (String feature : featureStrings) {
 				featureList.add(new Attribute(feature));
 			}
 
-			List<String> sentiments = new FastVector<>();
+			List<String> sentiments = new ArrayList<>();
 			sentiments.add("negative");
 			sentiments.add("positive");
 			Attribute sentimentAttribute = new Attribute("___sentiment___", sentiments);
