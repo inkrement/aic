@@ -99,7 +99,7 @@ public class CompanyController {
         System.out.println(classifier);
         // Wrapping aggregateSentiment for Jackson
         AggregateSentiment aggregateSentiment = new AggregateSentiment(
-            sentimentAnalyzer.aggregateSentiment(name, start, end, ClassifierConfiguration.SVM)
+            sentimentAnalyzer.aggregateSentiment(name, start, end, classifier)
         );
 
         return aggregateSentiment;
