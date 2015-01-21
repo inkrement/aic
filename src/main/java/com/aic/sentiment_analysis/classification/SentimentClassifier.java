@@ -49,7 +49,9 @@ public class SentimentClassifier implements ISentimentClassifier {
 		logger.debug("The following " + featureList.size() + " features are used for classification: [" + featureString + "]");
 
 		featureIndexMap = initFeatureIndexMap(featureList);
+
 		trainingInstances = createInstances("train", trainingSamples, featureList);
+		logger.debug("finished loading of training instances");
 
 		train();
 	}
@@ -134,7 +136,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 	 * Factory method to create an {@code Instance} based on the given feature vector and sentiment value.
 	 */
 	private Instance createInstance(Instances instances, FeatureVector featureVector, Sentiment sentiment) {
-		SparseInstance instance = new SparseInstance(featureList.size());
+		DenseInstance instance = new DenseInstance(featureList.size());
 		instance.setDataset(instances);
 
 		for (Feature feature : featureVector.getFeatures()) {
@@ -144,11 +146,28 @@ public class SentimentClassifier implements ISentimentClassifier {
 		}
 
 		if (sentiment != null) {
-			instance.setValue(featureList.size() - 1, intFromSentiment(sentiment));
+			instance.setClassValue(stringFromSentiment(sentiment));
 		}
 
 		double[] defaultValues = new double[featureList.size()];
 		instance.replaceMissingValues(defaultValues);
+
+		// debug output
+		StringBuilder builder = new StringBuilder();
+		int index = 0;
+		for (double value : instance.toDoubleArray()) {
+			if (value != 0 || index == featureList.size() - 1) {
+				builder.append(featureList.get(index).name());
+				builder.append(',');
+				builder.append(' ');
+			}
+			index++;
+		}
+		if (builder.length() > 0) {
+			builder.delete(builder.length() - 2, builder.length());
+		}
+		logger.debug("created instance: [" + builder + "] for \"" + stringFromSentiment(sentiment)
+				+  "\" message \"" + featureVector.getRawMessage() + "\"");
 
 		return instance;
 	}
@@ -201,10 +220,17 @@ public class SentimentClassifier implements ISentimentClassifier {
 
 	public Evaluation evaluate(List<TrainingSample> testSamples)
 			throws ClassificationException {
+		logger.debug("begin evaluation");
 		Instances testInstances = createInstances("test", testSamples, featureList);
+		logger.debug("finished loading of test instances");
 		try {
 			Evaluation evaluate = new Evaluation(trainingInstances);
-			evaluate.evaluateModel(classifier, testInstances);
+			double[] predictions = evaluate.evaluateModel(classifier, testInstances);
+			int i = 0;
+			for (double prediction : predictions) {
+				logger.debug("Prediction " + i + ": " + sentimentFromClassification(prediction).name());
+				i++;
+			}
 			return evaluate;
 		} catch (Exception e) {
 			throw new ClassificationException(e);

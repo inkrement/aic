@@ -56,6 +56,7 @@ public class SentimentTwitterPreprocessor implements ISentimentPreprocessor {
         }
         FeatureVector featureVector = new FeatureVector();
         featureVector.setFeatures(features);
+        featureVector.setRawMessage(message);
 
         return featureVector;
     }
