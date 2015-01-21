@@ -10,8 +10,12 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
+import weka.classifiers.bayes.BayesNet;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
+import weka.classifiers.functions.SMO;
+import weka.classifiers.lazy.IBk;
+import weka.core.SelectedTag;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -66,12 +70,34 @@ public class ApplicationConfig {
 	}
 
 	@Bean
-	public ISentimentClassifier svm() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+	public ISentimentClassifier svm_C_SVC() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
 		return new SentimentClassifier(trainingSamples(), new LibSVM());
+	}
+
+	@Bean
+	public ISentimentClassifier svm_NU_SVC() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+		LibSVM svm = new LibSVM();
+		svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_NU_SVC, LibSVM.TAGS_SVMTYPE));
+		return new SentimentClassifier(trainingSamples(), svm);
+	}
+
+	@Bean
+	public ISentimentClassifier smo() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+		return new SentimentClassifier(trainingSamples(), new SMO());
 	}
 
 	@Bean
 	public ISentimentClassifier naiveBayes() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
 		return new SentimentClassifier(trainingSamples(), new NaiveBayes());
+	}
+
+	@Bean
+	public ISentimentClassifier bayesNet() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+		return new SentimentClassifier(trainingSamples(), new BayesNet());
+	}
+
+	@Bean
+	public ISentimentClassifier kNN() throws FileNotFoundException, PreprocessingException, URISyntaxException, ClassificationException {
+		return new SentimentClassifier(trainingSamples(), new IBk());
 	}
 }

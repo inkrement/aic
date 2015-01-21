@@ -1,16 +1,16 @@
 package com.aic.sentiment_analysis.classification;
 
 import com.aic.Constants;
-import com.aic.sentiment_analysis.ClassifierConfiguration;
 import com.aic.sentiment_analysis.preprocessing.PreprocessingException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.BayesNet;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
+import weka.classifiers.functions.SMO;
 import weka.classifiers.lazy.IBk;
-import weka.classifiers.trees.J48;
 import weka.core.SelectedTag;
 
 import java.io.FileNotFoundException;
@@ -38,20 +38,6 @@ public class EvaluationTest {
 	@Test
 	public void evaluateLibSVM_C_SVC() throws ClassificationException {
 		LibSVM svm = new LibSVM();
-		svm.setCacheSize(40);
-		svm.setCoef0(0.0);
-		svm.setCost(1);
-		svm.setDegree(3);
-		svm.setDoNotReplaceMissingValues(false);
-		svm.setEps(0.001);
-		svm.setGamma(0.0);
-		svm.setKernelType(new SelectedTag(LibSVM.KERNELTYPE_RBF, LibSVM.TAGS_KERNELTYPE));
-		svm.setLoss(0.1);
-		svm.setNormalize(false);
-		svm.setNu(0.5);
-		svm.setProbabilityEstimates(false);
-		svm.setSeed(1);
-		svm.setShrinking(true);
 		evaluate(svm);
 	}
 
@@ -63,6 +49,12 @@ public class EvaluationTest {
 	}
 
 	@Test
+	public void evaluateSMO() throws ClassificationException {
+		SMO smo = new SMO();
+		evaluate(smo);
+	}
+
+	@Test
 	public void evaluateNaiveBayes() throws ClassificationException {
 		NaiveBayes naiveBayes = new NaiveBayes();
 		naiveBayes.setUseSupervisedDiscretization(true);
@@ -70,15 +62,15 @@ public class EvaluationTest {
 	}
 
 	@Test
-	public void evaluateIBk() throws ClassificationException {
-		IBk ibk = new IBk();
-		evaluate(ibk);
+	public void evaluateBayesNet() throws ClassificationException {
+		BayesNet bayesNet = new BayesNet();
+		evaluate(bayesNet);
 	}
 
 	@Test
-	public void evaluateJ48() throws ClassificationException {
-		J48 j48 = new J48();
-		evaluate(j48);
+	public void evaluateIBk() throws ClassificationException {
+		IBk ibk = new IBk();
+		evaluate(ibk);
 	}
 
 	public void evaluate(Classifier algorithm) throws ClassificationException {
