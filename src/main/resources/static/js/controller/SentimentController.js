@@ -22,7 +22,6 @@ var SentimentController = function($scope, $http, $location) {
     }
 
     $scope.getCompanySentiment = function(range, classif) {
-        console.log(classif);
         $http.get("sentiment", {
             params: {
                 name: sentimentCompany.name,
