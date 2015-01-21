@@ -31,6 +31,7 @@ var SentimentController = function($scope, $http, $location) {
             }
         }).success(function(data) {
             $scope.sentiment = data;
+            $scope.showErrorAlert = false;
             $scope.showSentiment = true;
         }).error(function(data, status, headers, config){
             $scope.errorTextAlert = "Could not fetch tweets: " + data.message;
