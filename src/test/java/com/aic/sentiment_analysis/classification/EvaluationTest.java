@@ -28,8 +28,8 @@ public class EvaluationTest {
 	public static void loadTrainingData() throws URISyntaxException, PreprocessingException, FileNotFoundException {
 		CSVTrainingSampleLoader sampleLoader = new CSVTrainingSampleLoader();
 		CSVTrainingSTSLoader trainLoader = new CSVTrainingSTSLoader();
-//		trainingSamples = trainLoader.load(
-		trainingSamples = sampleLoader.load(
+		trainingSamples = trainLoader.load(
+//		trainingSamples = sampleLoader.load(
 				EvaluationTest.class.getClassLoader().getResource(Constants.CLASSIFIER_TRAINING_FILE_PATH).toURI());
 		testSamples = sampleLoader.load(
 				EvaluationTest.class.getClassLoader().getResource(PATH_TO_TEST_DATA).toURI());
@@ -56,30 +56,9 @@ public class EvaluationTest {
 	}
 
 	@Test
-	public void evaluateLibSVM_EPSILON_SVR() throws ClassificationException {
-		LibSVM svm = new LibSVM();
-		svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_EPSILON_SVR, LibSVM.TAGS_SVMTYPE));
-		evaluate(svm);
-	}
-
-	@Test
 	public void evaluateLibSVM_NU_SVC() throws ClassificationException {
 		LibSVM svm = new LibSVM();
 		svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_NU_SVC, LibSVM.TAGS_SVMTYPE));
-		evaluate(svm);
-	}
-
-	@Test
-	public void evaluateLibSVM_NU_SVR() throws ClassificationException {
-		LibSVM svm = new LibSVM();
-		svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_NU_SVR, LibSVM.TAGS_SVMTYPE));
-		evaluate(svm);
-	}
-
-	@Test
-	public void evaluateLibSVM_ONE_CLASS() throws ClassificationException {
-		LibSVM svm = new LibSVM();
-		svm.setSVMType(new SelectedTag(LibSVM.SVMTYPE_ONE_CLASS_SVM, LibSVM.TAGS_SVMTYPE));
 		evaluate(svm);
 	}
 

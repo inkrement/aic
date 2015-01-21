@@ -35,7 +35,7 @@ public class SentimentClassifier implements ISentimentClassifier {
 	 */
 	public SentimentClassifier(List<TrainingSample> trainingSamples, Classifier algorithm)
 			throws ClassificationException {
-		classifier = new LibSVM();
+		classifier = algorithm;
 		featureList = createFeatureList(trainingSamples);
 
 		// debug output
