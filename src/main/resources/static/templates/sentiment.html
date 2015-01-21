@@ -2,34 +2,38 @@
 
     <p class="well">Please specify the date range for the sentiment analysis</p>
 
-    <form role="form">
+    <form role="form" name="sentiForm">
         <div class="form-group">
             <div class="input-group">
                 <label for="startDate">Start date</label>
-                <input type="date" class="form-control" name="startDate" id="startDate" ng-model="range.start">
+                <input type="date" class="form-control" name="startDate" id="startDate"
+                       placeholder="yyyy-MM-dd" ng-model="range.start"
+                       required>
             </div>
         </div>
         <div class="form-group">
             <div class="input-group">
                 <label for="endDate">End date</label>
-                <input type="date" class="form-control" name="endDate" id="endDate" ng-model="range.end">
+                <input type="date" class="form-control" name="endDate" id="endDate"
+                       placeholder="yyyy-MM-dd" ng-model="range.end"
+                       required>
             </div>
         </div>
-
-        <div>{{classifier}}</div>
 
         <div class="form-group">
             <div class="input-group">
                 <label for="classifier">Classifier</label>
-                <select class="form-control" name="classifier" id="classifier">
-                    <option ng-repeat="cl in classifier" value="{{cl}}">{{cl}}</option>
+                <select class="form-control" name="classifier" id="classifier" ng-model="selectedClassifier">
+                    <option ng-repeat="classifier in classifiers" value="{{classifier}}">{{classifier}}</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-show="sentiForm.$valid">
             <div class="input-group">
-                <button type="submit" class="btn btn-default" ng-click="getCompanySentiment(range)">Get Sentiment value</button>
+                <button type="submit" class="btn btn-default"
+                        ng-show="!sentiForm.startDate.$error.date && !sentiForm.endDate.$error.date && selectedClassifier != NULL"
+                        ng-click="getCompanySentiment(range, selectedClassifier)">Get Sentiment value</button>
             </div>
         </div>
 

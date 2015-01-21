@@ -5,6 +5,8 @@
  */
 var SentimentController = function($scope, $http, $location) {
 
+    $scope.range = { start: "2015-01-01", end: "2015-01-25" };
+
     /* Helper function for current active menu in view */
     $scope.isActive = function (viewLocation) {
         var active = (viewLocation === $location.path());
@@ -19,13 +21,14 @@ var SentimentController = function($scope, $http, $location) {
         return false;
     }
 
-    $scope.getCompanySentiment = function(range) {
+    $scope.getCompanySentiment = function(range, classif) {
+        console.log(classif);
         $http.get("sentiment", {
             params: {
                 name: sentimentCompany.name,
-                //password: sentimentCompany.password,
                 startDate: range.start,
-                endDate: range.end
+                endDate: range.end,
+                classifier: classif
             }
         }).success(function(data) {
             $scope.sentiment = data;
@@ -49,8 +52,13 @@ var SentimentController = function($scope, $http, $location) {
         });
 
         $http.get("classifier").success(function(data) {
-            $scope.classifier = data;
-            console.log("classifier loaded");
+            var _cl = [];
+            angular.forEach(data, function(value, key) {
+                _cl.push(value);
+            });
+            classifiers = _cl;
         });
     };
+
+    $scope.classifiers = classifiers;
 };

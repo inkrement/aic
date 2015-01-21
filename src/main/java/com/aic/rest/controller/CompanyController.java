@@ -93,11 +93,14 @@ public class CompanyController {
                            @RequestParam(value = "startDate")
                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
                            @RequestParam(value = "endDate")
-                           @DateTimeFormat(pattern = "yyyy-MM-dd") Date end) throws RestException, SentimentAnalysisException {
+                           @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
+                           @RequestParam(value = "classifier")
+                           ClassifierConfiguration classifier) throws RestException, SentimentAnalysisException {
 
+        System.out.println(classifier);
         // Wrapping aggregateSentiment for Jackson
         AggregateSentiment aggregateSentiment = new AggregateSentiment(
-            sentimentAnalyzer.aggregateSentiment(name, start, end, ClassifierConfiguration.SVM)
+            sentimentAnalyzer.aggregateSentiment(name, start, end, classifier)
         );
 
         return aggregateSentiment;

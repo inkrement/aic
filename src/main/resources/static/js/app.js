@@ -5,6 +5,7 @@ var App = angular.module('AngularSpringApp', ['AngularSpringApp.filters',
     'AngularSpringApp.services', 'AngularSpringApp.directives']);
 // Declare app level module which depends on filters, and services
 var sentimentCompany = null;
+var classifiers = null;
 App.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/register', {
         templateUrl: 'templates/register.html',
