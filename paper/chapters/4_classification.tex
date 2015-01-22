@@ -27,7 +27,7 @@ For the actual classification process extent literature distinguishes two genera
 
 \subsubsection*{Na\"ive Bayes}
 
-This technique is based on a simple stochastic model that for a given document $d$ tries to find the most likely class $c^* = \mathrm{arg max}_c P(c \vert d)$ where $c$ stands for one out of a number of possible classes and $P(c \vert d)$ denotes the conditional probability that document $d$ can be assigned to $c$. For example, in sentiment analysis $c^*$ would denote the sentiment value that could be assigned to document $d$. $c^*$ is computed by applying Bayes' rule,
+This technique is based on a simple stochastic model that for a given document $d$ tries to find the most likely class $c^* = \mathrm{arg max}_c P(c \vert d)$ where $c$ stands for one out of a number of possible classes and $P(c \vert d)$ denotes the conditional probability that document $d$ can be assigned to $c$ \cite{Pang2002}. For example, in sentiment analysis $c^*$ would denote the sentiment value that could be assigned to document $d$. $c^*$ is computed by applying Bayes' rule,
 
 \begin{equation*}
 P(c \vert d) = \frac{P(c)P(d \vert c)}{P(d)}
@@ -36,22 +36,20 @@ P(c \vert d) = \frac{P(c)P(d \vert c)}{P(d)}
 for each possible sentiment value $c$. $P(d \vert c)$ has to be estimated and therefore it is presumed that there exists a predefined set of features $\lbrace f_1, \ldots , f_m \rbrace$ which are assumed to be conditionally independent. Based on this estimation the actual rule that can be used for classification is derived from Bayes' rule:
 
 \begin{equation*}
-P_{\mathrm{NB}}(c \vert d) := \frac{P(c)(\prod^{m}_{i=1}P(f_i \vert c)^{n_i(d)})}{P(d)}
+P_{\mathrm{NB}}(c \vert d) := \frac{P(c)(\prod^{m}_{i=1}P(f_i \vert c)^{n_i(d)})}{P(d)}.
 \end{equation*}
 
 Here, $n_i(d)$ designates the number of occurrences of feature $f_i$ in document $d$.
 
-\subsubsection*{Maximum Entropy}
-
-\begin{equation*}
-P_{\mathrm{ME}}(c \vert d) := \frac{1}{Z(d)}\mathrm{exp}\left( \sum_{i} \lambda_{i,c} F_{i,c}(d,c) \right)
-\end{equation*}
-
 \subsubsection*{Support Vector Machines}
 
+In contrast to the above method, support vector machines (SVMs) do not use a probabilistic model. Instead the aim of this technique is to find a so called \emph{hyperplane}, which is represented by a vector $\vec{\omega}$. Let $\vec{d} := (n_1(d), n_2(d),\ldots , n_m(d))$ be the \emph{document vector} of document $d$ where, like above, $n_i(d)$ represents the number of occurrences of feature $f_i$ in $d$. Then, in the case of a binary classification problem, $\vec{\omega}$ separates the document vectors in one class from the vectors in the other class such that this separation (the so called \emph{margin}) is as large as possible. To find $\vec{\omega}$, a dual optimization problem has to be solved, to find for each document $d_j$ a value $\alpha_j$ such that the following holds:
+
 \begin{equation*}
-\vec{\omega} := \sum_j \alpha_j c_j \vec{d}_j,\quad \alpha_j \geq 0
+\vec{\omega} := \sum_j \alpha_j c_j \vec{d}_j,\quad \alpha_j \geq 0,
 \end{equation*}
+
+where $c_j \in \lbrace 1, -1\rbrace$ (in sentiment classification $1$ would denote "positive" and correspondingly $-1$ stands for "negative" sentiment). The actual classification of document $d$ is done, by determining on which side of $\vec{omega}$ its document vector $\vec{d}$ falls on.
 
 \subsubsection*{Further techniques}
 
