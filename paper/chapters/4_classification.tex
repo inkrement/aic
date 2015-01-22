@@ -24,17 +24,21 @@ For the actual classification process extent literature distinguishes two genera
 
 \subsubsection*{Na\"ive Bayes}
 
-
+This technique is based on a simple stochastic model that for a given document $d$ tries to find the most likely class $c^* = \mathrm{arg max}_c P(c \vert d)$ where $c$ stands for one out of a number of possible classes and $P(c \vert d)$ denotes the conditional probability that document $d$ can be assigned to $c$. For example, in sentiment analysis $c^*$ would denote the sentiment value that could be assigned to document $d$. $c^*$ is computed by applying Bayes' rule,
 
 \begin{equation*}
 P(c \vert d) = \frac{P(c)P(d \vert c)}{P(d)}
 \end{equation*}
 
+for each possible sentiment value $c$. $P(d \vert c)$ has to be estimated and therefore it is presumed that there exists a predefined set of features $\lbrace f_1, \ldots , f_m \rbrace$ which are assumed to be conditionally independent. Based on this estimation the actual rule that can be used for classification is derived from Bayes' rule:
+
 \begin{equation*}
 P_{\mathrm{NB}}(c \vert d) := \frac{P(c)(\prod^{m}_{i=1}P(f_i \vert c)^{n_i(d)})}{P(d)}
 \end{equation*}
 
-\subsubsection*{Maimum Entropy}
+Here, $n_i(d)$ designates the number of occurrences of feature $f_i$ in document $d$.
+
+\subsubsection*{Maximum Entropy}
 
 \begin{equation*}
 P_{\mathrm{ME}}(c \vert d) := \frac{1}{Z(d)}\mathrm{exp}\left( \sum_{i} \lambda_{i,c} F_{i,c}(d,c) \right)
