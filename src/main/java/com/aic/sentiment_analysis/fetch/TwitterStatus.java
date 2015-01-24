@@ -6,18 +6,26 @@ import twitter4j.Status;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
-{
+/**
+ * This class represents a twitter status with the important information needed for a sentiment analsysis.
+ */
+public class TwitterStatus implements Serializable, Comparable<TwitterStatus> {
 	private static final long serialVersionUID = 7526472295654436147L;
 
 	private long id;
-    private int favouriteCount;
+	private int favouriteCount;
 	private int retweetCount;
 	private Place location;
 	private String username;
 	private String text;
 	private Date timestamp;
 
+	/**
+	 * Creates a new twitter status from a Twitter4J status.
+	 * 
+	 * @param twitter4jstatus
+	 *            The Twitter4J status
+	 */
 	public TwitterStatus(Status twitter4jstatus) {
 		id = twitter4jstatus.getId();
 		timestamp = twitter4jstatus.getCreatedAt();
@@ -28,10 +36,8 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 		text = twitter4jstatus.getText();
 	}
 
-	/**
-	 * only for testpurposes
-	 */
-	public TwitterStatus(Date timestamp, String username, String text) {
+	/* Just for testing */
+	protected TwitterStatus(Date timestamp, String username, String text) {
 		this.timestamp = timestamp;
 		this.favouriteCount = 0;
 		this.retweetCount = 0;
@@ -40,34 +46,33 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 		this.id = -1;
 	}
 
-	public long getId()
-	{
+	public long getId() {
 		return id;
 	}
 
-    public int getRetweetCount() {
-        return retweetCount;
-    }
+	public int getRetweetCount() {
+		return retweetCount;
+	}
 
-    public void setRetweetCount(int retweetCount) {
-        this.retweetCount = retweetCount;
-    }
+	public void setRetweetCount(int retweetCount) {
+		this.retweetCount = retweetCount;
+	}
 
-    public int getFavouriteCount() {
-        return favouriteCount;
-    }
+	public int getFavouriteCount() {
+		return favouriteCount;
+	}
 
-    public void setFavouriteCount(int favouriteCount) {
-        this.favouriteCount = favouriteCount;
-    }
+	public void setFavouriteCount(int favouriteCount) {
+		this.favouriteCount = favouriteCount;
+	}
 
-    public Place getLocation() {
-        return location;
-    }
+	public Place getLocation() {
+		return location;
+	}
 
-    public void setLocation(Place location) {
-        this.location = location;
-    }
+	public void setLocation(Place location) {
+		this.location = location;
+	}
 
 	public String toString() {
 		return timestamp.toString() + " [" + username + "] " + text;
@@ -97,11 +102,15 @@ public class TwitterStatus implements Serializable, Comparable<TwitterStatus>
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof TwitterStatus)) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TwitterStatus))
+			return false;
 		TwitterStatus other = (TwitterStatus) obj;
-		if (id != other.id) return false;
+		if (id != other.id)
+			return false;
 		return true;
 	}
 }

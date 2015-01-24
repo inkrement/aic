@@ -12,17 +12,15 @@ import java.util.*;
 
 /**
  * The class for fetching tweets.
- * 
- * @author Florian Taus
  */
 @Component
 public class Fetch implements ITweetLoader {
 
+	/** The maximum number of tweets to be fetched at once. */
 	public static final int MAX_TWEETS = 50;
 
 	private static final Log logger = LogFactory.getLog(Fetch.class);
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-
 	private Configuration configuration;
 
 	@Autowired
@@ -30,6 +28,19 @@ public class Fetch implements ITweetLoader {
 		this.configuration = configuration;
 	}
 
+	/**
+	 * Loads the tweets for a given {@code name} and a given period of time, i.e. calling {@link #fetch(String, Date, Date, long, long)} with the apropriate
+	 * parameters.
+	 * 
+	 * @param name
+	 *            The keyword
+	 * @param start
+	 *            The start date
+	 * @param end
+	 *            The end date
+	 * @see #fetch(String, Date, Date, long, long)
+	 * @see com.aic.sentiment_analysis.fetch.ITweetLoader#load(java.lang.String, java.util.Date, java.util.Date)
+	 */
 	public List<TwitterStatus> load(String name, Date start, Date end) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(end);
@@ -38,63 +49,38 @@ public class Fetch implements ITweetLoader {
 		cal.set(Calendar.SECOND, 59);
 		end = cal.getTime();
 		logger.debug("\n" + name + " (" + start + "-" + end + ")");
-		
+
 		List<TwitterStatus> result = new ArrayList<TwitterStatus>();
-//		List<TwitterStatusList> cached_tweets = Cache.load(name, start, end);
-//		System.out.println("1: " + start);
-//		Collections.sort(cached_tweets);
-//		System.out.println("2: " + start);
-//		System.out.println("Number of cached tweet lists: " + cached_tweets.size());
 
 		long startId = 0;
 		long endId;
-//		for (TwitterStatusList tsl: cached_tweets)
-//		{
-//			System.out.println("Cached file: start: " + tsl.getStart() + ", end: " + tsl.getEnd());
-//			endId = tsl.getStartId() - 1;
-//			System.out.println("3: " + start);
-//			System.out.println("Start of range: " + start + ", start of file: " + tsl.getStart());
-//			if (!start.equals(tsl.getStart()))
-//			{
-//				System.out.println("4: " + start);
-//				result.addAll(fetch(name, start, tsl.getStart(), startId, tsl.getStartId() - 1));
-//			}
-//			result.addAll(tsl);
-//			start = tsl.getEnd();
-//			startId = tsl.getEndId() + 1;
-//
-//		}
-//		if (!start.equals(end))
-//		{
-			endId = Long.MAX_VALUE;
-//			System.out.println("end of last file: " + start + ", end of range: " + end);
-			result.addAll(fetch(name, start, end, startId, endId));
-//		}
+		endId = Long.MAX_VALUE;
+		result.addAll(fetch(name, start, end, startId, endId));
 
 		return result;
 	}
 
 	/**
-	 * Fetches (at most 100) tweets for the given name, filtered by the
-	 * {@code start} and {@code end} date.
+	 * Fetches (at most 100) tweets for the given name, filtered by the {@code start} and {@code end} date.
 	 * <p>
-	 * <b>Note:</b>
-	 * "The Search API is not complete index of all Tweets, but instead an index
-	 * of recent Tweets. At the moment that index includes between 6-9 days of
-	 * Tweets."
-	 * (see <a href="https://dev.twitter.com/rest/public/search">
-	 *     https://dev.twitter.com/rest/public/search</a>)
+	 * <b>Note:</b> "The Search API is not complete index of all Tweets, but instead an index of recent Tweets. At the moment that index includes between 6-9
+	 * days of Tweets." (see <a href="https://dev.twitter.com/rest/public/search"> https://dev.twitter.com/rest/public/search</a>)
 	 *
-	 * @param name The term the tweets should contain
-	 * @param start The start date for the search
-	 * @param end The end date for the search
-	 * @param endId
+	 * @param name
+	 *            The term the tweets should contain
+	 * @param start
+	 *            The start date for the search
+	 * @param end
+	 *            The end date for the search
 	 * @param startId
+	 *            The start ID for the search
+	 * @param endId
+	 *            The end ID for the search
 	 * @return A list of tweets matching the criteria (at most 100)
+	 * @see #load(String, Date, Date)
 	 */
 	private TwitterStatusList fetch(String name, Date start, Date end, long startId, long endId) {
-		logger.debug("Fetch: " + name + ", start: " + start + ", end: " + end +
-					 " ids: " + startId + "-" + endId);
+		logger.debug("Fetch: " + name + ", start: " + start + ", end: " + end + " ids: " + startId + "-" + endId);
 		TwitterStatusList tweetList = new TwitterStatusList(name);
 
 		try {
@@ -103,8 +89,8 @@ public class Fetch implements ITweetLoader {
 			Query query = new Query(name);
 
 			query.setSince(dateFormat.format(start));
-			Calendar c = Calendar.getInstance(); 
-			c.setTime(end); 
+			Calendar c = Calendar.getInstance();
+			c.setTime(end);
 			c.add(Calendar.DATE, 1);
 			Date endPlusOne = c.getTime();
 			query.setUntil(dateFormat.format(endPlusOne));
@@ -129,12 +115,7 @@ public class Fetch implements ITweetLoader {
 			logger.error("Failed to search tweets", e);
 		}
 
-//		if (!tweetList.isEmpty()) {
 		tweetList.setDates(tweetList.size() == MAX_TWEETS ? tweetList.get(0).getDate() : start, end);
-//		Cache.store(tweetList);
-//		logger.debug("Stored");
-//		}
-
 		return tweetList;
 	}
 }
