@@ -3,6 +3,16 @@ AIC - Sentiment Analysis
 
 ## Setup
 
+To start the server a twitter properties file with the
+credentials for the Twitter API must be provided in the
+resources directory (`src/main/resources/twitter.properties`):
+```
+consumerKey=YOUR_CONSUMER_KEY
+consumerSecret=YOUR_CONSUMER_SECRET
+accessToken=YOUR_ACCESS_TOKEN
+accessTokenSecret=YOUR_ACCESS_TOKEN_SECRET
+```
+
 For compiling the sources and starting the Tomcat server simply type the command
 `gradlew bootRun` on your shell. You'll see some log messages during startup,
 you know that the server is ready when something like this shows up:
@@ -16,11 +26,13 @@ When everything went ok, you can reach the server at `http://localhost:8080`.
 Currently the server offers two REST endpoints, one for registering a new
 company and one for querying the sentiments for a company during a specific
 time period. The registration endpoint can be reached at `http://localhost:8080/register`
-and expects two POST parameters, namely, `name` and `password`. The sentiment for
+and expects `name` as POST parameter. The sentiment for
 a company can be retrieved by contacting the endpoint `http://localhost:8080/sentiment`
-and takes the four GET parameters `name`, `password`, `startDate` and `endDate`. The latter
-two parameters represent dates and therefore have to conform to the pattern `yyyy-MM-dd`. An
-example query may look like this: `http://localhost:8080/sentiment?name=Microsoft&password=test123&start=2014-09-08&end=2014-09-12`.
+and takes the four GET parameters `name`, `classifier`, `startDate`, `endDate`. The latter
+two parameters represent dates and therefore have to conform to the pattern `yyyy-MM-dd`.
+The parameter `classifier` can be set by one of the followed values: `SVM_C_SVC`,
+`SVM_NU_SVC`, `SMO`, `NAIVE_BAYES`, `BAYES_NET` or `KNN`. An example query may look like this:
+`http://localhost:8080/sentiment?name=Microsoft&classifier=KNN&start=2014-09-08&end=2014-09-12`.
 
 It is also possible to use the REST service via a AngularJS Frontend which can be reached at `http://localhost:8080/`.
 
