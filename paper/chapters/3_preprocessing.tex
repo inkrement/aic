@@ -53,18 +53,14 @@ The Carnegie Mellon's Twokenizer recognizes the related parts and
 forwards them to the Tagger.
 
 \subsection{Tagger}
-Part-of-Speech (POS) tagging is a simple form of syntactic analysis and therefore
-very useful for Natural Language Processing.
-Tagging Tweets is very challenging, because of the twitter specific slang, emoticons and the lack of conventional orthography.
-%TODO: Quelle: Part-of-Speech Tagging for Twitter: Annotation, Features, and Experiments
-spelling errors, bad structure, abbreviations, and slang
-%TODO Quelle: Mirroring the Real World in Social Media: Twitter, Geolocation, and Sentiment Analysis
-There is a variety of freely downloadable POS taggers
-\footnote{http://www-nlp.stanford.edu/links/statnlp.html} e.g. Stanford POS tagger
-\footnote{http://nlp.stanford.edu/software/tagger.shtml}
- but just a few are specialized on tagging twitter data like the TweetNLP tagger
-\footnote{http://www.ark.cs.cmu.edu/TweetNLP/}. In comparison with the Stanford POS tagger the TweetNLP tagger
- reduces errors by 25\%.
- %TODO Quelle: http://iswc2012.semanticweb.org/sites/default/files/76490497.pdf
+Part-of-Speech (POS) tagging is a simple form of syntactic analysis and therefor
+very useful for Natural Language Processing. The performance of POS taggers degrade
+on out-of-domain data and tagging tweets poses additional challenges, e.g. the twitter
+specific slang, emoticons and the lack of conventianal orthography. \autocite{Gimpel2011}
+There is already a wide range of freely downloadable POS taggers \footnote{http://www-nlp.stanford.edu/links/statnlp.html},
+e.g. the Standford POS tagger \footnote{http://nlp.stanford.edu/software/tagger.shtml}.
+Because of the peculiarities of the language used in tweets, just a few of them are
+specialized on tagging twitter data, like the TweetNLP tagger \footnote{http://www.ark.cs.cmu.edu/TweetNLP/}.
+In comparison with the Stanford POS tagger the TweetNLP tagger reduces errors by 25\%. \autocite{Saif2012}
 
 
