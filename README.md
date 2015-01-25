@@ -70,8 +70,3 @@ For the classification part we used the data mining framework [WEKA](http://www.
 
 **Classifier:** Matthias Reisinger, Thomas Schmidleithner
 
-## TODO
-
- - Serializing within the caching class
-
-http://www.thinkmind.org/download.php?articleid=immm_2012_1_10_20033
